@@ -25,7 +25,7 @@ export default function UpgradeButton ({ api, adminPair, label, params, setStatu
         setStatus(`Current status: ${status.type}`);
       }
     }).catch((e) => {
-      setStatus(':( transaction failed');
+      setStatus(':( Unable to upgrade your chain.');
       console.error('ERROR:', e);
     });
   };

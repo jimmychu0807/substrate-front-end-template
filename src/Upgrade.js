@@ -22,8 +22,15 @@ export default function Transfer (props) {
 
   let fileReader;
 
+  const bufferToHex = (buffer) => {
+    return Array
+        .from (new Uint8Array (buffer))
+        .map (b => b.toString (16).padStart (2, "0"))
+        .join ("");
+  };
+
   const handleFileRead = (e) => {
-    const content = fileReader.result;
+    const content = bufferToHex(fileReader.result);
     const newProposal = api.tx.consensus.setCode(`0x${content}`);
     setProposal(newProposal);
   };
@@ -31,7 +38,7 @@ export default function Transfer (props) {
   const handleFileChosen = (file) => {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
-    fileReader.readAsBinaryString(file);
+    fileReader.readAsArrayBuffer(file);
   };
 
   const onChange = (_, data) => {
