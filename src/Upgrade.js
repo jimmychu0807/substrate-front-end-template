@@ -31,7 +31,7 @@ export default function Transfer (props) {
 
   const handleFileRead = (e) => {
     const content = bufferToHex(fileReader.result);
-    const newProposal = api.tx.consensus.setCode(`0x${content}`);
+    const newProposal = api.tx.system.setCode(`0x${content}`);
     setProposal(newProposal);
   };
 
