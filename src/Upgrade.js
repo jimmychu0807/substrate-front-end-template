@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { Dropdown, Form, Input } from 'semantic-ui-react';
+import React, { useState } from "react";
+import { Dropdown, Form, Input, Grid } from "semantic-ui-react";
 
-import TxButton from './TxButton';
+import TxButton from "./TxButton";
 
-export default function Transfer (props) {
+export default function Transfer(props) {
   const { api, keyring } = props;
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});
   const initialState = {
-    addressFrom: ''
+    addressFrom: ""
   };
   const [formState, setFormState] = useState(initialState);
   const { addressFrom } = formState;
   const adminPair = !!addressFrom && keyring.getPair(addressFrom);
 
-  const keyringOptions = keyring.getPairs().map((account) => ({
+  const keyringOptions = keyring.getPairs().map(account => ({
     key: account.address,
     value: account.address,
     text: account.meta.name.toUpperCase()
@@ -22,20 +22,19 @@ export default function Transfer (props) {
 
   let fileReader;
 
-  const bufferToHex = (buffer) => {
-    return Array
-        .from (new Uint8Array (buffer))
-        .map (b => b.toString (16).padStart (2, "0"))
-        .join ("");
+  const bufferToHex = buffer => {
+    return Array.from(new Uint8Array(buffer))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
   };
 
-  const handleFileRead = (e) => {
+  const handleFileRead = e => {
     const content = bufferToHex(fileReader.result);
     const newProposal = api.tx.system.setCode(`0x${content}`);
     setProposal(newProposal);
   };
 
-  const handleFileChosen = (file) => {
+  const handleFileChosen = file => {
     fileReader = new FileReader();
     fileReader.onloadend = handleFileRead;
     fileReader.readAsArrayBuffer(file);
@@ -51,28 +50,28 @@ export default function Transfer (props) {
   };
 
   return (
-    <>
+    <Grid.Column>
       <h1>Upgrade Runtime</h1>
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder='Select from your accounts'
+            placeholder="Select from your accounts"
             fluid
             label="From"
             onChange={onChange}
             search
             selection
-            state='addressFrom'
+            state="addressFrom"
             options={keyringOptions}
             value={addressFrom}
           />
         </Form.Field>
         <Form.Field>
           <Input
-            type='file'
-            id='file'
+            type="file"
+            id="file"
             label="Wasm File"
-            accept='.wasm'
+            accept=".wasm"
             onChange={e => handleFileChosen(e.target.files[0])}
           />
         </Form.Field>
@@ -80,7 +79,7 @@ export default function Transfer (props) {
           <TxButton
             api={api}
             fromPair={adminPair}
-            label={'Upgrade'}
+            label={"Upgrade"}
             params={[proposal]}
             setStatus={setStatus}
             tx={api.tx.sudo}
@@ -89,6 +88,6 @@ export default function Transfer (props) {
           {status}
         </Form.Field>
       </Form>
-    </>
+    </Grid.Column>
   );
 }

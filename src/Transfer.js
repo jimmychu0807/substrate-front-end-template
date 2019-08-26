@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Dropdown, Form, Input } from 'semantic-ui-react';
+import React, { useState } from "react";
+import { Dropdown, Form, Input, Grid } from "semantic-ui-react";
 
-import TxButton from './TxButton';
+import TxButton from "./TxButton";
 
-export default function Transfer (props) {
+export default function Transfer(props) {
   const { api, keyring } = props;
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
   const initialState = {
-    addressFrom: '',
-    addressTo: '',
+    addressFrom: "",
+    addressTo: "",
     amount: 0
   };
   const [formState, setFormState] = useState(initialState);
@@ -16,7 +16,7 @@ export default function Transfer (props) {
   const fromPair = !!addressFrom && keyring.getPair(addressFrom);
 
   // get the list of accounts we possess the private key for
-  const keyringOptions = keyring.getPairs().map((account) => ({
+  const keyringOptions = keyring.getPairs().map(account => ({
     key: account.address,
     value: account.address,
     text: account.meta.name.toUpperCase()
@@ -32,18 +32,18 @@ export default function Transfer (props) {
   };
 
   return (
-    <>
+    <Grid.Column>
       <h1>Transfer</h1>
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder='Select from  your accounts'
+            placeholder="Select from  your accounts"
             fluid
             label="From"
             onChange={onChange}
             search
             selection
-            state='addressFrom'
+            state="addressFrom"
             options={keyringOptions}
             value={addressFrom}
           />
@@ -51,21 +51,21 @@ export default function Transfer (props) {
         <Form.Field>
           <Input
             onChange={onChange}
-            label='To'
+            label="To"
             fluid
-            placeholder='address'
-            state='addressTo'
-            type='text'
+            placeholder="address"
+            state="addressTo"
+            type="text"
             value={addressTo}
           />
         </Form.Field>
         <Form.Field>
           <Input
-            label='Amount'
+            label="Amount"
             fluid
             onChange={onChange}
-            state='amount'
-            type='number'
+            state="amount"
+            type="number"
             value={amount}
           />
         </Form.Field>
@@ -73,7 +73,7 @@ export default function Transfer (props) {
           <TxButton
             api={api}
             fromPair={fromPair}
-            label={'Send'}
+            label={"Send"}
             params={[addressTo, amount]}
             setStatus={setStatus}
             tx={api.tx.balances.transfer}
@@ -81,6 +81,6 @@ export default function Transfer (props) {
           {status}
         </Form.Field>
       </Form>
-    </>
+    </Grid.Column>
   );
 }
