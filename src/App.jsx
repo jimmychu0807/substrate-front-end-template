@@ -10,6 +10,7 @@ import { Container, Dimmer, Loader, Grid } from "semantic-ui-react";
 
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
+import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
 import Transfer from "./Transfer";
 import Upgrade from "./Upgrade";
@@ -95,6 +96,7 @@ export default function App() {
       <Grid stackable columns="equal">
         <Grid.Row stretched>
           <NodeInfo api={api} />
+          <Metadata api={api} />
           <BlockNumber api={api} />
         </Grid.Row>
         <Grid.Row stretched>
