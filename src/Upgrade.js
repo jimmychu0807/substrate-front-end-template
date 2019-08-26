@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown, Form, Input } from 'semantic-ui-react';
 
-import UpgradeButton from './UpgradeButton';
+import TxButton from './TxButton';
 
 export default function Transfer (props) {
   const { api, keyring } = props;
@@ -77,13 +77,14 @@ export default function Transfer (props) {
           />
         </Form.Field>
         <Form.Field>
-          <UpgradeButton
+          <TxButton
             api={api}
-            adminPair={adminPair}
+            fromPair={adminPair}
             label={'Upgrade'}
             params={[proposal]}
             setStatus={setStatus}
             tx={api.tx.sudo}
+            sudo={true}
           />
           {status}
         </Form.Field>

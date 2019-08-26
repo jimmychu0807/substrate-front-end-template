@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 
-export default function TxButton ({ api, fromPair, label, params, setStatus, tx }) {
+export default function TxButton ({ api, fromPair, label, params, setStatus, tx, sudo=false }) {
   const makeCall = async () => {
     const { address, meta: { source, isInjected } } = fromPair;
     let fromParam;
@@ -17,11 +17,19 @@ export default function TxButton ({ api, fromPair, label, params, setStatus, tx 
     }
     setStatus('Sending...');
 
-    tx(...params).signAndSend(fromParam, ({ status }) => {
+    // Check if this transaction needs sudo
+    let transaction;
+    if (sudo) {
+      transaction = tx.sudo(...params)
+    } else {
+      transaction = tx(...params)
+    }
+
+    transaction.signAndSend(fromParam, ({ status }) => {
       if (status.isFinalized) {
         setStatus(`Completed at block hash #${status.asFinalized.toString()}`);
       } else {
-        setStatus(`Current transfer status: ${status.type}`);
+        setStatus(`Current transaction status: ${status.type}`);
       }
     }).catch((e) => {
       setStatus(':( transaction failed');
