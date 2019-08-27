@@ -27,8 +27,5 @@ export default function Metadata(props) {
     });
   }, [api.query.system]);
 
-  return (
-    <>
-	</>
-  );
+  return null;
 }

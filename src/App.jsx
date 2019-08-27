@@ -10,6 +10,7 @@ import { Container, Dimmer, Loader, Grid } from "semantic-ui-react";
 
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
+import DeveloperConsole from "./DeveloperConsole";
 import Events from "./Events";
 import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
@@ -108,10 +109,10 @@ export default function App() {
           <Transfer api={api} keyring={keyring} />
           <Upgrade api={api} keyring={keyring} />
         </Grid.Row>
-        <Grid.Row>
-          <Events api={api} />
-        </Grid.Row>
       </Grid>
+      {/* These components don't render elements. */}
+      <Events api={api} />
+      <DeveloperConsole api={api} />
     </Container>
   );
 }
