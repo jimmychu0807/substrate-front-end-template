@@ -1,7 +1,9 @@
 {
-  "name": "substrate-front-end",
-  "version": "0.1.0",
+  "name": "substrate-ui-template",
+  "version": "0.1.1",
   "private": true,
+  "author": "Parity Technologies <admin@parity.io>",
+  "license": "Apache-2.0",
   "dependencies": {
     "@polkadot/api": "^0.90.1",
     "@polkadot/extension-dapp": "^0.8.1",
@@ -33,5 +35,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://github.com/substrate-developer-hub/substrate-ui-template",
+  "bugs": {
+    "url": "https://github.com/substrate-developer-hub/substrate-ui-template/issues"
+  },
+  "keywords": [
+    "substrate",
+    "substrate-ui",
+    "polkadot-js"
+  ]
 }
