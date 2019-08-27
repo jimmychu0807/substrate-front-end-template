@@ -3,33 +3,26 @@ import React, { useEffect, useState } from "react";
 import { Statistic, Grid, Card, Icon } from "semantic-ui-react";
 
 export default function BlockNumber(props) {
-  const { api } = props;
+  const { api, finalized } = props;
 
   const [blockNumber, setBlockNumber] = useState(0);
   const [blockNumberTimer, setBlockNumberTimer] = useState(0);
+
+  const bestNumber = finalized
+    ? api.derive.chain.bestNumberFinalized
+    : api.derive.chain.bestNumber;
+
   useEffect(() => {
-    let unsub = api.derive.chain.bestNumber(number => {
+    let unsub = bestNumber(number => {
       setBlockNumber(number.toNumber());
       setBlockNumberTimer(0);
     });
 
     return () => unsub && unsub();
-  }, [api.derive.chain]);
-
-  const [blockNumberFinalized, setBlockNumberFinalized] = useState(0);
-  const [blockNumberFinalizedTimer, setBlockNumberFinalizedTimer] = useState(0);
-  useEffect(() => {
-    let unsub = api.derive.chain.bestNumberFinalized(number => {
-      setBlockNumberFinalized(number.toNumber());
-      setBlockNumberFinalizedTimer(0);
-    });
-
-    return () => unsub && unsub();
-  }, [api.derive.chain]);
+  }, [bestNumber]);
 
   const timer = () => {
-	setBlockNumberTimer(time => time + 1);
-    setBlockNumberFinalizedTimer(time => time + 1);
+    setBlockNumberTimer(time => time + 1);
   };
 
   useEffect(() => {
@@ -42,23 +35,13 @@ export default function BlockNumber(props) {
       <Grid.Column>
         <Card>
           <Card.Content textAlign="center">
-            <Statistic label="Current Block Number" value={blockNumber} />
-          </Card.Content>
-          <Card.Content extra>
-            <Icon name="time" /> {blockNumberTimer}
-          </Card.Content>
-        </Card>
-      </Grid.Column>
-      <Grid.Column>
-        <Card>
-          <Card.Content textAlign="center">
             <Statistic
-              label="Finalized Block Number"
-              value={blockNumberFinalized}
+              label={(finalized ? "Finalized" : "Current") + " Block Number"}
+              value={blockNumber}
             />
           </Card.Content>
           <Card.Content extra>
-            <Icon name="time" /> {blockNumberFinalizedTimer}
+            <Icon name="time" /> {blockNumberTimer}
           </Card.Content>
         </Card>
       </Grid.Column>
