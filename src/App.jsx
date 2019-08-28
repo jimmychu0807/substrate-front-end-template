@@ -10,6 +10,7 @@ import { Container, Dimmer, Loader, Grid } from "semantic-ui-react";
 
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
+import ChainState from "./ChainState";
 import DeveloperConsole from "./DeveloperConsole";
 import Events from "./Events";
 import Metadata from "./Metadata";
@@ -22,8 +23,8 @@ export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
   const [accountLoaded, setaccountLoaded] = useState(false);
-  const WS_PROVIDER = "ws://127.0.0.1:9944";
-  //const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
+  //const WS_PROVIDER = "ws://127.0.0.1:9944";
+  const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
@@ -108,6 +109,9 @@ export default function App() {
         <Grid.Row>
           <Transfer api={api} keyring={keyring} />
           <Upgrade api={api} keyring={keyring} />
+        </Grid.Row>
+        <Grid.Row>
+          <ChainState api={api} />
         </Grid.Row>
       </Grid>
       {/* These components don't render elements. */}
