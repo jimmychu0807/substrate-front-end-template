@@ -18,7 +18,7 @@ export default function Metadata(props) {
   const { module, storageItem, input } = formState;
 
   useEffect(() => {
-    let modules = Object.keys(api.query).map(module => ({
+    let modules = Object.keys(api.query).sort().map(module => ({
       key: module,
       value: module,
       text: module
@@ -29,7 +29,7 @@ export default function Metadata(props) {
 
   useEffect(() => {
     if (module !== "") {
-      let storageItems = Object.keys(api.query[module]).map(storage => ({
+      let storageItems = Object.keys(api.query[module]).sort().map(storage => ({
         key: storage,
         value: storage,
         text: storage
@@ -49,8 +49,12 @@ export default function Metadata(props) {
   };
 
   const runQuery = async () => {
-    let result = await api.query[module][storageItem](input);
-    setOutput(result.toString());
+    try {
+      let result = await api.query[module][storageItem](input);
+      setOutput(result.toString());
+    } catch (e) {
+		setOutput(e.toString())
+	}
   };
 
   return (
