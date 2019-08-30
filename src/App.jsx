@@ -1,6 +1,5 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import {
-  isWeb3Injected,
   web3Accounts,
   web3Enable
 } from "@polkadot/extension-dapp";
@@ -41,7 +40,8 @@ export default function App() {
   useEffect(() => {
     web3Enable("substrate-front-end-tutorial")
       .then(extensions => {
-        // web3Account promise only resolves if there are accounts to inject
+        // web3Account promise resolves with an array of injected accounts
+        // or an empty array (e.g user has no extension, or not given access to their accounts)
         web3Accounts()
           .then(accounts => {
             // add the source to the name to avoid confusion
@@ -60,10 +60,6 @@ export default function App() {
           .catch(console.error);
       })
       .catch(console.error);
-
-    // if there is no injection, or the user hasn't accepted it,
-    // load any local account
-    !isWeb3Injected && loadAccounts();
   }, []);
 
   const loadAccounts = injectedAccounts => {
