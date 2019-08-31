@@ -12,6 +12,7 @@ import BlockNumber from "./BlockNumber";
 import ChainState from "./ChainState";
 import DeveloperConsole from "./DeveloperConsole";
 import Events from "./Events";
+import Extrinsics from "./Extrinsics";
 import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
 import Transfer from "./Transfer";
@@ -22,8 +23,8 @@ export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
   const [accountLoaded, setaccountLoaded] = useState(false);
-  //const WS_PROVIDER = "ws://127.0.0.1:9944";
-  const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
+  const WS_PROVIDER = "ws://127.0.0.1:9944";
+  //const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
@@ -108,6 +109,7 @@ export default function App() {
         </Grid.Row>
         <Grid.Row>
           <ChainState api={api} />
+          <Extrinsics api={api} keyring={keyring} />
         </Grid.Row>
       </Grid>
       {/* These components don't render elements. */}
