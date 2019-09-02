@@ -1,12 +1,20 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { Feed, Grid } from "semantic-ui-react";
 
 export default function Metadata(props) {
   const { api } = props;
 
+  const [eventFeed, setEventFeed] = useState([]);
+
+  // Filter some event from feed
+  const filter = [
+    'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":0})',
+    'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":1})'
+  ];
+
   useEffect(() => {
     api.query.system.events(events => {
-      console.log(`\nReceived ${events.length} events:`);
-
       // loop through the Vec<EventRecord>
       events.forEach(record => {
         // extract the phase, event and the event types
@@ -14,18 +22,34 @@ export default function Metadata(props) {
         const types = event.typeDef;
 
         // show what we are busy with
-        console.log(
-          `\t${event.section}:${event.method}:: (phase=${phase.toString()})`
-        );
-        console.log(`\t\t${event.meta.documentation.toString()}`);
+        let eventName = `${event.section}:${
+          event.method
+        }:: (phase=${phase.toString()})`;
 
         // loop through each of the parameters, displaying the type and data
-        event.data.forEach((data, index) => {
-          console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
+        let params = event.data.map((data, index) => {
+          return `${types[index].type}: ${data.toString()}`;
         });
+
+        if (!filter.includes(eventName)) {
+          let feedEvent = {
+            icon: "bell",
+            date: "X Blocks Ago",
+            summary: eventName,
+            extraText: event.meta.documentation.join().toString(),
+            content: params
+          };
+
+          setEventFeed(e => [feedEvent, ...e]);
+        }
       });
     });
   }, [api.query.system]);
 
-  return null;
+  return (
+    <Grid.Column>
+      <h1>Events</h1>
+      <Feed style={{ overflow: "auto", maxHeight: 250 }} events={eventFeed} />
+    </Grid.Column>
+  );
 }
