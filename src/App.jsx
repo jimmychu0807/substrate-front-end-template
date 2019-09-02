@@ -1,9 +1,5 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import {
-  isWeb3Injected,
-  web3Accounts,
-  web3Enable
-} from "@polkadot/extension-dapp";
+import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import keyring from "@polkadot/ui-keyring";
 import React, { useState, useEffect } from "react";
 import { Container, Dimmer, Loader, Grid } from "semantic-ui-react";
@@ -13,6 +9,7 @@ import BlockNumber from "./BlockNumber";
 import ChainState from "./ChainState";
 import DeveloperConsole from "./DeveloperConsole";
 import Events from "./Events";
+import Extrinsics from "./Extrinsics";
 import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
 import Transfer from "./Transfer";
@@ -23,8 +20,8 @@ export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
   const [accountLoaded, setaccountLoaded] = useState(false);
-  const WS_PROVIDER = "ws://127.0.0.1:9944";
-  //const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
+  //const WS_PROVIDER = "ws://127.0.0.1:9944";
+  const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
@@ -41,7 +38,8 @@ export default function App() {
   useEffect(() => {
     web3Enable("substrate-front-end-tutorial")
       .then(extensions => {
-        // web3Account promise only resolves if there are accounts to inject
+        // web3Account promise resolves with an array of injected accounts
+        // or an empty array (e.g user has no extension, or not given access to their accounts)
         web3Accounts()
           .then(accounts => {
             // add the source to the name to avoid confusion
@@ -60,10 +58,6 @@ export default function App() {
           .catch(console.error);
       })
       .catch(console.error);
-
-    // if there is no injection, or the user hasn't accepted it,
-    // load any local account
-    !isWeb3Injected && loadAccounts();
   }, []);
 
   const loadAccounts = injectedAccounts => {
@@ -111,6 +105,7 @@ export default function App() {
           <Upgrade api={api} keyring={keyring} />
         </Grid.Row>
         <Grid.Row>
+          <Extrinsics api={api} keyring={keyring} />
           <ChainState api={api} />
           <Events api={api} />
         </Grid.Row>
