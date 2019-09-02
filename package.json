@@ -10,6 +10,7 @@
     "@polkadot/keyring": "^1.1.1",
     "@polkadot/react-identicon": "^0.42.1",
     "@polkadot/ui-keyring": "^0.42.1",
+    "gh-pages": "^2.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1",
@@ -19,7 +20,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,7 +39,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://github.com/substrate-developer-hub/substrate-ui-template",
+  "homepage": "https://substrate-developer-hub.github.io/substrate-ui-template",
   "bugs": {
     "url": "https://github.com/substrate-developer-hub/substrate-ui-template/issues"
   },
