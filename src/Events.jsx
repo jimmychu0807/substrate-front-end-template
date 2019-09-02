@@ -7,6 +7,12 @@ export default function Metadata(props) {
 
   const [eventFeed, setEventFeed] = useState([]);
 
+  // Filter some event from feed
+  const filter = [
+    'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":0})',
+    'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":1})'
+  ];
+
   useEffect(() => {
     api.query.system.events(events => {
       // loop through the Vec<EventRecord>
@@ -25,10 +31,7 @@ export default function Metadata(props) {
           return `${types[index].type}: ${data.toString()}`;
         });
 
-
-        if (
-          eventName !== 'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":0})'
-        ) {
+        if (!filter.includes(eventName)) {
           let feedEvent = {
             icon: "bell",
             date: "X Blocks Ago",

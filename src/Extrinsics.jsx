@@ -65,7 +65,7 @@ export default function Metadata(props) {
 
   return (
     <Grid.Column>
-      <h1>Chain State</h1>
+      <h1>Extrinsics</h1>
       <Form>
         <Form.Field>
           <Dropdown
