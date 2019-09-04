@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Table, Grid } from "semantic-ui-react";
 
 export default function Balances(props) {
   const { api, keyring } = props;
   const accounts = keyring.getPairs();
-  const addresses = accounts.map(account => account.address);
   const accountNames = accounts.map(account => account.meta.name);
   const [balances, setBalances] = useState({});
+  const addresses = useMemo(() => accounts.map(account => account.address),[accounts]);
 
   useEffect(() => {
     let unsubscribeAll;
@@ -28,7 +28,7 @@ export default function Balances(props) {
       .catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.balances.freeBalance, setBalances]);
+  }, [api.query.balances.freeBalance, setBalances, addresses]);
 
   return (
     <Grid.Column>
