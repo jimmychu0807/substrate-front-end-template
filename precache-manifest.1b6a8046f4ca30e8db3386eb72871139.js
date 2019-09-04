@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "178e06d37bb2f8e6164ce84949b8b601",
+    "revision": "87b02d1da4bd48346a7b1c810b039748",
     "url": "/substrate-ui-template/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/substrate-ui-template/static/js/2.d03344b8.chunk.js"
   },
   {
-    "revision": "1d582ba844a466d37a00",
-    "url": "/substrate-ui-template/static/js/main.efcadb21.chunk.js"
+    "revision": "9e8e687e7bd77b6b0e7b",
+    "url": "/substrate-ui-template/static/js/main.ec9cdfd4.chunk.js"
   },
   {
     "revision": "9d0a59e13008bf69d8e2",
