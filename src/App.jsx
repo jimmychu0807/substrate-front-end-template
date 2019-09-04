@@ -24,7 +24,7 @@ export default function App() {
   const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
   const TYPES = {};
   //const TYPES = {"MyNumber": "u32"};
-  // More information on constom types
+  // More information on custom types
   // https://github.com/polkadot-js/apps/blob/master/packages/app-settings/src/md/basics.md
 
   useEffect(() => {
