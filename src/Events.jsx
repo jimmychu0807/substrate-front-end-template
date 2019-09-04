@@ -44,7 +44,7 @@ export default function Metadata(props) {
         }
       });
     });
-  }, [api.query.system]);
+  }, [api.query.system, filter]);
 
   return (
     <Grid.Column>

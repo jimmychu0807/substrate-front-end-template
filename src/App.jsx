@@ -39,7 +39,7 @@ export default function App() {
         api.isReady.then(() => setApiReady(true));
       })
       .catch(e => console.error(e));
-  }, []);
+  }, [TYPES]);
 
   // new hook to get injected accounts
   useEffect(() => {
