@@ -7,13 +7,13 @@ export default function Metadata(props) {
 
   const [eventFeed, setEventFeed] = useState([]);
 
-  // Filter some event from feed
-  const filter = [
-    'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":0})',
-    'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":1})'
-  ];
-
   useEffect(() => {
+    // Filter some event from feed
+    const filter = [
+      'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":0})',
+      'system:ExtrinsicSuccess:: (phase={"ApplyExtrinsic":1})'
+    ];
+
     api.query.system.events(events => {
       // loop through the Vec<EventRecord>
       events.forEach(record => {
@@ -44,7 +44,7 @@ export default function Metadata(props) {
         }
       });
     });
-  }, [api.query.system, filter]);
+  }, [api.query.system]);
 
   return (
     <Grid.Column>

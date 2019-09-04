@@ -28,7 +28,7 @@ export default function BlockNumber(props) {
   useEffect(() => {
     const id = setInterval(timer, 1000);
     return () => clearInterval(id);
-  });
+  }, []);
 
   return (
     <>

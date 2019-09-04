@@ -21,25 +21,26 @@ export default function App() {
   const [apiReady, setApiReady] = useState();
   const [accountLoaded, setaccountLoaded] = useState(false);
   //const WS_PROVIDER = "ws://127.0.0.1:9944";
-  const WS_PROVIDER = 'wss://dev-node.substrate.dev:9944';
-  const TYPES = {};
-  //const TYPES = {"MyNumber": "u32"};
-  // More information on custom types
-  // https://github.com/polkadot-js/apps/blob/master/packages/app-settings/src/md/basics.md
+  const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
 
+    const TYPES = {};
+    //const TYPES = {"MyNumber": "u32"};
+    // More information on custom types
+    // https://github.com/polkadot-js/apps/blob/master/packages/app-settings/src/md/basics.md
+
     ApiPromise.create({
       provider,
-      types: TYPES,
+      types: TYPES
     })
       .then(api => {
         setApi(api);
         api.isReady.then(() => setApiReady(true));
       })
       .catch(e => console.error(e));
-  }, [TYPES]);
+  }, []);
 
   // new hook to get injected accounts
   useEffect(() => {
