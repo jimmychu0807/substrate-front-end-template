@@ -14,6 +14,7 @@ import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
 import Transfer from "./Transfer";
 import Upgrade from "./Upgrade";
+import TemplateModule from "./TemplateModule";
 import "semantic-ui-css/semantic.min.css";
 
 export default function App() {
@@ -111,6 +112,7 @@ export default function App() {
         <Grid.Row>
           <Transfer api={api} keyring={keyring} />
           <Upgrade api={api} keyring={keyring} />
+          <TemplateModule api={api} keyring={keyring} />
         </Grid.Row>
         <Grid.Row>
           <Extrinsics api={api} keyring={keyring} />
