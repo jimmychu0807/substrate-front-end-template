@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Form, Input, Grid, Card, Statistic } from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Grid, Card, Statistic, Dropdown } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
 
 export default function Transfer(props) {
   const { api, keyring } = props;
+
+  // The transaction submission status
   const [status, setStatus] = useState("");
-  const [proposal, setProposal] = useState({});
+  const [currentValue, setCurrentValue] = useState(0);
   const initialState = {
     addressFrom: ""
   };
@@ -14,40 +16,36 @@ export default function Transfer(props) {
   const { addressFrom } = formState;
   const adminPair = !!addressFrom && keyring.getPair(addressFrom);
 
+  // This was leftover from the runtime upgrade example.
+  // Do I still need it?
   const keyringOptions = keyring.getPairs().map(account => ({
     key: account.address,
     value: account.address,
     text: account.meta.name.toUpperCase()
   }));
 
-  let fileReader;
+  useEffect(() => {
+    let unsubscribe;
+    api.query.templateModule.something(newValue => {
+      // The storage value is an Option<u32>
+      // So we have to check whether it is None first
+      // https://stackoverflow.com/q/679915/4184410
+      if (Object.keys(newValue.raw).length === 0){
+        setCurrentValue("<None>");
+      }
+      else{
+        // Not none, so we can access the raw value
+        setCurrentValue(newValue.raw.toNumber());
+      }
+    }).then(unsub => {
+      unsubscribe = unsub;
+    })
+    .catch(console.error);
 
-  const bufferToHex = buffer => {
-    return Array.from(new Uint8Array(buffer))
-      .map(b => b.toString(16).padStart(2, "0"))
-      .join("");
-  };
+    return () => unsubscribe && unsubscribe();
 
-  const handleFileRead = e => {
-    const content = bufferToHex(fileReader.result);
-    const newProposal = api.tx.system.setCode(`0x${content}`);
-    setProposal(newProposal);
-  };
+  }, [api.query.templateModule, api.query.templateModule.something]);
 
-  const handleFileChosen = file => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsArrayBuffer(file);
-  };
-
-  const onChange = (_, data) => {
-    setFormState(formState => {
-      return {
-        ...formState,
-        [data.state]: data.value
-      };
-    });
-  };
 
   return (
     <Grid.Column>
@@ -56,17 +54,32 @@ export default function Transfer(props) {
       <Card.Content textAlign="center">
         <Statistic
           label="Current Value"
-          value={5}//TODO
+          value={currentValue}
         />
       </Card.Content>
       </Card>
       <Form>
         <Form.Field>
+          <Dropdown
+            placeholder="Select from your accounts"
+            fluid
+            label="From"
+            //onChange={onChange}
+            search
+            selection
+            state="addressFrom"
+            options={keyringOptions}
+            value={addressFrom}
+          />
+        </Form.Field>
+        <Form.Field>
           <Input
             type="number"
             id="new_value"
             label="New Value"
-            onChange={() => "TODO"}
+            // Nothing should happen when this changes.
+            // Do I even need to specify it?
+            //onChange={() => "TODO"}
           />
         </Form.Field>
         <Form.Field>
@@ -74,10 +87,10 @@ export default function Transfer(props) {
             api={api}
             fromPair={adminPair}
             label={"Store Something"}
-            params={[proposal]}
+            params={[42]}
             setStatus={setStatus}
-            tx={api.tx.sudo}
-            sudo={true}
+            tx={api.tx.templateModule.doSomething}
+            sudo={false}
           />
           {status}
         </Form.Field>
