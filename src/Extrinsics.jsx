@@ -77,7 +77,6 @@ export default function Metadata(props) {
             selection
             state="addressFrom"
             options={keyringOptions}
-            value={addressFrom}
           />
         </Form.Field>
         <Form.Field>
@@ -90,7 +89,6 @@ export default function Metadata(props) {
             selection
             state="module"
             options={modulesList}
-            value={module}
           />
         </Form.Field>
         <Form.Field>
@@ -103,7 +101,6 @@ export default function Metadata(props) {
             selection
             state="callableFunction"
             options={callableFunctionList}
-            value={callableFunction}
           />
         </Form.Field>
         <Form.Field>
@@ -114,7 +111,6 @@ export default function Metadata(props) {
             placeholder="May not be needed"
             state="input"
             type="text"
-            value={input}
           />
         </Form.Field>
         <Form.Field>
