@@ -5,7 +5,7 @@ import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 import TxButton from "./TxButton";
 
 export default function Metadata(props) {
-  const { api, keyring, fromPair } = props;
+  const { api, fromPair } = props;
 
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState("");
@@ -17,7 +17,7 @@ export default function Metadata(props) {
     input: ""
   };
   const [formState, setFormState] = useState(initialState);
-  const { addressFrom, module, callableFunction, input } = formState;
+  const { module, callableFunction, input } = formState;
 
   useEffect(() => {
     let modules = Object.keys(api.tx)

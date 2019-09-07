@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Dropdown, Form, Input, Grid } from "semantic-ui-react";
+import { Form, Input, Grid } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
 
 export default function Transfer(props) {
-  const { api, keyring, fromPair } = props;
+  const { api, fromPair } = props;
   const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});
 
