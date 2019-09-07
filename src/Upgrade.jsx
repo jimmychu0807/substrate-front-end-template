@@ -63,7 +63,6 @@ export default function Transfer(props) {
             selection
             state="addressFrom"
             options={keyringOptions}
-            value={addressFrom}
           />
         </Form.Field>
         <Form.Field>
