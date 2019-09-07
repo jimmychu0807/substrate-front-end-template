@@ -19,7 +19,7 @@ import "semantic-ui-css/semantic.min.css";
 export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
-  const [accountLoaded, setaccountLoaded] = useState(false);
+  const [accountLoaded, setAccountLoaded] = useState(false);
   //const WS_PROVIDER = "ws://127.0.0.1:9944";
   const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
 
@@ -75,7 +75,7 @@ export default function App() {
       },
       injectedAccounts
     );
-    setaccountLoaded(true);
+    setAccountLoaded(true);
   };
 
   const loader = function(text) {
