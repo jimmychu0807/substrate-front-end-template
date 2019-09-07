@@ -45,7 +45,6 @@ export default function Transfer(props) {
             selection
             state="addressFrom"
             options={keyringOptions}
-            value={addressFrom}
           />
         </Form.Field>
         <Form.Field>
@@ -56,7 +55,6 @@ export default function Transfer(props) {
             placeholder="address"
             state="addressTo"
             type="text"
-            value={addressTo}
           />
         </Form.Field>
         <Form.Field>
@@ -66,7 +64,6 @@ export default function Transfer(props) {
             onChange={onChange}
             state="amount"
             type="number"
-            value={amount}
           />
         </Form.Field>
         <Form.Field>
