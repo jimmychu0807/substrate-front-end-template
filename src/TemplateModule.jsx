@@ -41,13 +41,12 @@ export default function Transfer(props) {
     api.query.templateModule.something(newValue => {
       // The storage value is an Option<u32>
       // So we have to check whether it is None first
-      // https://stackoverflow.com/q/679915/4184410
-      if (Object.keys(newValue.raw).length === 0){
+      // There is also unwrapOr
+      if (newValue.isNone){
         setCurrentValue("<None>");
       }
       else{
-        // Not none, so we can access the raw value
-        setCurrentValue(newValue.raw.toNumber());
+        setCurrentValue(newValue.unwrap().toNumber());
       }
     }).then(unsub => {
       unsubscribe = unsub;
