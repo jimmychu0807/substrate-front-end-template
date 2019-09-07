@@ -8,12 +8,15 @@ export default function Transfer(props) {
 
   // The transaction submission status
   const [status, setStatus] = useState("");
+
+  // The currently stored value
   const [currentValue, setCurrentValue] = useState(0);
   const initialState = {
-    addressFrom: ""
+    addressFrom: "",
+    newValue: 0,
   };
   const [formState, setFormState] = useState(initialState);
-  const { addressFrom } = formState;
+  const { addressFrom, newValue } = formState;
   const adminPair = !!addressFrom && keyring.getPair(addressFrom);
 
   // This was leftover from the runtime upgrade example.
@@ -23,6 +26,15 @@ export default function Transfer(props) {
     value: account.address,
     text: account.meta.name.toUpperCase()
   }));
+
+  const onChange = (first, data) => {
+    setFormState(formState => {
+      return {
+        ...formState,
+        [data.state]: data.value
+      };
+    });
+  };
 
   useEffect(() => {
     let unsubscribe;
@@ -64,22 +76,20 @@ export default function Transfer(props) {
             placeholder="Select from your accounts"
             fluid
             label="From"
-            //onChange={onChange}
+            onChange={onChange}
             search
             selection
             state="addressFrom"
             options={keyringOptions}
-            value={addressFrom}
           />
         </Form.Field>
         <Form.Field>
           <Input
             type="number"
             id="new_value"
+            state="newValue"
             label="New Value"
-            // Nothing should happen when this changes.
-            // Do I even need to specify it?
-            //onChange={() => "TODO"}
+            onChange={onChange}
           />
         </Form.Field>
         <Form.Field>
@@ -87,7 +97,7 @@ export default function Transfer(props) {
             api={api}
             fromPair={adminPair}
             label={"Store Something"}
-            params={[42]}
+            params={[newValue]}
             setStatus={setStatus}
             tx={api.tx.templateModule.doSomething}
             sudo={false}
