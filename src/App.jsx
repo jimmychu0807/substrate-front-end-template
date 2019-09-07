@@ -2,7 +2,7 @@ import { ApiPromise, WsProvider } from "@polkadot/api";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import keyring from "@polkadot/ui-keyring";
 import React, { useState, useEffect } from "react";
-import { Container, Dimmer, Loader, Grid } from "semantic-ui-react";
+import { Container, Dimmer, Loader, Grid, Header, Form, Dropdown } from "semantic-ui-react";
 
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
@@ -20,8 +20,19 @@ export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
   const [accountLoaded, setaccountLoaded] = useState(false);
-  //const WS_PROVIDER = "ws://127.0.0.1:9944";
-  const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
+  const [addressFrom, setAddressFrom] = useState("");
+
+  const WS_PROVIDER = "ws://127.0.0.1:9944";
+  //const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
+
+  const fromPair = !!addressFrom && keyring.getPair(addressFrom);
+
+  // get the list of accounts we possess the private key for
+  const keyringOptions = !!accountLoaded && keyring.getPairs().map(account => ({
+    key: account.address,
+    value: account.address,
+    text: account.meta.name.toUpperCase()
+  }));
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
@@ -98,6 +109,24 @@ export default function App() {
 
   return (
     <Container style={{ marginTop: "3em" }}>
+      <Header>
+        <Header.Content>
+          <Form>
+            <Form.Field>
+              <p>Your Account</p>
+              <Dropdown
+                placeholder="Select from your accounts"
+                fluid
+                label="Account"
+                onChange={(_, {value}) => {setAddressFrom(value)}}
+                search
+                selection
+                options={keyringOptions}
+              />
+            </Form.Field>
+          </Form>
+        </Header.Content>
+      </Header>
       <Grid stackable columns="equal">
         <Grid.Row stretched>
           <NodeInfo api={api} />
@@ -109,11 +138,11 @@ export default function App() {
           <Balances api={api} keyring={keyring} />
         </Grid.Row>
         <Grid.Row>
-          <Transfer api={api} keyring={keyring} />
-          <Upgrade api={api} keyring={keyring} />
+          <Transfer api={api} fromPair={fromPair} />
+          <Upgrade api={api} fromPair={fromPair} />
         </Grid.Row>
         <Grid.Row>
-          <Extrinsics api={api} keyring={keyring} />
+          <Extrinsics api={api} fromPair={fromPair} />
           <ChainState api={api} />
           <Events api={api} />
         </Grid.Row>

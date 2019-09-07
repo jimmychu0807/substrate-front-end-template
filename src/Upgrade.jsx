@@ -4,21 +4,9 @@ import { Dropdown, Form, Input, Grid } from "semantic-ui-react";
 import TxButton from "./TxButton";
 
 export default function Transfer(props) {
-  const { api, keyring } = props;
+  const { api, keyring, fromPair } = props;
   const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});
-  const initialState = {
-    addressFrom: ""
-  };
-  const [formState, setFormState] = useState(initialState);
-  const { addressFrom } = formState;
-  const adminPair = !!addressFrom && keyring.getPair(addressFrom);
-
-  const keyringOptions = keyring.getPairs().map(account => ({
-    key: account.address,
-    value: account.address,
-    text: account.meta.name.toUpperCase()
-  }));
 
   let fileReader;
 
@@ -40,31 +28,10 @@ export default function Transfer(props) {
     fileReader.readAsArrayBuffer(file);
   };
 
-  const onChange = (_, data) => {
-    setFormState(formState => {
-      return {
-        ...formState,
-        [data.state]: data.value
-      };
-    });
-  };
-
   return (
     <Grid.Column>
       <h1>Upgrade Runtime</h1>
       <Form>
-        <Form.Field>
-          <Dropdown
-            placeholder="Select from your accounts"
-            fluid
-            label="From"
-            onChange={onChange}
-            search
-            selection
-            state="addressFrom"
-            options={keyringOptions}
-          />
-        </Form.Field>
         <Form.Field>
           <Input
             type="file"
@@ -77,7 +44,7 @@ export default function Transfer(props) {
         <Form.Field>
           <TxButton
             api={api}
-            fromPair={adminPair}
+            fromPair={fromPair}
             label={"Upgrade"}
             params={[proposal]}
             setStatus={setStatus}
