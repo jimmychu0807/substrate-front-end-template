@@ -28,7 +28,7 @@ export default function Balances(props) {
       .catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.balances.freeBalance, setBalances, addresses]);
+  }, [api.query.balances.freeBalance, setBalances]);
 
   return (
     <Grid.Column>
