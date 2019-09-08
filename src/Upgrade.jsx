@@ -3,7 +3,7 @@ import { Form, Input, Grid } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
 
-export default function Transfer(props) {
+export default function Upgrade(props) {
   const { api, accountPair } = props;
   const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});

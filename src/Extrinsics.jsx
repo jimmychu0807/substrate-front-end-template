@@ -4,7 +4,7 @@ import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
 
-export default function Metadata(props) {
+export default function Extrinsics(props) {
   const { api, accountPair } = props;
 
   const [modulesList, setModulesList] = useState([]);
