@@ -1,40 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Grid, Card, Statistic, Dropdown } from "semantic-ui-react";
+import { Form, Input, Grid, Card, Statistic } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
 
 export default function Transfer(props) {
-  const { api, keyring } = props;
+  const { api, accountPair } = props;
 
   // The transaction submission status
   const [status, setStatus] = useState("");
 
   // The currently stored value
   const [currentValue, setCurrentValue] = useState(0);
-  const initialState = {
-    addressFrom: "",
-    newValue: 0,
-  };
-  const [formState, setFormState] = useState(initialState);
-  const { addressFrom, newValue } = formState;
-  const adminPair = !!addressFrom && keyring.getPair(addressFrom);
-
-  // This was leftover from the runtime upgrade example.
-  // Do I still need it?
-  const keyringOptions = keyring.getPairs().map(account => ({
-    key: account.address,
-    value: account.address,
-    text: account.meta.name.toUpperCase()
-  }));
-
-  const onChange = (first, data) => {
-    setFormState(formState => {
-      return {
-        ...formState,
-        [data.state]: data.value
-      };
-    });
-  };
+  const [formValue, setFormValue] = useState(0);
 
   useEffect(() => {
     let unsubscribe;
@@ -71,32 +48,20 @@ export default function Transfer(props) {
       </Card>
       <Form>
         <Form.Field>
-          <Dropdown
-            placeholder="Select from your accounts"
-            fluid
-            label="From"
-            onChange={onChange}
-            search
-            selection
-            state="addressFrom"
-            options={keyringOptions}
-          />
-        </Form.Field>
-        <Form.Field>
           <Input
             type="number"
             id="new_value"
             state="newValue"
             label="New Value"
-            onChange={onChange}
+            onChange={(_, {value}) => setFormValue(value)}
           />
         </Form.Field>
         <Form.Field>
           <TxButton
             api={api}
-            fromPair={adminPair}
+            accountPair={accountPair}
             label={"Store Something"}
-            params={[newValue]}
+            params={[formValue]}
             setStatus={setStatus}
             tx={api.tx.templateModule.doSomething}
             sudo={false}

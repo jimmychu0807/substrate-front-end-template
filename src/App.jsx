@@ -1,8 +1,16 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import keyring from "@polkadot/ui-keyring";
-import React, { useState, useEffect } from "react";
-import { Container, Dimmer, Loader, Grid } from "semantic-ui-react";
+import React, { useState, useEffect, createRef } from "react";
+import {
+  Container,
+  Dimmer,
+  Loader,
+  Grid,
+  Dropdown,
+  Menu,
+  Sticky
+} from "semantic-ui-react";
 
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
@@ -20,9 +28,23 @@ import "semantic-ui-css/semantic.min.css";
 export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
-  const [accountLoaded, setaccountLoaded] = useState(false);
+  const [accountLoaded, setAccountLoaded] = useState(false);
+  const [accountAddress, setAccountAddress] = useState("");
+
   const WS_PROVIDER = "ws://127.0.0.1:9944";
   //const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
+
+  const accountPair = accountAddress && keyring.getPair(accountAddress);
+
+  // get the list of accounts we possess the private key for
+  const keyringOptions =
+    accountLoaded &&
+    keyring.getPairs().map(account => ({
+      key: account.address,
+      value: account.address,
+      text: account.meta.name.toUpperCase(),
+      icon: "user"
+    }));
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
@@ -76,7 +98,7 @@ export default function App() {
       },
       injectedAccounts
     );
-    setaccountLoaded(true);
+    setAccountLoaded(true);
   };
 
   const loader = function(text) {
@@ -97,31 +119,54 @@ export default function App() {
     );
   }
 
+  const contextRef = createRef();
+
   return (
-    <Container style={{ marginTop: "3em" }}>
-      <Grid stackable columns="equal">
-        <Grid.Row stretched>
-          <NodeInfo api={api} />
-          <Metadata api={api} />
-          <BlockNumber api={api} />
-          <BlockNumber api={api} finalized />
-        </Grid.Row>
-        <Grid.Row stretched>
-          <Balances api={api} keyring={keyring} />
-        </Grid.Row>
-        <Grid.Row>
-          <Transfer api={api} keyring={keyring} />
-          <Upgrade api={api} keyring={keyring} />
-          <TemplateModule api={api} keyring={keyring} />
-        </Grid.Row>
-        <Grid.Row>
-          <Extrinsics api={api} keyring={keyring} />
-          <ChainState api={api} />
-          <Events api={api} />
-        </Grid.Row>
-      </Grid>
-      {/* These components don't render elements. */}
-      <DeveloperConsole api={api} />
-    </Container>
+    <div ref={contextRef}>
+      <Container>
+        <Sticky context={contextRef}>
+          <Menu
+            attached="top"
+            tabular
+            style={{ backgroundColor: "#fff", paddingTop: "1em" }}
+          >
+            <Menu.Menu position="right">
+              <Dropdown
+                search
+                selection
+                placeholder="Select from your accounts"
+                options={keyringOptions}
+                onChange={(_, dropdown) => {
+                  setAccountAddress(dropdown.value);
+                }}
+              />
+            </Menu.Menu>
+          </Menu>
+        </Sticky>
+        <Grid stackable columns="equal">
+          <Grid.Row stretched>
+            <NodeInfo api={api} />
+            <Metadata api={api} />
+            <BlockNumber api={api} />
+            <BlockNumber api={api} finalized />
+          </Grid.Row>
+          <Grid.Row stretched>
+            <Balances api={api} keyring={keyring} />
+          </Grid.Row>
+          <Grid.Row>
+            <Transfer api={api} accountPair={accountPair} />
+            <Upgrade api={api} accountPair={accountPair} />
+            <TemplateModule api={api} accountPair={accountPair} />
+          </Grid.Row>
+          <Grid.Row>
+            <Extrinsics api={api} accountPair={accountPair} />
+            <ChainState api={api} />
+            <Events api={api} />
+          </Grid.Row>
+        </Grid>
+        {/* These components don't render elements. */}
+        <DeveloperConsole api={api} />
+      </Container>
+    </div>
   );
 }

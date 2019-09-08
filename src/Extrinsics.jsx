@@ -4,29 +4,20 @@ import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
 
-export default function Metadata(props) {
-  const { api, keyring } = props;
+export default function Extrinsics(props) {
+  const { api, accountPair } = props;
 
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState("");
   const [callableFunctionList, setCallableFunctionList] = useState([]);
 
   const initialState = {
-    addressFrom: "",
     module: "",
     callableFunction: "",
     input: ""
   };
   const [formState, setFormState] = useState(initialState);
-  const { addressFrom, module, callableFunction, input } = formState;
-  const fromPair = !!addressFrom && keyring.getPair(addressFrom);
-
-  // get the list of accounts we possess the private key for
-  const keyringOptions = keyring.getPairs().map(account => ({
-    key: account.address,
-    value: account.address,
-    text: account.meta.name.toUpperCase()
-  }));
+  const { module, callableFunction, input } = formState;
 
   useEffect(() => {
     let modules = Object.keys(api.tx)
@@ -69,18 +60,6 @@ export default function Metadata(props) {
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder="Select from  your accounts"
-            fluid
-            label="From"
-            onChange={onChange}
-            search
-            selection
-            state="addressFrom"
-            options={keyringOptions}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Dropdown
             placeholder="Select a module to call"
             fluid
             label="Module"
@@ -116,7 +95,7 @@ export default function Metadata(props) {
         <Form.Field>
           <TxButton
             api={api}
-            fromPair={fromPair}
+            accountPair={accountPair}
             label={"Call"}
             params={[input]}
             setStatus={setStatus}
