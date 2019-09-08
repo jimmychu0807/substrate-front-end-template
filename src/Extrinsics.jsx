@@ -5,7 +5,7 @@ import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 import TxButton from "./TxButton";
 
 export default function Metadata(props) {
-  const { api, fromPair } = props;
+  const { api, accountPair } = props;
 
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState("");
@@ -95,7 +95,7 @@ export default function Metadata(props) {
         <Form.Field>
           <TxButton
             api={api}
-            fromPair={fromPair}
+            accountPair={accountPair}
             label={"Call"}
             params={[input]}
             setStatus={setStatus}

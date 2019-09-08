@@ -4,7 +4,7 @@ import { Form, Input, Grid } from "semantic-ui-react";
 import TxButton from "./TxButton";
 
 export default function Transfer(props) {
-  const { api, fromPair } = props;
+  const { api, accountPair } = props;
   const [status, setStatus] = useState("");
   const initialState = {
     addressTo: "",
@@ -48,7 +48,7 @@ export default function Transfer(props) {
         <Form.Field>
           <TxButton
             api={api}
-            fromPair={fromPair}
+            accountPair={accountPair}
             label={"Send"}
             params={[addressTo, amount]}
             setStatus={setStatus}

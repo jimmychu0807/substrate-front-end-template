@@ -28,12 +28,12 @@ export default function App() {
   const [api, setApi] = useState();
   const [apiReady, setApiReady] = useState();
   const [accountLoaded, setAccountLoaded] = useState(false);
-  const [addressFrom, setAddressFrom] = useState("");
+  const [accountAddress, setAccountAddress] = useState("");
 
   //const WS_PROVIDER = "ws://127.0.0.1:9944";
   const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
 
-  const fromPair = addressFrom && keyring.getPair(addressFrom);
+  const accountPair = accountAddress && keyring.getPair(accountAddress);
 
   // get the list of accounts we possess the private key for
   const keyringOptions =
@@ -136,7 +136,7 @@ export default function App() {
                 placeholder="Select from your accounts"
                 options={keyringOptions}
                 onChange={(_, dropdown) => {
-                  setAddressFrom(dropdown.value);
+                  setAccountAddress(dropdown.value);
                 }}
               />
             </Menu.Menu>
@@ -153,11 +153,11 @@ export default function App() {
             <Balances api={api} keyring={keyring} />
           </Grid.Row>
           <Grid.Row>
-            <Transfer api={api} fromPair={fromPair} />
-            <Upgrade api={api} fromPair={fromPair} />
+            <Transfer api={api} accountPair={accountPair} />
+            <Upgrade api={api} accountPair={accountPair} />
           </Grid.Row>
           <Grid.Row>
-            <Extrinsics api={api} fromPair={fromPair} />
+            <Extrinsics api={api} accountPair={accountPair} />
             <ChainState api={api} />
             <Events api={api} />
           </Grid.Row>
