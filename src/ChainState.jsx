@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Grid, Form, Dropdown, Button, Input } from "semantic-ui-react";
 
-export default function Metadata(props) {
+export default function ChainState(props) {
   const { api } = props;
 
   const [modulesList, setModulesList] = useState([]);

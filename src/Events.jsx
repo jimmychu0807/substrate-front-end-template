@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Feed, Grid } from "semantic-ui-react";
 
-export default function Metadata(props) {
+export default function Events(props) {
   const { api } = props;
 
   const [eventFeed, setEventFeed] = useState([]);
