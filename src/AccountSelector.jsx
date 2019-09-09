@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Menu, Dropdown, Container, Icon } from "semantic-ui-react";
+import { Menu, Dropdown, Container, Icon, Image } from "semantic-ui-react";
 
 export default function NodeInfo(props) {
   const { keyring, setAccountAddress } = props;
@@ -26,6 +26,9 @@ export default function NodeInfo(props) {
       }}
     >
       <Container>
+        <Menu.Menu>
+        <Image src='Substrate-Logo.png' size='mini' />
+        </Menu.Menu>
         <Menu.Menu position="right">
           <Icon
             name="users"
