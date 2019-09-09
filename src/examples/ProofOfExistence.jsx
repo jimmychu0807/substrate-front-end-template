@@ -4,6 +4,9 @@ import { blake2AsHex } from "@polkadot/util-crypto";
 
 import TxButton from "../TxButton";
 
+// Based on the Substrate Proof of Existence module
+// https://github.com/substrate-developer-hub/substrate-proof-of-existence
+
 export default function ProofOfExistence(props) {
   const { api, accountPair } = props;
   const [status, setStatus] = useState("");
