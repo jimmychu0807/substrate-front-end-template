@@ -32,7 +32,7 @@ export default function Transfer(props) {
 
     return () => unsubscribe && unsubscribe();
 
-  }, [api.query.templateModule, api.query.templateModule.something]);
+  }, [api.query.templateModule]);
 
 
   return (
