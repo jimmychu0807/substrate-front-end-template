@@ -20,6 +20,7 @@ import Events from "./Events";
 import Extrinsics from "./Extrinsics";
 import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
+import ProofOfExistence from "./examples/ProofOfExistence";
 import Transfer from "./Transfer";
 import Upgrade from "./Upgrade";
 import "semantic-ui-css/semantic.min.css";
@@ -160,6 +161,10 @@ export default function App() {
             <Extrinsics api={api} accountPair={accountPair} />
             <ChainState api={api} />
             <Events api={api} />
+          </Grid.Row>
+          {/* These components render if a module is present in the runtime. */}
+          <Grid.Row>
+              { api.query.poe && <ProofOfExistence api={api} accountPair={accountPair}/> }
           </Grid.Row>
         </Grid>
         {/* These components don't render elements. */}
