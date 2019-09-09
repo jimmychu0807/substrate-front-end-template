@@ -2,18 +2,11 @@ import { ApiPromise, WsProvider } from "@polkadot/api";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import keyring from "@polkadot/ui-keyring";
 import React, { useState, useEffect, createRef } from "react";
-import {
-  Container,
-  Dimmer,
-  Loader,
-  Grid,
-  Dropdown,
-  Menu,
-  Sticky
-} from "semantic-ui-react";
+import { Container, Dimmer, Loader, Grid, Sticky } from "semantic-ui-react";
 
 import "semantic-ui-css/semantic.min.css";
 
+import AccountSelector from "./AccountSelector";
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
 import ChainState from "./ChainState";
@@ -37,16 +30,6 @@ export default function App() {
   const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
 
   const accountPair = accountAddress && keyring.getPair(accountAddress);
-
-  // get the list of accounts we possess the private key for
-  const keyringOptions =
-    accountLoaded &&
-    keyring.getPairs().map(account => ({
-      key: account.address,
-      value: account.address,
-      text: account.meta.name.toUpperCase(),
-      icon: "user"
-    }));
 
   useEffect(() => {
     const provider = new WsProvider(WS_PROVIDER);
@@ -125,26 +108,13 @@ export default function App() {
 
   return (
     <div ref={contextRef}>
+      <Sticky context={contextRef}>
+        <AccountSelector
+          keyring={keyring}
+          setAccountAddress={setAccountAddress}
+        />
+      </Sticky>
       <Container>
-        <Sticky context={contextRef}>
-          <Menu
-            attached="top"
-            tabular
-            style={{ backgroundColor: "#fff", paddingTop: "1em" }}
-          >
-            <Menu.Menu position="right">
-              <Dropdown
-                search
-                selection
-                placeholder="Select from your accounts"
-                options={keyringOptions}
-                onChange={(_, dropdown) => {
-                  setAccountAddress(dropdown.value);
-                }}
-              />
-            </Menu.Menu>
-          </Menu>
-        </Sticky>
         <Grid stackable columns="equal">
           <Grid.Row stretched>
             <NodeInfo api={api} />
