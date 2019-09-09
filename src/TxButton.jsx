@@ -53,7 +53,7 @@ export default function TxButton({
   };
 
   return (
-    <Button onClick={makeCall} primary type="submit">
+    <Button onClick={makeCall} primary type="submit" disabled={!accountPair}>
       {label}
     </Button>
   );
