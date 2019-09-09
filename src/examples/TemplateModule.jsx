@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Grid, Card, Statistic } from "semantic-ui-react";
 
-import TxButton from "./TxButton";
+import TxButton from "../TxButton";
 
 export default function Transfer(props) {
   const { api, accountPair } = props;
