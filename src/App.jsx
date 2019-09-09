@@ -22,6 +22,7 @@ import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
 import Transfer from "./Transfer";
 import Upgrade from "./Upgrade";
+import TemplateModule from "./examples/TemplateModule";
 import "semantic-ui-css/semantic.min.css";
 
 export default function App() {
@@ -160,6 +161,9 @@ export default function App() {
             <Extrinsics api={api} accountPair={accountPair} />
             <ChainState api={api} />
             <Events api={api} />
+          </Grid.Row>
+          <Grid.Row>
+            { api.query.templateModule && <TemplateModule api={api} accountPair={accountPair} /> }
           </Grid.Row>
         </Grid>
         {/* These components don't render elements. */}
