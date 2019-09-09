@@ -4,24 +4,12 @@ import { blake2AsHex } from "@polkadot/util-crypto";
 
 import TxButton from "../TxButton";
 
-export default function Upgrade(props) {
+export default function ProofOfExistence(props) {
   const { api, accountPair } = props;
   const [status, setStatus] = useState("");
   const [digest, setDigest] = useState("");
   const [owner, setOwner] = useState("");
   const [block, setBlock] = useState(0);
-
-  useEffect(() => {
-	api.query.poe.proofs(digest).then(result => {
-	  setOwner(result[0].toString());
-	  setBlock(result[1].toNumber());
-	});
-  }, [digest, status, api.query.poe]);
-
-  // Check the module is included in the runtime
-  if (!api.tx.poe) {
-    return null;
-  }
 
   let fileReader;
 
@@ -39,6 +27,13 @@ export default function Upgrade(props) {
     fileReader.onloadend = bufferToDigest;
     fileReader.readAsArrayBuffer(file);
   };
+
+  useEffect(() => {
+	api.query.poe.proofs(digest).then(result => {
+	  setOwner(result[0].toString());
+	  setBlock(result[1].toNumber());
+	});
+  }, [digest, status, api.query.poe]);
 
   return (
     <Grid.Column>
