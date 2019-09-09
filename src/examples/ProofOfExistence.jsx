@@ -29,22 +29,28 @@ export default function ProofOfExistence(props) {
   };
 
   useEffect(() => {
-	let unsubscribe;
+    let unsubscribe;
 
-	api.query.poe.proofs(digest, (result) => {
-		setOwner(result[0].toString());
-		setBlock(result[1].toNumber());
-	}).then(unsub => {
-		unsubscribe = unsub;
-	});
+    api.query.poe
+      .proofs(digest, result => {
+        setOwner(result[0].toString());
+        setBlock(result[1].toNumber());
+      })
+      .then(unsub => {
+        unsubscribe = unsub;
+      });
 
-	return () => unsubscribe && unsubscribe();
+    return () => unsubscribe && unsubscribe();
   }, [digest, api.query.poe]);
+
+  function isClaimed() {
+    return block !== 0;
+  }
 
   return (
     <Grid.Column>
       <h1>Proof Of Existence</h1>
-      <Form success={!!digest && block === 0} warning={block !== 0}>
+      <Form success={digest && !isClaimed()} warning={isClaimed()}>
         <Form.Field>
           <Input
             type="file"
@@ -56,7 +62,7 @@ export default function ProofOfExistence(props) {
           <Message
             warning
             header="File Digest Claimed"
-            list={[digest,`Owner: ${owner}`,`Block: ${block}`]}
+            list={[digest, `Owner: ${owner}`, `Block: ${block}`]}
           />
         </Form.Field>
 
@@ -64,10 +70,20 @@ export default function ProofOfExistence(props) {
           <TxButton
             api={api}
             accountPair={accountPair}
-            label={"Submit Proof"}
+            label={"Create Claim"}
             setStatus={setStatus}
             params={[digest]}
             tx={api.tx.poe.createClaim}
+            disabled={isClaimed() || !digest}
+          />
+          <TxButton
+            api={api}
+            accountPair={accountPair}
+            label={"Revoke Claim"}
+            setStatus={setStatus}
+            params={[digest]}
+            tx={api.tx.poe.revokeClaim}
+            disabled={!isClaimed() || owner !== accountPair.address}
           />
           {status}
         </Form.Field>

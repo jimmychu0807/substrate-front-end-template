@@ -9,6 +9,7 @@ export default function TxButton({
   params,
   setStatus,
   tx,
+  disabled,
   sudo = false
 }) {
   const makeCall = async () => {
@@ -53,7 +54,7 @@ export default function TxButton({
   };
 
   return (
-    <Button onClick={makeCall} primary type="submit" disabled={!accountPair}>
+    <Button onClick={makeCall} primary type="submit" disabled={!accountPair || disabled}>
       {label}
     </Button>
   );
