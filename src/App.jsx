@@ -31,8 +31,9 @@ export default function App() {
   const [accountLoaded, setAccountLoaded] = useState(false);
   const [accountAddress, setAccountAddress] = useState("");
 
-  const WS_PROVIDER = "ws://127.0.0.1:9944";
-  //const WS_PROVIDER = "wss://dev-node.substrate.dev:9944";
+  //const WS_PROVIDER = "ws://134.209.196.6:9944";           // digital ocean node
+  const WS_PROVIDER = "ws://127.0.0.1:9944";                 // localhost
+  //const WS_PROVIDER = "wss://dev-node.substrate.dev:9944"; // play node (resets hourly)
 
   const accountPair = accountAddress && keyring.getPair(accountAddress);
 
