@@ -29,11 +29,17 @@ export default function ProofOfExistence(props) {
   };
 
   useEffect(() => {
-	api.query.poe.proofs(digest).then(result => {
-	  setOwner(result[0].toString());
-	  setBlock(result[1].toNumber());
+	let unsubscribe;
+
+	api.query.poe.proofs(digest, (result) => {
+		setOwner(result[0].toString());
+		setBlock(result[1].toNumber());
+	}).then(unsub => {
+		unsubscribe = unsub;
 	});
-  }, [digest, status, api.query.poe]);
+
+	return () => unsubscribe && unsubscribe();
+  }, [digest, api.query.poe]);
 
   return (
     <Grid.Column>
