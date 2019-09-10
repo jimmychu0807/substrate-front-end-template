@@ -1,5 +1,5 @@
 {
-  "name": "substrate-ui-template",
+  "name": "substrate-front-end-template",
   "version": "0.1.1",
   "private": true,
   "author": "Parity Technologies <admin@parity.io>",
@@ -41,9 +41,9 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://substrate-developer-hub.github.io/substrate-ui-template",
+  "homepage": "https://substrate-developer-hub.github.io/substrate-front-end-template",
   "bugs": {
-    "url": "https://github.com/substrate-developer-hub/substrate-ui-template/issues"
+    "url": "https://github.com/substrate-developer-hub/substrate-front-end-template/issues"
   },
   "keywords": [
     "substrate",
