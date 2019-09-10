@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.js": "/substrate-ui-template/static/js/main.a69dd34c.chunk.js",
-    "main.js.map": "/substrate-ui-template/static/js/main.a69dd34c.chunk.js.map",
-    "runtime~main.js": "/substrate-ui-template/static/js/runtime~main.34d03485.js",
-    "runtime~main.js.map": "/substrate-ui-template/static/js/runtime~main.34d03485.js.map",
-    "static/css/2.d0a17286.chunk.css": "/substrate-ui-template/static/css/2.d0a17286.chunk.css",
-    "static/js/2.e0be54c9.chunk.js": "/substrate-ui-template/static/js/2.e0be54c9.chunk.js",
-    "static/js/2.e0be54c9.chunk.js.map": "/substrate-ui-template/static/js/2.e0be54c9.chunk.js.map",
-    "index.html": "/substrate-ui-template/index.html",
-    "precache-manifest.e41ee3129bb1ab86e6284f3664929d50.js": "/substrate-ui-template/precache-manifest.e41ee3129bb1ab86e6284f3664929d50.js",
-    "service-worker.js": "/substrate-ui-template/service-worker.js",
-    "static/css/2.d0a17286.chunk.css.map": "/substrate-ui-template/static/css/2.d0a17286.chunk.css.map",
-    "static/media/semantic.min.css": "/substrate-ui-template/static/media/outline-icons.ef60a4f6.woff"
+    "main.js": "/substrate-front-end-template/static/js/main.3be0baed.chunk.js",
+    "main.js.map": "/substrate-front-end-template/static/js/main.3be0baed.chunk.js.map",
+    "runtime~main.js": "/substrate-front-end-template/static/js/runtime~main.11c44b3c.js",
+    "runtime~main.js.map": "/substrate-front-end-template/static/js/runtime~main.11c44b3c.js.map",
+    "static/css/2.d168aebc.chunk.css": "/substrate-front-end-template/static/css/2.d168aebc.chunk.css",
+    "static/js/2.0561d846.chunk.js": "/substrate-front-end-template/static/js/2.0561d846.chunk.js",
+    "static/js/2.0561d846.chunk.js.map": "/substrate-front-end-template/static/js/2.0561d846.chunk.js.map",
+    "index.html": "/substrate-front-end-template/index.html",
+    "precache-manifest.7db07e207a7ec82bbc2d2d7d5be1f63d.js": "/substrate-front-end-template/precache-manifest.7db07e207a7ec82bbc2d2d7d5be1f63d.js",
+    "service-worker.js": "/substrate-front-end-template/service-worker.js",
+    "static/css/2.d168aebc.chunk.css.map": "/substrate-front-end-template/static/css/2.d168aebc.chunk.css.map",
+    "static/media/semantic.min.css": "/substrate-front-end-template/static/media/outline-icons.ef60a4f6.woff"
   }
 }
