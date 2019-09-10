@@ -1,4 +1,4 @@
-# Substrate User Interface Template
+# Substrate Front End Template
 
 This project was bootstrapped with Create React App.
 
