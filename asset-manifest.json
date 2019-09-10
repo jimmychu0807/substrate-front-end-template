@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.js": "/substrate-ui-template/static/js/main.cb39e212.chunk.js",
-    "main.js.map": "/substrate-ui-template/static/js/main.cb39e212.chunk.js.map",
+    "main.js": "/substrate-ui-template/static/js/main.30413f26.chunk.js",
+    "main.js.map": "/substrate-ui-template/static/js/main.30413f26.chunk.js.map",
     "runtime~main.js": "/substrate-ui-template/static/js/runtime~main.34d03485.js",
     "runtime~main.js.map": "/substrate-ui-template/static/js/runtime~main.34d03485.js.map",
     "static/css/2.d0a17286.chunk.css": "/substrate-ui-template/static/css/2.d0a17286.chunk.css",
     "static/js/2.e0be54c9.chunk.js": "/substrate-ui-template/static/js/2.e0be54c9.chunk.js",
     "static/js/2.e0be54c9.chunk.js.map": "/substrate-ui-template/static/js/2.e0be54c9.chunk.js.map",
     "index.html": "/substrate-ui-template/index.html",
-    "precache-manifest.35c52b3fca1efec8849f1e7e4c9178e6.js": "/substrate-ui-template/precache-manifest.35c52b3fca1efec8849f1e7e4c9178e6.js",
+    "precache-manifest.41131fb81eda6f45d239fbbd3d25b7f0.js": "/substrate-ui-template/precache-manifest.41131fb81eda6f45d239fbbd3d25b7f0.js",
     "service-worker.js": "/substrate-ui-template/service-worker.js",
     "static/css/2.d0a17286.chunk.css.map": "/substrate-ui-template/static/css/2.d0a17286.chunk.css.map",
     "static/media/semantic.min.css": "/substrate-ui-template/static/media/outline-icons.ef60a4f6.woff"
