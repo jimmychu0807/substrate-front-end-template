@@ -35,8 +35,8 @@ export default function NodeInfo(props) {
           </Card.Meta>
           <Card.Description>
             Built using the{" "}
-            <a href="https://github.com/substrate-developer-hub/substrate-ui-template">
-              Substrate UI Template
+            <a href="https://github.com/substrate-developer-hub/substrate-front-end-template">
+              Substrate Front End Template
             </a>
           </Card.Description>
         </Card.Content>

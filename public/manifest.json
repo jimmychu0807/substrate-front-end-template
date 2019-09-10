@@ -1,6 +1,6 @@
 {
-  "short_name": "Substrate UI",
-  "name": "Substrate UI Template",
+  "short_name": "Substrate Front End",
+  "name": "Substrate Front End Template",
   "icons": [
     {
       "src": "favicon.ico",
