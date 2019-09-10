@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Menu, Dropdown, Container, Icon, Image } from "semantic-ui-react";
 
@@ -13,6 +13,16 @@ export default function NodeInfo(props) {
     text: account.meta.name.toUpperCase(),
     icon: "user"
   }));
+
+  const initialAddress = keyringOptions.length > 0
+    ? keyringOptions[0].value
+    : "";
+
+  // Set the initial address
+  useEffect(() => {
+    setAccountSelected(initialAddress);
+    setAccountAddress(initialAddress);
+  }, [])
 
   return (
     <Menu
@@ -46,6 +56,7 @@ export default function NodeInfo(props) {
               setAccountAddress(dropdown.value);
               setAccountSelected(dropdown.value);
             }}
+            value={accountSelected}
           />
         </Menu.Menu>
       </Container>
