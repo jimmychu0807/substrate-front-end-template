@@ -22,7 +22,7 @@ export default function NodeInfo(props) {
   useEffect(() => {
     setAccountSelected(initialAddress);
     setAccountAddress(initialAddress);
-  }, [])
+  }, [setAccountAddress, initialAddress])
 
   return (
     <Menu
