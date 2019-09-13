@@ -37,14 +37,8 @@ export default function NodeInfo(props) {
     let unsubscribe;
 
     // If the user has selected an address, create a new subscription
-    console.log("about to create subscription if address exists");
-    console.log(accountSelected);
     if (accountSelected) {
-      console.log("creating a subscription to account");
-      console.log(accountSelected);
       api.query.balances.freeBalance(accountSelected, (balance) => {
-        // For some reason this callback doesn't get called when transferring tokens!?
-        console.log(`about to update accountBalance to ${balance}`)
         setAccountBalance(balance.toString());
       })
       .then(u => {
