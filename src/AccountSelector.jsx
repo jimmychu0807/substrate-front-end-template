@@ -15,7 +15,6 @@ export default function NodeInfo(props) {
 
   // Setup state
   const [accountBalance, setAccountBalance] = useState(0);
-  const [unsubBalance, setUnsubBalance] = useState();
   const [accountSelected, setAccountSelected] = useState(
     keyringOptions.length > 0
     ? keyringOptions[0].value
@@ -30,8 +29,8 @@ export default function NodeInfo(props) {
 
   // When account address changes, update subscriptions
   useEffect(() => {
-    // Unsubscribe previous account's balance if subscription exists
-    unsubBalance && unsubBalance();
+
+    let unsubscribe;
 
     // If the user has selected an address, create a new subscription
     console.log("about to create subscription if address exists");
@@ -44,12 +43,14 @@ export default function NodeInfo(props) {
         console.log(`about to update accountBalance to ${balance}`)
         setAccountBalance(balance.toString());
       })
-      .then(setUnsubBalance)
+      .then(u => {
+        unsubscribe = u;
+      })
       .catch(console.error);
     }
 
-    return () => unsubBalance && unsubBalance();
-  }, [accountSelected, api.query.balances, unsubBalance]);
+    return () => unsubscribe && unsubscribe();
+  }, [accountSelected, api.query.balances]);
 
   return (
     <Menu
