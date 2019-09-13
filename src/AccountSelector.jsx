@@ -4,6 +4,8 @@ import { Menu, Dropdown, Container, Icon, Image } from "semantic-ui-react";
 
 export default function NodeInfo(props) {
   const { keyring, setAccountAddress, api } = props;
+  const [accountSelected, setAccountSelected] = useState("");
+  const [accountBalance, setAccountBalance] = useState(0);
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
@@ -13,13 +15,15 @@ export default function NodeInfo(props) {
     icon: "user"
   }));
 
-  // Setup state
-  const [accountBalance, setAccountBalance] = useState(0);
-  const [accountSelected, setAccountSelected] = useState(
-    keyringOptions.length > 0
+  const initialAddress = keyringOptions.length > 0
     ? keyringOptions[0].value
-    : ""
-  );
+    : "";
+
+  // Set the initial address
+  useEffect(() => {
+    setAccountSelected(initialAddress);
+    setAccountAddress(initialAddress);
+  }, [setAccountAddress, initialAddress])
 
   const onChange = (address) => {
     // Update state with new account address
