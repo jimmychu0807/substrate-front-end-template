@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { Menu, Dropdown, Container, Icon, Image } from "semantic-ui-react";
+import {
+  Menu,
+  Dropdown,
+  Container,
+  Icon,
+  Image,
+  Label
+} from "semantic-ui-react";
 
 export default function NodeInfo(props) {
   const { keyring, setAccountAddress, api } = props;
@@ -15,17 +22,16 @@ export default function NodeInfo(props) {
     icon: "user"
   }));
 
-  const initialAddress = keyringOptions.length > 0
-    ? keyringOptions[0].value
-    : "";
+  const initialAddress =
+    keyringOptions.length > 0 ? keyringOptions[0].value : "";
 
   // Set the initial address
   useEffect(() => {
     setAccountSelected(initialAddress);
     setAccountAddress(initialAddress);
-  }, [setAccountAddress, initialAddress])
+  }, [setAccountAddress, initialAddress]);
 
-  const onChange = (address) => {
+  const onChange = address => {
     // Update state with new account address
     setAccountAddress(address);
     setAccountSelected(address);
@@ -33,18 +39,18 @@ export default function NodeInfo(props) {
 
   // When account address changes, update subscriptions
   useEffect(() => {
-
     let unsubscribe;
 
     // If the user has selected an address, create a new subscription
     if (accountSelected) {
-      api.query.balances.freeBalance(accountSelected, (balance) => {
-        setAccountBalance(balance.toString());
-      })
-      .then(u => {
-        unsubscribe = u;
-      })
-      .catch(console.error);
+      api.query.balances
+        .freeBalance(accountSelected, balance => {
+          setAccountBalance(balance.toString());
+        })
+        .then(u => {
+          unsubscribe = u;
+        })
+        .catch(console.error);
     }
 
     return () => unsubscribe && unsubscribe();
@@ -63,21 +69,8 @@ export default function NodeInfo(props) {
     >
       <Container>
         <Menu.Menu>
-          <Image src='Substrate-Logo.png' size='mini' />
+          <Image src="Substrate-Logo.png" size="mini" />
         </Menu.Menu>
-        {api.query.balances && accountSelected ?
-          (
-            <Menu.Menu>
-              <Icon
-                name="money bill alternate outline"
-                size="large"
-                circular
-              ></Icon>
-              { accountBalance }
-            </Menu.Menu>
-          ) :
-          ""
-        }
         <Menu.Menu position="right">
           <Icon
             name="users"
@@ -91,9 +84,22 @@ export default function NodeInfo(props) {
             clearable
             placeholder="Select an account"
             options={keyringOptions}
-            onChange={(_, dropdown) => { onChange(dropdown.value) }}
+            onChange={(_, dropdown) => {
+              onChange(dropdown.value);
+            }}
             value={accountSelected}
           />
+          {api.query.balances && accountSelected ? (
+            <Label pointing="left">
+              <Icon
+                name="money bill alternate"
+                color={accountBalance > 0 ? "green" : "red"}
+              />
+              {accountBalance}
+            </Label>
+          ) : (
+            ""
+          )}
         </Menu.Menu>
       </Container>
     </Menu>
