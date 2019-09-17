@@ -47,8 +47,8 @@ export default function NodeInfo(props) {
         .freeBalance(accountSelected, balance => {
           setAccountBalance(balance.toString());
         })
-        .then(u => {
-          unsubscribe = u;
+        .then(unsub => {
+          unsubscribe = unsub;
         })
         .catch(console.error);
     }
