@@ -1,14 +1,13 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Grid } from "semantic-ui-react";
 
 export default function Balances(props) {
   const { api, keyring } = props;
   const accounts = keyring.getPairs();
-  const accountNames = accounts.map(account => account.meta.name);
   const [balances, setBalances] = useState({});
-  const addresses = useMemo(() => accounts.map(account => account.address),[accounts]);
 
   useEffect(() => {
+    const addresses = keyring.getPairs().map(account => account.address);
     let unsubscribeAll;
 
     api.query.balances.freeBalance
@@ -28,19 +27,19 @@ export default function Balances(props) {
       .catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.balances.freeBalance, setBalances]);
+  }, [api.query.balances.freeBalance, setBalances, keyring]);
 
   return (
     <Grid.Column>
       <h1>Balances</h1>
       <Table celled striped size="small">
         <Table.Body>
-          {addresses.map((address, index) => {
+          {accounts.map(account => {
             return (
-              <Table.Row key={index}>
-                <Table.Cell textAlign="right">{accountNames[index]}</Table.Cell>
-                <Table.Cell>{address}</Table.Cell>
-                <Table.Cell>{balances && balances[address]}</Table.Cell>
+              <Table.Row key={account.address}>
+                <Table.Cell textAlign="right">{account.meta.name}</Table.Cell>
+                <Table.Cell>{account.address}</Table.Cell>
+                <Table.Cell>{balances && balances[account.address]}</Table.Cell>
               </Table.Row>
             );
           })}
