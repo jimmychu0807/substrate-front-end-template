@@ -9,10 +9,13 @@ import {
   Label
 } from "semantic-ui-react";
 
+import useSubstrate from "./hooks/useSubstrate";
+
 export default function NodeInfo(props) {
-  const { keyring, setAccountAddress, api } = props;
+  const { keyring, setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState("");
   const [accountBalance, setAccountBalance] = useState(0);
+  const { state: {api} } = useSubstrate();
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({

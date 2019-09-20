@@ -9,8 +9,8 @@ export default function Metadata(props) {
   const [version, setVersion] = useState(0);
   useEffect(() => {
     api.rpc.state.getMetadata(meta => {
-	  setMetadata(meta);
-	  setVersion(meta.version);
+    setMetadata(meta);
+    setVersion(meta.version);
     });
   }, [api.rpc.state]);
 
@@ -19,7 +19,7 @@ export default function Metadata(props) {
       <Card>
         <Card.Content>
           <Card.Header>Metadata</Card.Header>
-		  <Card.Meta>
+          <Card.Meta>
             <span>v{version}</span>
           </Card.Meta>
         </Card.Content>
