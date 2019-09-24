@@ -5,7 +5,7 @@ import { Container, Dimmer, Loader, Grid, Sticky } from "semantic-ui-react";
 
 import "semantic-ui-css/semantic.min.css";
 
-import useSubstrate from "./hooks/useSubstrate";
+import useSubstrate from "./substrate/useSubstrate";
 import AccountSelector from "./AccountSelector";
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
@@ -26,10 +26,11 @@ export default function App() {
 
   const accountPair = accountAddress && keyring.getPair(accountAddress);
 
-  const { state:{ api, apiError, apiReady } } = useSubstrate();
+  const { api, apiError, apiReady } = useSubstrate();
 
   // new hook to get injected accounts
   useEffect(() => {
+
     web3Enable("substrate-front-end-tutorial")
       .then(extensions => {
         // web3Account promise resolves with an array of injected accounts

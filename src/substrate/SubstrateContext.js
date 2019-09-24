@@ -1,11 +1,19 @@
 import React, { useReducer } from 'react';
+import PropTypes from 'prop-types';
 
-// const DEFAULT_PROVIDER_SOCKET = "wss://dev-node.substrate.dev:9944";
 const DEFAULT_PROVIDER_SOCKET = "ws://127.0.0.1:9944";
+const DEFAULT_TYPES = {};
+const INIT_STATE = {
+  socket: DEFAULT_PROVIDER_SOCKET,
+  types: DEFAULT_TYPES,
+  api: null,
+  apiReady: false,
+  apiError: false,
+};
 
 const reducer = (state, action) => {
 
-  console.log(state, action);
+  console.log("action dispatched", action, state);
 
   switch(action.type) {
     case 'RESET_SOCKET':
@@ -30,24 +38,29 @@ const reducer = (state, action) => {
   }
 };
 
-const initState = {
-  socket: DEFAULT_PROVIDER_SOCKET,
-  api: null,
-  apiReady: false,
-  apiError: false,
-};
-
 const SubstrateContext = React.createContext();
 
 const SubstrateContextProvider = (props) => {
+  // filtering props and merge with default param value
+  let initState = { ...INIT_STATE };
+  const neededProps = ["socket", "types"];
+  neededProps.forEach(key => {
+    initState[key] = (typeof props[key] === 'undefined' ? initState[key] : props[key]);
+  });
 
-  const [state, dispatch] = useReducer(reducer, initState);
+  const [state, dispatch] = useReducer(reducer, { ...INIT_STATE, ...props });
 
   return (
     <SubstrateContext.Provider value={[state, dispatch]}>
       { props.children }
     </SubstrateContext.Provider>
   );
+};
+
+// prop typechecking
+SubstrateContextProvider.propTypes = {
+  socket: PropTypes.string,
+  types: PropTypes.object,
 };
 
 export { SubstrateContext, SubstrateContextProvider };
