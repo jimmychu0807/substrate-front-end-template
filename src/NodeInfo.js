@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Card, Icon, Grid } from "semantic-ui-react";
 
-import useSubstrate from "./substrate/useSubstrate";
+import { useSubstrate } from "./substrate";
 
 export default function NodeInfo(props) {
   const [nodeInfo, setNodeInfo] = useState({});

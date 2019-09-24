@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import { Grid, Modal, Button, Card } from "semantic-ui-react";
 
+import { useSubstrate } from "./substrate";
+
 export default function Metadata(props) {
-  const { api } = props;
+  const { api } = useSubstrate();
 
   const [metadata, setMetadata] = useState(0);
   const [version, setVersion] = useState(0);

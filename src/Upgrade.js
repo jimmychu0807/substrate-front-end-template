@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Form, Input, Grid } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
+import { useSubstrate } from "./substrate";
 
 export default function Upgrade(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
+  const { accountPair } = props;
   const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});
 

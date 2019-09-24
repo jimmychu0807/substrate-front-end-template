@@ -5,12 +5,13 @@ import { Container, Dimmer, Loader, Grid, Sticky } from "semantic-ui-react";
 
 import "semantic-ui-css/semantic.min.css";
 
-import useSubstrate from "./substrate/useSubstrate";
+import { useSubstrate } from "./substrate";
+import { DeveloperConsole } from "./substrate/components";
+
 import AccountSelector from "./AccountSelector";
 import Balances from "./Balances";
 import BlockNumber from "./BlockNumber";
 import ChainState from "./ChainState";
-import DeveloperConsole from "./DeveloperConsole";
 import Events from "./Events";
 import Extrinsics from "./Extrinsics";
 import Metadata from "./Metadata";
@@ -94,21 +95,21 @@ export default function App() {
         <Grid stackable columns="equal">
           <Grid.Row stretched>
             <NodeInfo />
-            <Metadata api={api} />
-            <BlockNumber api={api} />
-            <BlockNumber api={api} finalized />
+            <Metadata />
+            <BlockNumber />
+            <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row stretched>
-            <Balances api={api} keyring={keyring} />
+            <Balances keyring={keyring} />
           </Grid.Row>
           <Grid.Row>
-            <Transfer api={api} accountPair={accountPair} />
-            <Upgrade api={api} accountPair={accountPair} />
+            <Transfer accountPair={accountPair} />
+            <Upgrade accountPair={accountPair} />
           </Grid.Row>
           <Grid.Row>
             <Extrinsics api={api} accountPair={accountPair} />
-            <ChainState api={api} />
-            <Events api={api} />
+            <ChainState />
+            <Events />
           </Grid.Row>
           {/* These components render if a module is present in the runtime.
           <Grid.Row>
@@ -117,8 +118,7 @@ export default function App() {
           </Grid.Row>
           */}
         </Grid>
-        {/* These components don't render elements. */}
-        <DeveloperConsole api={api} />
+        <DeveloperConsole/>
       </Container>
     </div>
   );

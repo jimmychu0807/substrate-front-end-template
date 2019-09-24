@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import { Statistic, Grid, Card, Icon } from "semantic-ui-react";
 
-export default function BlockNumber(props) {
-  const { api, finalized } = props;
+import { useSubstrate } from "./substrate";
 
+export default function BlockNumber(props) {
+  const { api } = useSubstrate();
+  const { finalized } = props;
   const [blockNumber, setBlockNumber] = useState(0);
   const [blockNumberTimer, setBlockNumberTimer] = useState(0);
 

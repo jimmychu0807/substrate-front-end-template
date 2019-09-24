@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-
 import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
 import TxButton from "./TxButton";
+import { useSubstrate } from "./substrate";
 
 export default function Extrinsics(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
+  const { accountPair } = props;
 
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState("");

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Table, Grid } from "semantic-ui-react";
 
+import { useSubstrate } from "./substrate";
+
 export default function Balances(props) {
-  const { api, keyring } = props;
+  const { api } = useSubstrate();
+  const { keyring } = props;
   const accounts = keyring.getPairs();
   const [balances, setBalances] = useState({});
 
