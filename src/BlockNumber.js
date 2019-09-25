@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Statistic, Grid, Card, Icon } from "semantic-ui-react";
 
 import { useSubstrate } from "./substrate";
@@ -15,15 +14,14 @@ export default function BlockNumber(props) {
     : api.derive.chain.bestNumber;
 
   useEffect(() => {
-    let unsubscribeAll;
+    let unsubscribeAll = null;
+
     bestNumber(number => {
       setBlockNumber(number.toNumber());
       setBlockNumberTimer(0);
-    })
-    .then(unsub => {
+    }).then(unsub => {
       unsubscribeAll = unsub;
-    })
-    .catch(console.error);
+    }).catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
   }, [bestNumber]);
@@ -38,20 +36,16 @@ export default function BlockNumber(props) {
   }, []);
 
   return (
-    <>
-      <Grid.Column>
-        <Card>
-          <Card.Content textAlign="center">
-            <Statistic
-              label={(finalized ? "Finalized" : "Current") + " Block Number"}
-              value={blockNumber}
-            />
-          </Card.Content>
-          <Card.Content extra>
-            <Icon name="time" /> {blockNumberTimer}
-          </Card.Content>
-        </Card>
-      </Grid.Column>
-    </>
+    <Grid.Column><Card>
+      <Card.Content textAlign="center">
+        <Statistic
+          label={(finalized ? "Finalized" : "Current") + " Block Number"}
+          value={blockNumber}
+        />
+      </Card.Content>
+      <Card.Content extra>
+        <Icon name="time" /> {blockNumberTimer}
+      </Card.Content>
+    </Card></Grid.Column>
   );
 }

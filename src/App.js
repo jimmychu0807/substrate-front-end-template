@@ -107,7 +107,7 @@ export default function App() {
             <Upgrade accountPair={accountPair} />
           </Grid.Row>
           <Grid.Row>
-            <Extrinsics api={api} accountPair={accountPair} />
+            <Extrinsics accountPair={accountPair} />
             <ChainState />
             <Events />
           </Grid.Row>
