@@ -9,7 +9,6 @@ export default function ChainState(props) {
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState(null);
   const [storageItemsList, setStorageItemsList] = useState([]);
-  const { accountPair } = props;
 
   const initialState = {
     module: "",
