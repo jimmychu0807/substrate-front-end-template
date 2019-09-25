@@ -45,16 +45,13 @@ export default function Upgrade(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
             accountPair={accountPair}
             label={"Upgrade"}
             params={[proposal]}
             setStatus={setStatus}
-            tx={api.tx.sudo}
-            sudo={true}
-          />
-          {status}
+            tx={api.tx.sudo} sudo={true} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

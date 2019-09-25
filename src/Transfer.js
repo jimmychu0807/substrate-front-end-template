@@ -8,56 +8,34 @@ export default function Transfer(props) {
   const { api } = useSubstrate();
   const { accountPair } = props;
   const [status, setStatus] = useState("");
-  const initialState = {
-    addressTo: "",
-    amount: 0
-  };
-  const [formState, setFormState] = useState(initialState);
-  const { addressTo, amount } = formState;
+  const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
 
-  const onChange = (_, data) => {
-    setFormState(formState => {
-      return {
-        ...formState,
-        [data.state]: data.value
-      };
-    });
-  };
+  const onChange = (_, data) =>
+    setFormState(prevState => ({ ...formState, [data.state]: data.value }));
+
+  const { addressTo, amount } = formState;
 
   return (
     <Grid.Column>
       <h1>Transfer</h1>
       <Form>
         <Form.Field>
-          <Input
-            onChange={onChange}
-            label="To"
-            fluid
-            placeholder="address"
-            state="addressTo"
-            type="text"
-          />
+          <Input fluid label="To" type="text" placeholder="address"
+            state="addressTo" onChange={onChange} />
         </Form.Field>
         <Form.Field>
-          <Input
-            label="Amount"
-            fluid
-            onChange={onChange}
-            state="amount"
-            type="number"
-          />
+          <Input fluid label="Amount" type="number"
+            state="amount" onChange={onChange} />
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
             accountPair={accountPair}
             label={"Send"}
             params={[addressTo, amount]}
             setStatus={setStatus}
-            tx={api.tx.balances.transfer}
-          />
-          {status}
+            tx={api.tx.balances.transfer} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

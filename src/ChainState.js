@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Grid, Form, Dropdown, Button, Input } from "semantic-ui-react";
 
 import { useSubstrate } from "./substrate";
@@ -103,9 +102,9 @@ export default function ChainState(props) {
         <Form.Field>
           <Button onClick={runQuery} primary type="submit">
             Query
-          </Button>{" "}
-          {output}
+          </Button>
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{output}</div>
       </Form>
     </Grid.Column>
   );

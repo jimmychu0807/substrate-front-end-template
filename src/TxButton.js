@@ -2,8 +2,9 @@ import React from "react";
 import { Button } from "semantic-ui-react";
 import { web3FromSource } from "@polkadot/extension-dapp";
 
+import { useSubstrate } from "./substrate";
+
 export default function TxButton({
-  api,
   accountPair,
   label,
   params,
@@ -12,11 +13,10 @@ export default function TxButton({
   disabled,
   sudo = false
 }) {
+  const { api } = useSubstrate();
+
   const makeCall = async () => {
-    const {
-      address,
-      meta: { source, isInjected }
-    } = accountPair;
+    const { address, meta: { source, isInjected } } = accountPair;
     let fromParam;
 
     //set the signer
@@ -30,12 +30,7 @@ export default function TxButton({
     setStatus("Sending...");
 
     // Check if this transaction needs sudo
-    let transaction;
-    if (sudo) {
-      transaction = tx.sudo(...params);
-    } else {
-      transaction = tx(...params);
-    }
+    let transaction = sudo ? tx.sudo(...params) : tx(...params);
 
     transaction
       .signAndSend(fromParam, ({ status }) => {
@@ -54,8 +49,9 @@ export default function TxButton({
   };
 
   return (
-    <Button onClick={makeCall} primary type="submit" disabled={!accountPair || disabled}>
-      {label}
+    <Button onClick={makeCall} primary type="submit"
+      disabled={!accountPair || disabled}>
+      { label }
     </Button>
   );
 }

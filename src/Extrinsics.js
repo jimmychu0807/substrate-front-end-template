@@ -95,15 +95,13 @@ export default function Extrinsics(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
             accountPair={accountPair}
             label={"Call"}
             params={[input]}
             setStatus={setStatus}
-            tx={api.tx && api.tx[module] && api.tx[module][callableFunction]}
-          />
-          {status}
+            tx={api.tx && api.tx[module] && api.tx[module][callableFunction]} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

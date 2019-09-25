@@ -27,7 +27,7 @@ export default function App() {
 
   const accountPair = accountAddress && keyring.getPair(accountAddress);
 
-  const { api, apiError, apiReady } = useSubstrate();
+  const { apiError, apiReady } = useSubstrate();
 
   // new hook to get injected accounts
   useEffect(() => {
