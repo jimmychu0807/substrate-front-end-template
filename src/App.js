@@ -31,35 +31,22 @@ export default function App() {
   const accountPair = accountAddress && keyring.getPair(accountAddress);
   // new hook to get injected accounts
   useEffect(() => {
+    const loadAccounts = async() => {
+      try {
+        await web3Enable(config.APP_NAME);
+        let allAccounts = await web3Accounts();
+        allAccounts = allAccounts.map(({ address, meta }) =>
+          ({ address, meta: { ...meta, name: `${meta.name} (${meta.source})` }}));
 
-    web3Enable(config.APP_NAME)
-      .then(extensions => {
-        // web3Account promise resolves with an array of injected accounts
-        // or an empty array (e.g user has no extension, or not given access to their accounts)
-        web3Accounts()
-          .then(accounts => {
-            // add the source to the name to avoid confusion
-            return accounts.map(({ address, meta }) => ({
-              address,
-              meta: {
-                ...meta,
-                name: `${meta.name} (${meta.source})`
-              }
-            }));
-          })
-          // load our keyring with the newly injected accounts
-          .then(injectedAccounts => {
-            loadAccounts(injectedAccounts);
-          })
-          .catch(console.error);
-      })
-      .catch(console.error);
+        keyring.loadAll({ isDevelopment: config.DEVELOPMENT_KEYRING }, allAccounts);
+        setAccountLoaded(true);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadAccounts();
   }, []);
-
-  const loadAccounts = injectedAccounts => {
-    keyring.loadAll({isDevelopment: true}, injectedAccounts);
-    setAccountLoaded(true);
-  };
 
   const loader = (text) =>
     <Dimmer active><Loader size="small">{text}</Loader></Dimmer>;
