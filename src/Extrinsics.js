@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
-import TxButton from "./TxButton";
 import { useSubstrate } from "./substrate";
+import { TxButton } from "./substrate/components";
 
 export default function Extrinsics(props) {
   const { api } = useSubstrate();

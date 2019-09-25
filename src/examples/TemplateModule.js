@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Grid, Card, Statistic } from "semantic-ui-react";
 
-import TxButton from "../TxButton";
+import { useSubstrate } from "../substrate";
+import { TxButton } from "../substrate/components";
 
 export default function Transfer(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
+  const { accountPair } = props;
 
   // The transaction submission status
   const [status, setStatus] = useState("");

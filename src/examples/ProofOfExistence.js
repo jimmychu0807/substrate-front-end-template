@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Grid, Message } from "semantic-ui-react";
 import { blake2AsHex } from "@polkadot/util-crypto";
 
-import TxButton from "../TxButton";
-
+import { useSubstrate } from "../substrate";
+import { TxButton } from "../substrate/components";
 // Based on the Substrate Proof of Existence module
 // https://github.com/substrate-developer-hub/substrate-proof-of-existence
 
 export default function ProofOfExistence(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
+  const { accountPair } = props;
   const [status, setStatus] = useState("");
   const [digest, setDigest] = useState("");
   const [owner, setOwner] = useState("");

@@ -16,10 +16,11 @@ import Events from "./Events";
 import Extrinsics from "./Extrinsics";
 import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
-// import ProofOfExistence from "./examples/ProofOfExistence";
-// import TemplateModule from "./examples/TemplateModule";
 import Transfer from "./Transfer";
 import Upgrade from "./Upgrade";
+
+import ProofOfExistence from "./examples/ProofOfExistence";
+import TemplateModule from "./examples/TemplateModule";
 
 export default function App() {
   const [accountLoaded, setAccountLoaded] = useState(false);
@@ -27,7 +28,7 @@ export default function App() {
 
   const accountPair = accountAddress && keyring.getPair(accountAddress);
 
-  const { apiError, apiReady } = useSubstrate();
+  const { api, apiError, apiReady } = useSubstrate();
 
   // new hook to get injected accounts
   useEffect(() => {
@@ -111,12 +112,12 @@ export default function App() {
             <ChainState />
             <Events />
           </Grid.Row>
-          {/* These components render if a module is present in the runtime.
+          {/* These components render if a module is present in the runtime.*/}
           <Grid.Row>
-            { api.query.poe && <ProofOfExistence api={api} accountPair={accountPair}/> }
-            { api.query.templateModule && <TemplateModule api={api} accountPair={accountPair} /> }
+            { api.query.poe && <ProofOfExistence accountPair={accountPair}/> }
+            { api.query.templateModule && <TemplateModule accountPair={accountPair} /> }
           </Grid.Row>
-          */}
+
         </Grid>
         <DeveloperConsole/>
       </Container>

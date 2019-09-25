@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "semantic-ui-react";
 import { web3FromSource } from "@polkadot/extension-dapp";
 
-import { useSubstrate } from "./substrate";
+import { useSubstrate } from "../";
 
 export default function TxButton({
   accountPair,
@@ -32,20 +32,14 @@ export default function TxButton({
     // Check if this transaction needs sudo
     let transaction = sudo ? tx.sudo(...params) : tx(...params);
 
-    transaction
-      .signAndSend(fromParam, ({ status }) => {
-        if (status.isFinalized) {
-          setStatus(
-            `Completed at block hash #${status.asFinalized.toString()}`
-          );
-        } else {
-          setStatus(`Current transaction status: ${status.type}`);
-        }
-      })
-      .catch(e => {
-        setStatus(":( transaction failed");
-        console.error("ERROR:", e);
-      });
+    transaction.signAndSend(fromParam, ({ status }) => {
+      status.isFinalized ?
+        setStatus(`Completed at block hash #${status.asFinalized.toString()}`) :
+        setStatus(`Current transaction status: ${status.type}`);
+    }).catch(e => {
+      setStatus(":( transaction failed");
+      console.error("ERROR:", e);
+    });
   };
 
   return (
