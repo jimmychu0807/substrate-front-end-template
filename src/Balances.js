@@ -4,8 +4,7 @@ import { Table, Grid } from "semantic-ui-react";
 import { useSubstrate } from "./substrate";
 
 export default function Balances(props) {
-  const { api } = useSubstrate();
-  const { keyring } = props;
+  const { api, keyring } = useSubstrate();
   const accounts = keyring.getPairs();
   const [balances, setBalances] = useState({});
 

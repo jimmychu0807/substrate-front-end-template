@@ -12,10 +12,10 @@ import {
 import useSubstrate from "./substrate/useSubstrate";
 
 export default function NodeInfo(props) {
-  const { keyring, setAccountAddress } = props;
+  const { api, keyring } = useSubstrate();
+  const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState("");
   const [accountBalance, setAccountBalance] = useState(0);
-  const { api } = useSubstrate();
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
@@ -45,16 +45,12 @@ export default function NodeInfo(props) {
     let unsubscribe;
 
     // If the user has selected an address, create a new subscription
-    if (accountSelected) {
-      api.query.balances
-        .freeBalance(accountSelected, balance => {
+    accountSelected &&
+      api.query.balances.freeBalance(accountSelected, balance => {
           setAccountBalance(balance.toString());
-        })
-        .then(unsub => {
+        }).then(unsub => {
           unsubscribe = unsub;
-        })
-        .catch(console.error);
-    }
+        }).catch(console.error);
 
     return () => unsubscribe && unsubscribe();
   }, [accountSelected, api.query.balances]);
@@ -79,30 +75,24 @@ export default function NodeInfo(props) {
             name="users"
             size="large"
             circular
-            color={accountSelected ? "green" : "red"}
-          ></Icon>
+            color={accountSelected ? "green" : "red"} />
           <Dropdown
             search
             selection
             clearable
             placeholder="Select an account"
             options={keyringOptions}
-            onChange={(_, dropdown) => {
-              onChange(dropdown.value);
-            }}
-            value={accountSelected}
-          />
-          {api.query.balances && accountSelected ? (
+            onChange={ (_, dropdown) => { onChange(dropdown.value); } }
+            value={accountSelected} />
+          { api.query.balances && accountSelected ?
             <Label pointing="left">
               <Icon
                 name="money bill alternate"
-                color={accountBalance > 0 ? "green" : "red"}
-              />
+                color={accountBalance > 0 ? "green" : "red"} />
               {accountBalance}
-            </Label>
-          ) : (
+            </Label> :
             ""
-          )}
+          }
         </Menu.Menu>
       </Container>
     </Menu>

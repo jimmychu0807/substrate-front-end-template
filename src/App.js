@@ -42,10 +42,7 @@ export default function App() {
   return (
     <div ref={contextRef}>
       <Sticky context={contextRef}>
-        <AccountSelector
-          keyring={keyring}
-          setAccountAddress={setAccountAddress}
-        />
+        <AccountSelector setAccountAddress={setAccountAddress} />
       </Sticky>
       <Container>
         <Grid stackable columns="equal">
@@ -56,7 +53,7 @@ export default function App() {
             <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row stretched>
-            <Balances keyring={keyring} />
+            <Balances />
           </Grid.Row>
           <Grid.Row>
             <Transfer accountPair={accountPair} />
@@ -68,7 +65,8 @@ export default function App() {
             <Events />
           </Grid.Row>
           <Grid.Row>
-            { api.query.poe && <ProofOfExistence accountPair={accountPair}/> }
+            { api.query.poe &&
+              <ProofOfExistence accountPair={accountPair}/> }
             { api.query.templateModule && api.query.templateModule.something &&
               <TemplateModule accountPair={accountPair} /> }
           </Grid.Row>
