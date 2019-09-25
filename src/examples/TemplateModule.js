@@ -55,21 +55,18 @@ export default function Transfer(props) {
             id="new_value"
             state="newValue"
             label="New Value"
-            onChange={(_, {value}) => setFormValue(value)}
-          />
+            onChange={(_, {value}) => setFormValue(value)} />
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
-            accountPair={accountPair}
-            label={"Store Something"}
-            params={[formValue]}
-            setStatus={setStatus}
-            tx={api.tx.templateModule.doSomething}
-            sudo={false}
-          />
-          {status}
+            accountPair = {accountPair}
+            label = "Store Something"
+            setStatus = {setStatus}
+            type = "CUSTOM"
+            attrs={{ params: [formValue],
+              tx: api.tx.templateModule.doSomething }} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

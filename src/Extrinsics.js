@@ -12,12 +12,11 @@ export default function Extrinsics(props) {
   const [status, setStatus] = useState("");
   const [callableFunctionList, setCallableFunctionList] = useState([]);
 
-  const initialState = {
+  const [formState, setFormState] = useState({
     module: "",
     callableFunction: "",
     input: ""
-  };
-  const [formState, setFormState] = useState(initialState);
+  });
   const { module, callableFunction, input } = formState;
 
   useEffect(() => {
@@ -46,14 +45,8 @@ export default function Extrinsics(props) {
     }
   }, [api, module]);
 
-  const onChange = (_, data) => {
-    setFormState(formState => {
-      return {
-        ...formState,
-        [data.state]: data.value
-      };
-    });
-  };
+  const onChange = (_, data) =>
+    setFormState(formState => ({ ...formState, [data.state]: data.value }));
 
   return (
     <Grid.Column>
@@ -95,11 +88,12 @@ export default function Extrinsics(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            accountPair={accountPair}
-            label={"Call"}
-            params={[input]}
-            setStatus={setStatus}
-            tx={api.tx && api.tx[module] && api.tx[module][callableFunction]} />
+            accountPair = {accountPair}
+            label = "Call"
+            setStatus = {setStatus}
+            type = "CUSTOM"
+            attrs = {{ params: [input],
+              tx: (api.tx[module] && api.tx[module][callableFunction]) }} />
         </Form.Field>
         <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>

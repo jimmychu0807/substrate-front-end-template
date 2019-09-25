@@ -5,7 +5,6 @@ import { useSubstrate } from "./substrate";
 import { TxButton } from "./substrate/components";
 
 export default function Transfer(props) {
-  const { api } = useSubstrate();
   const { accountPair } = props;
   const [status, setStatus] = useState("");
   const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
@@ -29,11 +28,11 @@ export default function Transfer(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            accountPair={accountPair}
-            label={"Send"}
-            params={[addressTo, amount]}
-            setStatus={setStatus}
-            tx={api.tx.balances.transfer} />
+            accountPair = {accountPair}
+            label = "Send"
+            setStatus = {setStatus}
+            type = "TRANSFER"
+            attrs = {{ params: [addressTo, amount] }} />
         </Form.Field>
         <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>

@@ -72,25 +72,21 @@ export default function ProofOfExistence(props) {
 
         <Form.Field>
           <TxButton
-            api={api}
             accountPair={accountPair}
             label={"Create Claim"}
             setStatus={setStatus}
             params={[digest]}
             tx={api.tx.poe.createClaim}
-            disabled={isClaimed() || !digest}
-          />
+            disabled={isClaimed() || !digest} />
           <TxButton
-            api={api}
-            accountPair={accountPair}
-            label={"Revoke Claim"}
-            setStatus={setStatus}
-            params={[digest]}
-            tx={api.tx.poe.revokeClaim}
-            disabled={!isClaimed() || owner !== accountPair.address}
-          />
-          {status}
+            accountPair = {accountPair}
+            label = "Revoke Claim"
+            setStatus = {setStatus}
+            type = "CUSTOM"
+            attrs = {{ params: [digest], tx: api.tx.poe.revokeClaim }}
+            disabled={!isClaimed() || owner !== accountPair.address} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

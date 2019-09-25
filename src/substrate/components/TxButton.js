@@ -4,16 +4,31 @@ import { web3FromSource } from "@polkadot/extension-dapp";
 
 import { useSubstrate } from "../";
 
+
 export default function TxButton({
   accountPair,
   label,
-  params,
   setStatus,
-  tx,
-  disabled,
-  sudo = false
+  type = null,
+  attrs = null,
+  disabled = false
 }) {
   const { api } = useSubstrate();
+  let { params = null, sudo = false, tx = null } = attrs;
+
+  const getTxFromType = (type) => {
+    switch(type) {
+      case "TRANSFER": return api.tx.balances.transfer;
+      case "UPGRADE": return api.tx.sudo;
+      case "CUSTOM": return tx;
+      default: throw new Error(`Unknown TxButton type ${type}`);
+    };
+  };
+
+  const isSudo = (type, attrs) =>
+    ["UPGRADE"].indexOf(type) >= 0 || sudo;
+
+  type && (tx = getTxFromType(type));
 
   const makeCall = async () => {
     const { address, meta: { source, isInjected } } = accountPair;
@@ -30,7 +45,8 @@ export default function TxButton({
     setStatus("Sending...");
 
     // Check if this transaction needs sudo
-    let transaction = sudo ? tx.sudo(...params) : tx(...params);
+    let transaction = isSudo(type, attrs) ?
+      tx.sudo(...params) : tx(...params);
 
     transaction.signAndSend(fromParam, ({ status }) => {
       status.isFinalized ?
