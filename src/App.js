@@ -1,11 +1,8 @@
-import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
-import keyring from "@polkadot/ui-keyring";
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, createRef } from "react";
 import { Container, Dimmer, Loader, Grid, Sticky } from "semantic-ui-react";
 
 import "semantic-ui-css/semantic.min.css";
 
-import config from "./config";
 import { useSubstrate } from "./substrate";
 import { DeveloperConsole } from "./substrate/components";
 
@@ -24,36 +21,21 @@ import ProofOfExistence from "./examples/ProofOfExistence";
 import TemplateModule from "./examples/TemplateModule";
 
 export default function App() {
-  const [accountLoaded, setAccountLoaded] = useState(false);
-  const [accountAddress, setAccountAddress] = useState("");
-  const { api, apiError, apiReady } = useSubstrate();
-
-  const accountPair = accountAddress && keyring.getPair(accountAddress);
-  // new hook to get injected accounts
-  useEffect(() => {
-    const loadAccounts = async() => {
-      try {
-        await web3Enable(config.APP_NAME);
-        let allAccounts = await web3Accounts();
-        allAccounts = allAccounts.map(({ address, meta }) =>
-          ({ address, meta: { ...meta, name: `${meta.name} (${meta.source})` }}));
-
-        keyring.loadAll({ isDevelopment: config.DEVELOPMENT_KEYRING }, allAccounts);
-        setAccountLoaded(true);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    loadAccounts();
-  }, []);
+  const [accountAddress, setAccountAddress] = useState(null);
+  const { api, apiState, keyring, keyringState } = useSubstrate();
+  const accountPair = (accountAddress && keyringState === "READY") &&
+    keyring.getPair(accountAddress);
 
   const loader = (text) =>
     <Dimmer active><Loader size="small">{text}</Loader></Dimmer>;
 
-  if (!apiReady) return loader("Connecting to the blockchain");
-  if (apiError) return loader(apiError);
-  if (!accountLoaded) return loader("Loading accounts (please review any extension's authorization)");
+  if (apiState === "ERROR")
+    return loader("Error connecting to the blockchain");
+  else if (apiState !== "READY")
+    return loader("Connecting to the blockchain");
+
+  if (keyringState !== "READY")
+    return loader("Loading accounts (please review any extension's authorization)");
 
   const contextRef = createRef();
 

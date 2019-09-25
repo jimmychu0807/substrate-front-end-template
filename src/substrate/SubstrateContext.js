@@ -5,32 +5,33 @@ import config from "../config";
 const INIT_STATE = {
   socket: config.PROVIDER_SOCKET,
   types: config.CUSTOM_TYPES,
+  keyring: null,
+  keyringState: null,
   api: null,
-  apiReady: false,
-  apiError: false,
+  apiState: null,
 };
 
 const reducer = (state, action) => {
-
-  console.log("action dispatched", action, state);
-
+  // console.log("action dispatched", action, state);
   switch(action.type) {
     case 'RESET_SOCKET':
       let socket = action.payload || state.socket;
-      return { ...state,
-        socket, api: null, apiReady: false, apiError: false };
+      return { ...state, socket, api: null, apiState: null };
 
     case 'CONNECT':
-      return { ...state,
-        api: action.payload, apiReady: false, apiError: false };
+      return { ...state, api: action.payload, apiState: "CONNECTING" };
 
     case 'CONNECT_SUCCESS':
-      return { ...state,
-        apiReady: true, apiError: false };
+      return { ...state, apiState: "READY" };
 
-    case 'CONNECT_FAILURE':
-      return { ...state,
-        apiReady: false, apiError: true };
+    case 'CONNECT_ERROR':
+      return { ...state, apiState: "ERROR" };
+
+    case 'SET_KEYRING':
+      return { ...state, keyring: action.payload, keyringState: "READY" };
+
+    case 'KEYRING_ERROR':
+      return { ...state, keyring: null, keyringState: "ERROR" };
 
     default:
       throw new Error(`Unknown type: ${action.type}`);
@@ -42,12 +43,11 @@ const SubstrateContext = React.createContext();
 const SubstrateContextProvider = (props) => {
   // filtering props and merge with default param value
   let initState = { ...INIT_STATE };
-  const neededProps = ["socket", "types"];
-  neededProps.forEach(key => {
+  const neededPropNames = ["socket", "types"];
+  neededPropNames.forEach(key => {
     initState[key] = (typeof props[key] === 'undefined' ? initState[key] : props[key]);
   });
-
-  const [state, dispatch] = useReducer(reducer, { ...INIT_STATE, ...props });
+  const [state, dispatch] = useReducer(reducer, initState);
 
   return (
     <SubstrateContext.Provider value={[state, dispatch]}>
