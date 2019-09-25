@@ -5,6 +5,7 @@ import { Container, Dimmer, Loader, Grid, Sticky } from "semantic-ui-react";
 
 import "semantic-ui-css/semantic.min.css";
 
+import config from "./config";
 import { useSubstrate } from "./substrate";
 import { DeveloperConsole } from "./substrate/components";
 
@@ -25,15 +26,13 @@ import TemplateModule from "./examples/TemplateModule";
 export default function App() {
   const [accountLoaded, setAccountLoaded] = useState(false);
   const [accountAddress, setAccountAddress] = useState("");
-
-  const accountPair = accountAddress && keyring.getPair(accountAddress);
-
   const { api, apiError, apiReady } = useSubstrate();
 
+  const accountPair = accountAddress && keyring.getPair(accountAddress);
   // new hook to get injected accounts
   useEffect(() => {
 
-    web3Enable("substrate-front-end-tutorial")
+    web3Enable(config.APP_NAME)
       .then(extensions => {
         // web3Account promise resolves with an array of injected accounts
         // or an empty array (e.g user has no extension, or not given access to their accounts)
@@ -62,25 +61,12 @@ export default function App() {
     setAccountLoaded(true);
   };
 
-  const loader = function(text) {
-    return (
-      <Dimmer active>
-        <Loader size="small">{text}</Loader>
-      </Dimmer>
-    );
-  };
+  const loader = (text) =>
+    <Dimmer active><Loader size="small">{text}</Loader></Dimmer>;
 
-  if (!apiReady) {
-    return loader("Connecting to the blockchain");
-  }
-
-  if (apiError) {
-    return loader(apiError);
-  }
-
-  if (!accountLoaded) {
-    return loader("Loading accounts (please review any extension's authorization)");
-  }
+  if (!apiReady) return loader("Connecting to the blockchain");
+  if (apiError) return loader(apiError);
+  if (!accountLoaded) return loader("Loading accounts (please review any extension's authorization)");
 
   const contextRef = createRef();
 
@@ -112,12 +98,11 @@ export default function App() {
             <ChainState />
             <Events />
           </Grid.Row>
-          {/* These components render if a module is present in the runtime.*/}
           <Grid.Row>
             { api.query.poe && <ProofOfExistence accountPair={accountPair}/> }
-            { api.query.templateModule && <TemplateModule accountPair={accountPair} /> }
+            { api.query.templateModule && api.query.templateModule.something &&
+              <TemplateModule accountPair={accountPair} /> }
           </Grid.Row>
-
         </Grid>
         <DeveloperConsole/>
       </Container>

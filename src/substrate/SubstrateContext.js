@@ -1,11 +1,10 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
+import config from "../config";
 
-const DEFAULT_PROVIDER_SOCKET = "ws://127.0.0.1:9944";
-const DEFAULT_TYPES = {};
 const INIT_STATE = {
-  socket: DEFAULT_PROVIDER_SOCKET,
-  types: DEFAULT_TYPES,
+  socket: config.PROVIDER_SOCKET,
+  types: config.CUSTOM_TYPES,
   api: null,
   apiReady: false,
   apiError: false,

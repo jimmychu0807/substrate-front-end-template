@@ -6,9 +6,7 @@ import { SubstrateContextProvider } from "./substrate";
 
 ReactDOM.render(
   // More information on custom types: http://bit.ly/2kHYvLc
-  <SubstrateContextProvider
-    socket="wss://dev-node.substrate.dev:9944"
-    types={{}}>
+  <SubstrateContextProvider>
     <App />
   </SubstrateContextProvider>,
   document.getElementById("root")
