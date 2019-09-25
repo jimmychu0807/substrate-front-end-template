@@ -82,7 +82,7 @@ export default function ProofOfExistence(props) {
             accountPair = {accountPair}
             label = "Revoke Claim"
             setStatus = {setStatus}
-            type = "CUSTOM"
+            type = "TRANSACTION"
             attrs = {{ params: [digest], tx: api.tx.poe.revokeClaim }}
             disabled={!isClaimed() || owner !== accountPair.address} />
         </Form.Field>

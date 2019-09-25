@@ -6,11 +6,10 @@ import { TxButton } from "./substrate/components";
 
 export default function Extrinsics(props) {
   const { api } = useSubstrate();
-  const { accountPair } = props;
-
   const [modulesList, setModulesList] = useState([]);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(null);
   const [callableFunctionList, setCallableFunctionList] = useState([]);
+  const { accountPair } = props;
 
   const [formState, setFormState] = useState({
     module: "",
@@ -91,7 +90,7 @@ export default function Extrinsics(props) {
             accountPair = {accountPair}
             label = "Call"
             setStatus = {setStatus}
-            type = "CUSTOM"
+            type = "TRANSACTION"
             attrs = {{ params: [input],
               tx: (api.tx[module] && api.tx[module][callableFunction]) }} />
         </Form.Field>

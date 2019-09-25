@@ -6,9 +6,9 @@ import { TxButton } from "./substrate/components";
 
 export default function Upgrade(props) {
   const { api } = useSubstrate();
-  const { accountPair } = props;
   const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});
+  const { accountPair } = props;
 
   let fileReader;
 
@@ -48,8 +48,9 @@ export default function Upgrade(props) {
             accountPair = {accountPair}
             label = "Upgrade"
             setStatus = {setStatus}
-            type = "UPGRADE"
-            attrs={{ params: [proposal] }} />
+            type = "TRANSACTION"
+            attrs={{ params: [proposal], sudo: true,
+              tx: api.tx.sudo }} />
         </Form.Field>
         <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>

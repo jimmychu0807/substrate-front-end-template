@@ -62,7 +62,7 @@ export default function Transfer(props) {
             accountPair = {accountPair}
             label = "Store Something"
             setStatus = {setStatus}
-            type = "CUSTOM"
+            type = "TRANSACTION"
             attrs={{ params: [formValue],
               tx: api.tx.templateModule.doSomething }} />
         </Form.Field>
