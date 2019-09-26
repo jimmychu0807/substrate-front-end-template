@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
-import { useSubstrate } from "./substrate";
-import { TxButton } from "./substrate/components";
+import { useSubstrate } from "./substrate-lib";
+import { TxButton } from "./substrate-lib/components";
 
 export default function ChainState(props) {
   const { api } = useSubstrate();

@@ -12,7 +12,6 @@ const INIT_STATE = {
 };
 
 const reducer = (state, action) => {
-  // console.log("action dispatched", action, state);
   switch(action.type) {
     case 'RESET_SOCKET':
       let socket = action.payload || state.socket;

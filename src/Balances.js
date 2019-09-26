@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Grid } from "semantic-ui-react";
 
-import { useSubstrate } from "./substrate";
+import { useSubstrate } from "./substrate-lib";
 
 export default function Balances(props) {
   const { api, keyring } = useSubstrate();

@@ -4,7 +4,6 @@ import { web3FromSource } from "@polkadot/extension-dapp";
 
 import { useSubstrate } from "../";
 
-
 export default function TxButton({
   accountPair = null,
   label,

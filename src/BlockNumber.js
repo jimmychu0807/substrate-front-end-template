@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Statistic, Grid, Card, Icon } from "semantic-ui-react";
 
-import { useSubstrate } from "./substrate";
+import { useSubstrate } from "./substrate-lib";
 
 export default function BlockNumber(props) {
   const { api } = useSubstrate();

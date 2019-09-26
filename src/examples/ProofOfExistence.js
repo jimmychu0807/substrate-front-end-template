@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Grid, Message } from "semantic-ui-react";
 import { blake2AsHex } from "@polkadot/util-crypto";
 
-import { useSubstrate } from "../substrate";
-import { TxButton } from "../substrate/components";
+import { useSubstrate } from "../substrate-lib";
+import { TxButton } from "../substrate-lib/components";
 // Based on the Substrate Proof of Existence module
 // https://github.com/substrate-developer-hub/substrate-proof-of-existence
 

@@ -9,7 +9,7 @@ import {
   Label
 } from "semantic-ui-react";
 
-import useSubstrate from "./substrate/useSubstrate";
+import { useSubstrate } from "./substrate-lib";
 
 export default function NodeInfo(props) {
   const { api, keyring } = useSubstrate();

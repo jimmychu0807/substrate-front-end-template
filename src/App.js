@@ -3,8 +3,8 @@ import { Container, Dimmer, Loader, Grid, Sticky } from "semantic-ui-react";
 
 import "semantic-ui-css/semantic.min.css";
 
-import { useSubstrate } from "./substrate";
-import { DeveloperConsole } from "./substrate/components";
+import { useSubstrate } from "./substrate-lib";
+import { DeveloperConsole } from "./substrate-lib/components";
 
 import AccountSelector from "./AccountSelector";
 import Balances from "./Balances";
