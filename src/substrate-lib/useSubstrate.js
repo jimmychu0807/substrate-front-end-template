@@ -11,29 +11,29 @@ const useSubstrate = () => {
 
   // `useCallback` so that returning memoized function and not created
   //   everytime, and thus re-render.
+  let { api, socket, types } = state;
   const connect = useCallback(async() => {
-    let { api, socket, types } = state;
     if (api) return;
 
     const provider = new WsProvider(socket);
 
     try {
-      api = await ApiPromise.create({ provider, types });
-      dispatch({ type: 'CONNECT', payload: api });
-      api.isReady.then(() => dispatch({type: 'CONNECT_SUCCESS'}));
+      let _api = await ApiPromise.create({ provider, types });
+      dispatch({ type: 'CONNECT', payload: _api });
+      await _api.isReady;
+      dispatch({type: 'CONNECT_SUCCESS'});
 
     } catch(e) {
       console.log(e);
       dispatch({ type: 'CONNECT_ERROR' });
     }
-    // eslint-disable-next-line
-  }, [state.api, state.socket]);
+  }, [api, socket, types, dispatch]);
 
   // hook to get injected accounts
+  let { keyringState } = state;
   const loadAccounts = useCallback(async() => {
-
     // Ensure the method only run once.
-    if (state.keyringState) return;
+    if (keyringState) return;
 
     try {
       await web3Enable(config.APP_NAME);
@@ -47,8 +47,7 @@ const useSubstrate = () => {
       console.log(e);
       dispatch({ type: 'KEYRING_ERROR' });
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [keyringState, dispatch]);
 
   useEffect(() => {
     connect();
