@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
-import { Grid, Form, Dropdown, Button, Input } from "semantic-ui-react";
+import { useSubstrate } from "./substrate-lib";
+import { TxButton } from "./substrate-lib/components";
 
 export default function ChainState(props) {
-  const { api } = props;
-
+  const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
-  const [output, setOutput] = useState("");
+  const [status, setStatus] = useState(null);
   const [storageItemsList, setStorageItemsList] = useState([]);
 
   const initialState = {
@@ -46,15 +47,6 @@ export default function ChainState(props) {
         [data.state]: data.value
       };
     });
-  };
-
-  const runQuery = async () => {
-    try {
-      let result = await api.query[module][storageItem](input);
-      setOutput(result.toString());
-    } catch (e) {
-		setOutput(e.toString())
-	}
   };
 
   return (
@@ -99,11 +91,14 @@ export default function ChainState(props) {
           />
         </Form.Field>
         <Form.Field>
-          <Button onClick={runQuery} primary type="submit">
-            Query
-          </Button>{" "}
-          {output}
+          <TxButton
+            label = "Query"
+            setStatus = {setStatus}
+            type = "QUERY"
+            attrs = {{ params: [input],
+              tx: (api.query[module] && api.query[module][storageItem]) }} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

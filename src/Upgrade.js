@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Form, Input, Grid } from "semantic-ui-react";
 
-import TxButton from "./TxButton";
+import { useSubstrate } from "./substrate-lib";
+import { TxButton } from "./substrate-lib/components";
 
 export default function Upgrade(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
   const [status, setStatus] = useState("");
   const [proposal, setProposal] = useState({});
+  const { accountPair } = props;
 
   let fileReader;
 
@@ -43,16 +45,14 @@ export default function Upgrade(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
-            accountPair={accountPair}
-            label={"Upgrade"}
-            params={[proposal]}
-            setStatus={setStatus}
-            tx={api.tx.sudo}
-            sudo={true}
-          />
-          {status}
+            accountPair = {accountPair}
+            label = "Upgrade"
+            setStatus = {setStatus}
+            type = "TRANSACTION"
+            attrs={{ params: [proposal], sudo: true,
+              tx: api.tx.sudo }} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

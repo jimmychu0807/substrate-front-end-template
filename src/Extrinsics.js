@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-
 import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
 
-import TxButton from "./TxButton";
+import { useSubstrate } from "./substrate-lib";
+import { TxButton } from "./substrate-lib/components";
 
 export default function Extrinsics(props) {
-  const { api, accountPair } = props;
-
+  const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(null);
   const [callableFunctionList, setCallableFunctionList] = useState([]);
+  const { accountPair } = props;
 
-  const initialState = {
+  const [formState, setFormState] = useState({
     module: "",
     callableFunction: "",
     input: ""
-  };
-  const [formState, setFormState] = useState(initialState);
+  });
   const { module, callableFunction, input } = formState;
 
   useEffect(() => {
@@ -45,14 +44,8 @@ export default function Extrinsics(props) {
     }
   }, [api, module]);
 
-  const onChange = (_, data) => {
-    setFormState(formState => {
-      return {
-        ...formState,
-        [data.state]: data.value
-      };
-    });
-  };
+  const onChange = (_, data) =>
+    setFormState(formState => ({ ...formState, [data.state]: data.value }));
 
   return (
     <Grid.Column>
@@ -94,15 +87,14 @@ export default function Extrinsics(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
-            accountPair={accountPair}
-            label={"Call"}
-            params={[input]}
-            setStatus={setStatus}
-            tx={api.tx && api.tx[module] && api.tx[module][callableFunction]}
-          />
-          {status}
+            accountPair = {accountPair}
+            label = "Call"
+            setStatus = {setStatus}
+            type = "TRANSACTION"
+            attrs = {{ params: [input],
+              tx: (api.tx[module] && api.tx[module][callableFunction]) }} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Grid, Message } from "semantic-ui-react";
 import { blake2AsHex } from "@polkadot/util-crypto";
 
-import TxButton from "../TxButton";
-
+import { useSubstrate } from "../substrate-lib";
+import { TxButton } from "../substrate-lib/components";
 // Based on the Substrate Proof of Existence module
 // https://github.com/substrate-developer-hub/substrate-proof-of-existence
 
 export default function ProofOfExistence(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
+  const { accountPair } = props;
   const [status, setStatus] = useState("");
   const [digest, setDigest] = useState("");
   const [owner, setOwner] = useState("");
@@ -71,25 +72,21 @@ export default function ProofOfExistence(props) {
 
         <Form.Field>
           <TxButton
-            api={api}
             accountPair={accountPair}
             label={"Create Claim"}
             setStatus={setStatus}
             params={[digest]}
             tx={api.tx.poe.createClaim}
-            disabled={isClaimed() || !digest}
-          />
+            disabled={isClaimed() || !digest} />
           <TxButton
-            api={api}
-            accountPair={accountPair}
-            label={"Revoke Claim"}
-            setStatus={setStatus}
-            params={[digest]}
-            tx={api.tx.poe.revokeClaim}
-            disabled={!isClaimed() || owner !== accountPair.address}
-          />
-          {status}
+            accountPair = {accountPair}
+            label = "Revoke Claim"
+            setStatus = {setStatus}
+            type = "TRANSACTION"
+            attrs = {{ params: [digest], tx: api.tx.poe.revokeClaim }}
+            disabled={!isClaimed() || owner !== accountPair.address} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Grid, Card, Statistic } from "semantic-ui-react";
 
-import TxButton from "../TxButton";
+import { useSubstrate } from "../substrate-lib";
+import { TxButton } from "../substrate-lib/components";
 
 export default function Transfer(props) {
-  const { api, accountPair } = props;
+  const { api } = useSubstrate();
+  const { accountPair } = props;
 
   // The transaction submission status
   const [status, setStatus] = useState("");
@@ -53,21 +55,18 @@ export default function Transfer(props) {
             id="new_value"
             state="newValue"
             label="New Value"
-            onChange={(_, {value}) => setFormValue(value)}
-          />
+            onChange={(_, {value}) => setFormValue(value)} />
         </Form.Field>
         <Form.Field>
           <TxButton
-            api={api}
-            accountPair={accountPair}
-            label={"Store Something"}
-            params={[formValue]}
-            setStatus={setStatus}
-            tx={api.tx.templateModule.doSomething}
-            sudo={false}
-          />
-          {status}
+            accountPair = {accountPair}
+            label = "Store Something"
+            setStatus = {setStatus}
+            type = "TRANSACTION"
+            attrs={{ params: [formValue],
+              tx: api.tx.templateModule.doSomething }} />
         </Form.Field>
+        <div style={{overflowWrap: "break-word"}}>{status}</div>
       </Form>
     </Grid.Column>
   );
