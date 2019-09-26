@@ -28,7 +28,13 @@
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "semistandard"
+    ],
+    "rules": {
+      "additional-rule": "warn"
+    }
   },
   "browserslist": {
     "production": [
@@ -50,5 +56,8 @@
     "substrate",
     "substrate-ui",
     "polkadot-js"
-  ]
+  ],
+  "devDependencies": {
+    "semistandard": "^14.2.0"
+  }
 }

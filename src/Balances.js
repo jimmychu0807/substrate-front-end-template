@@ -12,6 +12,11 @@ export default function Balances(props) {
     const addresses = keyring.getPairs().map(account => account.address);
     let unsubscribeAll = null;
 
+    // These lines should make semistandard unhappy because they lack semicolons.
+    // TBH I expect we'll have lots of other issues too.
+    console.log("no semicolon")
+    console.log('single quotes')
+
     api.query.balances.freeBalance
       .multi(addresses, currentBalances => {
         const balancesMap = addresses.reduce(
@@ -24,7 +29,8 @@ export default function Balances(props) {
       }).catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.balances.freeBalance, setBalances, keyring]);
+    // Removing keyring from the dependency list to test whether built-in react lint rules still work.
+  }, [api.query.balances.freeBalance, setBalances]);
 
   return (
     <Grid.Column>

@@ -1,5 +1,6 @@
 {
   "APP_NAME": "substrate-front-end-tutorial",
   "DEVELOPMENT_KEYRING": true,
-  "CUSTOM_TYPES": {}
+  "CUSTOM_TYPES": {},
+  "EXTEND_ESLINT": true
 }
