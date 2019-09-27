@@ -14,28 +14,31 @@ import Events from "./Events";
 import Extrinsics from "./Extrinsics";
 import Metadata from "./Metadata";
 import NodeInfo from "./NodeInfo";
+import TemplateModule from "./TemplateModule";
 import Transfer from "./Transfer";
 import Upgrade from "./Upgrade";
-
-import ProofOfExistence from "./examples/ProofOfExistence";
-import TemplateModule from "./examples/TemplateModule";
 
 export default function App() {
   const [accountAddress, setAccountAddress] = useState(null);
   const { api, apiState, keyring, keyringState } = useSubstrate();
-  const accountPair = (accountAddress && keyringState === "READY") &&
+  const accountPair =
+    accountAddress &&
+    keyringState === "READY" &&
     keyring.getPair(accountAddress);
 
-  const loader = (text) =>
-    <Dimmer active><Loader size="small">{text}</Loader></Dimmer>;
+  const loader = text => (
+    <Dimmer active>
+      <Loader size="small">{text}</Loader>
+    </Dimmer>
+  );
 
-  if (apiState === "ERROR")
-    return loader("Error connecting to the blockchain");
-  else if (apiState !== "READY")
-    return loader("Connecting to the blockchain");
+  if (apiState === "ERROR") return loader("Error connecting to the blockchain");
+  else if (apiState !== "READY") return loader("Connecting to the blockchain");
 
   if (keyringState !== "READY")
-    return loader("Loading accounts (please review any extension's authorization)");
+    return loader(
+      "Loading accounts (please review any extension's authorization)"
+    );
 
   const contextRef = createRef();
 
@@ -65,13 +68,12 @@ export default function App() {
             <Events />
           </Grid.Row>
           <Grid.Row>
-            { api.query.poe &&
-              <ProofOfExistence accountPair={accountPair}/> }
-            { api.query.templateModule && api.query.templateModule.something &&
-              <TemplateModule accountPair={accountPair} /> }
+            {api.query.templateModule && (
+              <TemplateModule accountPair={accountPair} />
+            )}
           </Grid.Row>
         </Grid>
-        <DeveloperConsole/>
+        <DeveloperConsole />
       </Container>
     </div>
   );
