@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Grid, Card, Statistic } from "semantic-ui-react";
 
-import { useSubstrate } from "../substrate-lib";
-import { TxButton } from "../substrate-lib/components";
+import { useSubstrate } from "./substrate-lib";
+import { TxButton } from "./substrate-lib/components";
 
 export default function Transfer(props) {
   const { api } = useSubstrate();
