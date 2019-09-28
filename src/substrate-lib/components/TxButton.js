@@ -31,8 +31,29 @@ export default function TxButton({
     }
     setStatus("Sending...");
 
-    // Check if this transaction needs sudo
-    let txExecute = sudo ? tx.sudo(...params) : tx(...params);
+    // Check if this transaction has any arguments
+    let args = params.length && params[0].length ? params : undefined;
+    let txExecute;
+
+    // If this transaction "has no" args, check if we have sudo 
+    switch(!args) {
+      case !sudo:
+        txExecute = tx();
+        break;
+      case sudo:
+        txExecute = tx.sudo();
+        break;
+    }
+
+    // If this transaction "has" args, check if we have sudo
+    switch(args) {
+      case !sudo:
+        txExecute = tx(args);
+        break;
+      case sudo:
+        txExecute = tx.sudo(args);
+        break;
+    }
 
     txExecute.signAndSend(fromParam, ({ status }) => {
       status.isFinalized ?
