@@ -43,7 +43,7 @@ export default function TxButton({
       }
     } else {
       if (!sudo) {
-        txExecute = tx(args);
+        txExecute = tx(...params);
       } else {
         txExecute = tx.sudo(...params);
       }
