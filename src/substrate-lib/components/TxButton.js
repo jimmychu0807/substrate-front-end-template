@@ -31,21 +31,12 @@ export default function TxButton({
     }
     setStatus("Sending...");
 
-    // Check if tx has params
     let txExecute;
-
+    // Check if tx has params
     if (!params) {
-      if (!sudo) {
-        txExecute = tx();
-      } else {
-        txExecute = tx.sudo();
-      }
+      txExecute = !sudo ? tx() : tx.sudo();
     } else {
-      if (!sudo) {
-        txExecute = tx(...params);
-      } else {
-        txExecute = tx.sudo(...params);
-      }
+      txExecute = !sudo ? tx(...params) : tx.sudo(...params);
     }
 
     txExecute.signAndSend(fromParam, ({ status }) => {
