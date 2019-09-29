@@ -87,14 +87,17 @@ export default function Extrinsics(props) {
         </Form.Field>
         <Form.Field>
           <TxButton
-            accountPair = {accountPair}
-            label = "Call"
-            setStatus = {setStatus}
-            type = "TRANSACTION"
-            attrs = {{ params: [input],
-              tx: (api.tx[module] && api.tx[module][callableFunction]) }} />
+            accountPair={accountPair}
+            label="Call"
+            setStatus={setStatus}
+            type="TRANSACTION"
+            attrs={{
+              params: input ? [input] : null,
+              tx: api.tx[module] && api.tx[module][callableFunction]
+            }}
+          />
         </Form.Field>
-        <div style={{overflowWrap: "break-word"}}>{status}</div>
+        <div style={{ overflowWrap: "break-word" }}>{status}</div>
       </Form>
     </Grid.Column>
   );
