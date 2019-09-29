@@ -31,7 +31,7 @@ export default function TxButton({
     }
     setStatus("Sending...");
 
-    // Check if tx has args
+    // Check if tx has params
     let hasArgs = params.length && params[0].length ? params : undefined;
     let txExecute;
 
