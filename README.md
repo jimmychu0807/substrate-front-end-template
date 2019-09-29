@@ -10,7 +10,7 @@ You will also see any lint errors in the console.
 
 ## Configure
 
-Configure Custom Types in src/common.json. See https://polkadot.js.org/api/start/types.extend.html
+Configure custom types in `src/config/common.json`. See [Extending types](https://polkadot.js.org/api/start/types.extend.html).
 
 ## Install
 ```bash
