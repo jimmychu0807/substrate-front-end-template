@@ -35,7 +35,7 @@ export default function TxButton({
     let hasArgs = params.length && params[0].length ? params : undefined;
     let txExecute;
 
-    if (!hasArgs) {
+    if (!params) {
       if (!sudo) {
         txExecute = tx();
       } else {
