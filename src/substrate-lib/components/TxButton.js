@@ -17,8 +17,11 @@ export default function TxButton({
   let { params = null, sudo = false, tx = null } = attrs;
   const isQuery = () => type === "QUERY";
 
-  const transaction = async() => {
-    const { address, meta: { source, isInjected } } = accountPair;
+  const transaction = async () => {
+    const {
+      address,
+      meta: { source, isInjected }
+    } = accountPair;
     let fromParam;
 
     //set the signer
@@ -31,20 +34,36 @@ export default function TxButton({
     }
     setStatus("Sending...");
 
-    // Check if this transaction needs sudo
-    let txExecute = sudo ? tx.sudo(...params) : tx(...params);
+    let txExecute;
+    try {
+      // Check if tx has params
+      if (!params) {
+        txExecute = !sudo ? tx() : tx.sudo();
+      } else {
+        txExecute = !sudo ? tx(...params) : tx.sudo(...params);
+      }
+    } catch (e) {
+      console.error("ERROR forming transaction:", e);
+      setStatus(e.toString());
+    }
 
-    txExecute.signAndSend(fromParam, ({ status }) => {
-      status.isFinalized ?
-        setStatus(`Completed at block hash #${status.asFinalized.toString()}`) :
-        setStatus(`Current transaction status: ${status.type}`);
-    }).catch(e => {
-      setStatus(":( transaction failed");
-      console.error("ERROR transaction:", e);
-    });
+    if (txExecute) {
+      txExecute
+        .signAndSend(fromParam, ({ status }) => {
+          status.isFinalized
+            ? setStatus(
+                `Completed at block hash #${status.asFinalized.toString()}`
+              )
+            : setStatus(`Current transaction status: ${status.type}`);
+        })
+        .catch(e => {
+          setStatus(":( transaction failed");
+          console.error("ERROR transaction:", e);
+        });
+    }
   };
 
-  const query = async() => {
+  const query = async () => {
     try {
       let result = await tx(...params);
       setStatus(result.toString());
@@ -55,11 +74,14 @@ export default function TxButton({
   };
 
   return (
-    <Button primary style = { style }
-      type = "submit"
-      onClick = { isQuery() ? query : transaction }
-      disabled = { disabled || (!tx) || (!isQuery() && !accountPair) }>
-      { label }
+    <Button
+      primary
+      style={style}
+      type="submit"
+      onClick={isQuery() ? query : transaction}
+      disabled={disabled || !tx || (!isQuery() && !accountPair)}
+    >
+      {label}
     </Button>
   );
 }
