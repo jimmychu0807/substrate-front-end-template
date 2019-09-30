@@ -21,7 +21,7 @@
     "semantic-ui-react": "^0.88.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
