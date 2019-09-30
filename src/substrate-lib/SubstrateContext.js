@@ -12,9 +12,11 @@ const INIT_STATE = {
 };
 
 const reducer = (state, action) => {
+  let socket = null;
+
   switch (action.type) {
     case 'RESET_SOCKET':
-      const socket = action.payload || state.socket;
+      socket = action.payload || state.socket;
       return { ...state, socket, api: null, apiState: null };
 
     case 'CONNECT':
