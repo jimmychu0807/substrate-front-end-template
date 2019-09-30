@@ -68,7 +68,8 @@ export default function App() {
             <Events />
           </Grid.Row>
           <Grid.Row>
-            {api.query.templateModule && (
+            {api.query.templateModule &&
+              api.query.templateModule.something && (
               <TemplateModule accountPair={accountPair} />
             )}
           </Grid.Row>
