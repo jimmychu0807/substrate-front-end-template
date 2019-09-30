@@ -29,10 +29,16 @@
   },
   "eslintConfig": {
     "extends": [
-      "semistandard",
-      "react-app",
-      "standard-warn"
-    ]
+      "standard-warn",
+      "react-app"
+    ],
+    "rules": {
+      "semi": [
+        "warn",
+        "always"
+      ],
+      "no-extra-semi": "warn"
+    }
   },
   "browserslist": {
     "production": [
@@ -56,12 +62,9 @@
     "polkadot-js"
   ],
   "devDependencies": {
-    "eslint-config-semistandard": "^15.0.0",
-    "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-warn": "^0.0.3",
     "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "standard": "^14.3.0"
   }
 }

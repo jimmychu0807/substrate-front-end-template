@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Statistic, Grid, Card, Icon } from "semantic-ui-react";
+import React, { useEffect, useState } from 'react';
+import { Statistic, Grid, Card, Icon } from 'semantic-ui-react';
 
-import { useSubstrate } from "./substrate-lib";
+import { useSubstrate } from './substrate-lib';
 
-export default function BlockNumber(props) {
+export default function BlockNumber (props) {
   const { api } = useSubstrate();
   const { finalized } = props;
   const [blockNumber, setBlockNumber] = useState(0);
@@ -36,16 +36,18 @@ export default function BlockNumber(props) {
   }, []);
 
   return (
-    <Grid.Column><Card>
-      <Card.Content textAlign="center">
-        <Statistic
-          label={(finalized ? "Finalized" : "Current") + " Block Number"}
-          value={blockNumber}
-        />
-      </Card.Content>
-      <Card.Content extra>
-        <Icon name="time" /> {blockNumberTimer}
-      </Card.Content>
-    </Card></Grid.Column>
+    <Grid.Column>
+      <Card>
+        <Card.Content textAlign='center'>
+          <Statistic
+            label={(finalized ? 'Finalized' : 'Current') + ' Block Number'}
+            value={blockNumber}
+          />
+        </Card.Content>
+        <Card.Content extra>
+          <Icon name='time' /> {blockNumberTimer}
+        </Card.Content>
+      </Card>
+    </Grid.Column>
   );
 }

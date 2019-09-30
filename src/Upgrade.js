@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Form, Input, Grid } from "semantic-ui-react";
+import React, { useState } from 'react';
+import { Form, Input, Grid } from 'semantic-ui-react';
 
-import { useSubstrate } from "./substrate-lib";
-import { TxButton } from "./substrate-lib/components";
+import { useSubstrate } from './substrate-lib';
+import { TxButton } from './substrate-lib/components';
 
-export default function Upgrade(props) {
+export default function Upgrade (props) {
   const { api } = useSubstrate();
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
   const [proposal, setProposal] = useState({});
   const { accountPair } = props;
 
@@ -14,8 +14,8 @@ export default function Upgrade(props) {
 
   const bufferToHex = buffer => {
     return Array.from(new Uint8Array(buffer))
-      .map(b => b.toString(16).padStart(2, "0"))
-      .join("");
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
   };
 
   const handleFileRead = e => {
@@ -36,23 +36,27 @@ export default function Upgrade(props) {
       <Form>
         <Form.Field>
           <Input
-            type="file"
-            id="file"
-            label="Wasm File"
-            accept=".wasm"
+            type='file'
+            id='file'
+            label='Wasm File'
+            accept='.wasm'
             onChange={e => handleFileChosen(e.target.files[0])}
           />
         </Form.Field>
         <Form.Field>
           <TxButton
-            accountPair = {accountPair}
-            label = "Upgrade"
-            setStatus = {setStatus}
-            type = "TRANSACTION"
-            attrs={{ params: [proposal], sudo: true,
-              tx: api.tx.sudo }} />
+            accountPair={accountPair}
+            label='Upgrade'
+            setStatus={setStatus}
+            type='TRANSACTION'
+            attrs={{
+              params: [proposal],
+              sudo: true,
+              tx: api.tx.sudo
+            }}
+          />
         </Form.Field>
-        <div style={{overflowWrap: "break-word"}}>{status}</div>
+        <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
   );
