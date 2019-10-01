@@ -12,7 +12,6 @@
     "@polkadot/ui-keyring": "^0.42.1",
     "@polkadot/util": "^1.2.1",
     "@polkadot/util-crypto": "^1.2.1",
-    "gh-pages": "^2.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -24,6 +23,8 @@
     "start": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
+    "lint": "eslint src/**",
+    "lint:fix": "eslint --fix src/**",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
@@ -55,12 +56,14 @@
     "polkadot-js"
   ],
   "devDependencies": {
+    "eslint": "6.x",
     "eslint-config-semistandard": "^15.0.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^2.1.1",
     "semistandard": "^14.2.0"
   }
 }
