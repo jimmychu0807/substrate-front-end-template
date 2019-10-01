@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Card, Icon, Grid } from "semantic-ui-react";
+import React, { useEffect, useState } from 'react';
+import { Card, Icon, Grid } from 'semantic-ui-react';
 
-import { useSubstrate } from "./substrate-lib";
+import { useSubstrate } from './substrate-lib';
 
-export default function NodeInfo(props) {
+export default function NodeInfo (props) {
   const { api } = useSubstrate();
   const [nodeInfo, setNodeInfo] = useState({});
 
@@ -24,22 +24,24 @@ export default function NodeInfo(props) {
   }, [api.rpc.system]);
 
   return (
-    <Grid.Column><Card>
-      <Card.Content>
-        <Card.Header>{nodeInfo.nodeName}</Card.Header>
-        <Card.Meta>
-          <span>{nodeInfo.chain}</span>
-        </Card.Meta>
-        <Card.Description>
-          Built using the{" "}
-          <a href="https://github.com/substrate-developer-hub/substrate-front-end-template">
-            Substrate Front End Template
-          </a>
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <Icon name="setting" />v{nodeInfo.nodeVersion}
-      </Card.Content>
-    </Card></Grid.Column>
+    <Grid.Column>
+      <Card>
+        <Card.Content>
+          <Card.Header>{nodeInfo.nodeName}</Card.Header>
+          <Card.Meta>
+            <span>{nodeInfo.chain}</span>
+          </Card.Meta>
+          <Card.Description>
+            Built using the{' '}
+            <a href='https://github.com/substrate-developer-hub/substrate-front-end-template'>
+              Substrate Front End Template
+            </a>
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <Icon name='setting' />v{nodeInfo.nodeVersion}
+        </Card.Content>
+      </Card>
+    </Grid.Column>
   );
 }

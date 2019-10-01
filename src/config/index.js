@@ -1,5 +1,5 @@
-const config_common = require("./common.json");
-const config_env = require(`./${process.env.NODE_ENV}.json`);
-const config = { ...config_common, ...config_env };
+const configCommon = require('./common.json');
+const configEnv = require(`./${process.env.NODE_ENV}.json`);
+const config = { ...configCommon, ...configEnv };
 
 export default config;

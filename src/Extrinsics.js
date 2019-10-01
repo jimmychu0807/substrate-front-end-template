@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
+import React, { useEffect, useState } from 'react';
+import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 
-import { useSubstrate } from "./substrate-lib";
-import { TxButton } from "./substrate-lib/components";
+import { useSubstrate } from './substrate-lib';
+import { TxButton } from './substrate-lib/components';
 
-export default function Extrinsics(props) {
+export default function Extrinsics (props) {
   const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState(null);
@@ -12,14 +12,14 @@ export default function Extrinsics(props) {
   const { accountPair } = props;
 
   const [formState, setFormState] = useState({
-    module: "",
-    callableFunction: "",
-    input: ""
+    module: '',
+    callableFunction: '',
+    input: ''
   });
   const { module, callableFunction, input } = formState;
 
   useEffect(() => {
-    let modules = Object.keys(api.tx)
+    const modules = Object.keys(api.tx)
       .sort()
       .map(module => ({
         key: module,
@@ -31,8 +31,8 @@ export default function Extrinsics(props) {
   }, [api]);
 
   useEffect(() => {
-    if (module !== "") {
-      let callableFunctions = Object.keys(api.tx[module])
+    if (module !== '') {
+      const callableFunctions = Object.keys(api.tx[module])
         .sort()
         .map(callable => ({
           key: callable,
@@ -53,51 +53,51 @@ export default function Extrinsics(props) {
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder="Select a module to call"
+            placeholder='Select a module to call'
             fluid
-            label="Module"
+            label='Module'
             onChange={onChange}
             search
             selection
-            state="module"
+            state='module'
             options={modulesList}
           />
         </Form.Field>
         <Form.Field>
           <Dropdown
-            placeholder="Select a function to call"
+            placeholder='Select a function to call'
             fluid
-            label="Callable Function"
+            label='Callable Function'
             onChange={onChange}
             search
             selection
-            state="callableFunction"
+            state='callableFunction'
             options={callableFunctionList}
           />
         </Form.Field>
         <Form.Field>
           <Input
             onChange={onChange}
-            label="Input"
+            label='Input'
             fluid
-            placeholder="May not be needed"
-            state="input"
-            type="text"
+            placeholder='May not be needed'
+            state='input'
+            type='text'
           />
         </Form.Field>
         <Form.Field>
           <TxButton
             accountPair={accountPair}
-            label="Call"
+            label='Call'
             setStatus={setStatus}
-            type="TRANSACTION"
+            type='TRANSACTION'
             attrs={{
               params: input ? [input] : null,
               tx: api.tx[module] && api.tx[module][callableFunction]
             }}
           />
         </Form.Field>
-        <div style={{ overflowWrap: "break-word" }}>{status}</div>
+        <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
   );

@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
-import config from "../config";
+import config from '../config';
 
 const INIT_STATE = {
   socket: config.PROVIDER_SOCKET,
@@ -8,29 +8,31 @@ const INIT_STATE = {
   keyring: null,
   keyringState: null,
   api: null,
-  apiState: null,
+  apiState: null
 };
 
 const reducer = (state, action) => {
-  switch(action.type) {
+  let socket = null;
+
+  switch (action.type) {
     case 'RESET_SOCKET':
-      let socket = action.payload || state.socket;
+      socket = action.payload || state.socket;
       return { ...state, socket, api: null, apiState: null };
 
     case 'CONNECT':
-      return { ...state, api: action.payload, apiState: "CONNECTING" };
+      return { ...state, api: action.payload, apiState: 'CONNECTING' };
 
     case 'CONNECT_SUCCESS':
-      return { ...state, apiState: "READY" };
+      return { ...state, apiState: 'READY' };
 
     case 'CONNECT_ERROR':
-      return { ...state, apiState: "ERROR" };
+      return { ...state, apiState: 'ERROR' };
 
     case 'SET_KEYRING':
-      return { ...state, keyring: action.payload, keyringState: "READY" };
+      return { ...state, keyring: action.payload, keyringState: 'READY' };
 
     case 'KEYRING_ERROR':
-      return { ...state, keyring: null, keyringState: "ERROR" };
+      return { ...state, keyring: null, keyringState: 'ERROR' };
 
     default:
       throw new Error(`Unknown type: ${action.type}`);
@@ -41,8 +43,8 @@ const SubstrateContext = React.createContext();
 
 const SubstrateContextProvider = (props) => {
   // filtering props and merge with default param value
-  let initState = { ...INIT_STATE };
-  const neededPropNames = ["socket", "types"];
+  const initState = { ...INIT_STATE };
+  const neededPropNames = ['socket', 'types'];
   neededPropNames.forEach(key => {
     initState[key] = (typeof props[key] === 'undefined' ? initState[key] : props[key]);
   });
@@ -50,7 +52,7 @@ const SubstrateContextProvider = (props) => {
 
   return (
     <SubstrateContext.Provider value={[state, dispatch]}>
-      { props.children }
+      {props.children}
     </SubstrateContext.Provider>
   );
 };
@@ -58,7 +60,7 @@ const SubstrateContextProvider = (props) => {
 // prop typechecking
 SubstrateContextProvider.propTypes = {
   socket: PropTypes.string,
-  types: PropTypes.object,
+  types: PropTypes.object
 };
 
 export { SubstrateContext, SubstrateContextProvider };

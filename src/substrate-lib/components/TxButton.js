@@ -1,10 +1,10 @@
-import React from "react";
-import { Button } from "semantic-ui-react";
-import { web3FromSource } from "@polkadot/extension-dapp";
+import React from 'react';
+import { Button } from 'semantic-ui-react';
+import { web3FromSource } from '@polkadot/extension-dapp';
 
-import { useSubstrate } from "../";
+import { useSubstrate } from '../';
 
-export default function TxButton({
+export default function TxButton ({
   accountPair = null,
   label,
   setStatus,
@@ -14,8 +14,8 @@ export default function TxButton({
   disabled = false
 }) {
   const { api } = useSubstrate();
-  let { params = null, sudo = false, tx = null } = attrs;
-  const isQuery = () => type === "QUERY";
+  const { params = null, sudo = false, tx = null } = attrs;
+  const isQuery = () => type === 'QUERY';
 
   const transaction = async () => {
     const {
@@ -24,7 +24,7 @@ export default function TxButton({
     } = accountPair;
     let fromParam;
 
-    //set the signer
+    // set the signer
     if (isInjected) {
       const injected = await web3FromSource(source);
       fromParam = address;
@@ -32,7 +32,7 @@ export default function TxButton({
     } else {
       fromParam = accountPair;
     }
-    setStatus("Sending...");
+    setStatus('Sending...');
 
     let txExecute;
     try {
@@ -43,7 +43,7 @@ export default function TxButton({
         txExecute = !sudo ? tx(...params) : tx.sudo(...params);
       }
     } catch (e) {
-      console.error("ERROR forming transaction:", e);
+      console.error('ERROR forming transaction:', e);
       setStatus(e.toString());
     }
 
@@ -53,22 +53,22 @@ export default function TxButton({
           status.isFinalized
             ? setStatus(
                 `Completed at block hash #${status.asFinalized.toString()}`
-              )
+            )
             : setStatus(`Current transaction status: ${status.type}`);
         })
         .catch(e => {
-          setStatus(":( transaction failed");
-          console.error("ERROR transaction:", e);
+          setStatus(':( transaction failed');
+          console.error('ERROR transaction:', e);
         });
     }
   };
 
   const query = async () => {
     try {
-      let result = await tx(...params);
+      const result = await tx(...params);
       setStatus(result.toString());
     } catch (e) {
-      console.error("ERROR query:", e);
+      console.error('ERROR query:', e);
       setStatus(e.toString());
     }
   };
@@ -77,7 +77,7 @@ export default function TxButton({
     <Button
       primary
       style={style}
-      type="submit"
+      type='submit'
       onClick={isQuery() ? query : transaction}
       disabled={disabled || !tx || (!isQuery() && !accountPair)}
     >

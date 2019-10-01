@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Grid, Form, Dropdown, Input } from "semantic-ui-react";
+import React, { useEffect, useState } from 'react';
+import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 
-import { useSubstrate } from "./substrate-lib";
-import { TxButton } from "./substrate-lib/components";
+import { useSubstrate } from './substrate-lib';
+import { TxButton } from './substrate-lib/components';
 
-export default function ChainState(props) {
+export default function ChainState (props) {
   const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState(null);
   const [storageItemsList, setStorageItemsList] = useState([]);
 
   const initialState = {
-    module: "",
-    storageItem: "",
-    input: ""
+    module: '',
+    storageItem: '',
+    input: ''
   };
   const [formState, setFormState] = useState(initialState);
   const { module, storageItem, input } = formState;
 
   useEffect(() => {
-    let modules = Object.keys(api.query).sort().map(module => ({
+    const modules = Object.keys(api.query).sort().map(module => ({
       key: module,
       value: module,
       text: module
@@ -29,8 +29,8 @@ export default function ChainState(props) {
   }, [api]);
 
   useEffect(() => {
-    if (module !== "") {
-      let storageItems = Object.keys(api.query[module]).sort().map(storage => ({
+    if (module !== '') {
+      const storageItems = Object.keys(api.query[module]).sort().map(storage => ({
         key: storage,
         value: storage,
         text: storage
@@ -55,26 +55,26 @@ export default function ChainState(props) {
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder="Select a module to query"
+            placeholder='Select a module to query'
             fluid
-            label="Module"
+            label='Module'
             onChange={onChange}
             search
             selection
-            state="module"
+            state='module'
             options={modulesList}
             value={module}
           />
         </Form.Field>
         <Form.Field>
           <Dropdown
-            placeholder="Select a storage item to query"
+            placeholder='Select a storage item to query'
             fluid
-            label="Storage Item"
+            label='Storage Item'
             onChange={onChange}
             search
             selection
-            state="storageItem"
+            state='storageItem'
             options={storageItemsList}
             value={storageItem}
           />
@@ -82,23 +82,26 @@ export default function ChainState(props) {
         <Form.Field>
           <Input
             onChange={onChange}
-            label="Input"
+            label='Input'
             fluid
-            placeholder="May not be needed"
-            state="input"
-            type="text"
+            placeholder='May not be needed'
+            state='input'
+            type='text'
             value={input}
           />
         </Form.Field>
         <Form.Field>
           <TxButton
-            label = "Query"
-            setStatus = {setStatus}
-            type = "QUERY"
-            attrs = {{ params: [input],
-              tx: (api.query[module] && api.query[module][storageItem]) }} />
+            label='Query'
+            setStatus={setStatus}
+            type='QUERY'
+            attrs={{
+              params: [input],
+              tx: (api.query[module] && api.query[module][storageItem])
+            }}
+          />
         </Form.Field>
-        <div style={{overflowWrap: "break-word"}}>{status}</div>
+        <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
   );

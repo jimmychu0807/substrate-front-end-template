@@ -1,37 +1,36 @@
 import { useContext, useEffect, useCallback } from 'react';
-import { ApiPromise, WsProvider } from "@polkadot/api";
-import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
-import keyring from "@polkadot/ui-keyring";
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import keyring from '@polkadot/ui-keyring';
 
-import config from "../config";
+import config from '../config';
 import { SubstrateContext } from './SubstrateContext';
 
 const useSubstrate = () => {
-  let [state, dispatch] = useContext(SubstrateContext);
+  const [state, dispatch] = useContext(SubstrateContext);
 
   // `useCallback` so that returning memoized function and not created
   //   everytime, and thus re-render.
-  let { api, socket, types } = state;
-  const connect = useCallback(async() => {
+  const { api, socket, types } = state;
+  const connect = useCallback(async () => {
     if (api) return;
 
     const provider = new WsProvider(socket);
 
     try {
-      let _api = await ApiPromise.create({ provider, types });
+      const _api = await ApiPromise.create({ provider, types });
       dispatch({ type: 'CONNECT', payload: _api });
       await _api.isReady;
-      dispatch({type: 'CONNECT_SUCCESS'});
-
-    } catch(e) {
+      dispatch({ type: 'CONNECT_SUCCESS' });
+    } catch (e) {
       console.log(e);
       dispatch({ type: 'CONNECT_ERROR' });
     }
   }, [api, socket, types, dispatch]);
 
   // hook to get injected accounts
-  let { keyringState } = state;
-  const loadAccounts = useCallback(async() => {
+  const { keyringState } = state;
+  const loadAccounts = useCallback(async () => {
     // Ensure the method only run once.
     if (keyringState) return;
 
@@ -39,7 +38,7 @@ const useSubstrate = () => {
       await web3Enable(config.APP_NAME);
       let allAccounts = await web3Accounts();
       allAccounts = allAccounts.map(({ address, meta }) =>
-        ({ address, meta: { ...meta, name: `${meta.name} (${meta.source})` }}));
+        ({ address, meta: { ...meta, name: `${meta.name} (${meta.source})` } }));
 
       keyring.loadAll({ isDevelopment: config.DEVELOPMENT_KEYRING }, allAccounts);
       dispatch({ type: 'SET_KEYRING', payload: keyring });
@@ -58,6 +57,6 @@ const useSubstrate = () => {
   }, [loadAccounts]);
 
   return { ...state, dispatch };
-}
+};
 
 export default useSubstrate;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Table, Grid } from "semantic-ui-react";
+import React, { useEffect, useState } from 'react';
+import { Table, Grid } from 'semantic-ui-react';
 
-import { useSubstrate } from "./substrate-lib";
+import { useSubstrate } from './substrate-lib';
 
-export default function Balances(props) {
+export default function Balances (props) {
   const { api, keyring } = useSubstrate();
   const accounts = keyring.getPairs();
   const [balances, setBalances] = useState({});
@@ -29,14 +29,15 @@ export default function Balances(props) {
   return (
     <Grid.Column>
       <h1>Balances</h1>
-      <Table celled striped size="small">
-        <Table.Body>{ accounts.map(account =>
+      <Table celled striped size='small'>
+        <Table.Body>{accounts.map(account =>
           <Table.Row key={account.address}>
-            <Table.Cell textAlign="right">{account.meta.name}</Table.Cell>
+            <Table.Cell textAlign='right'>{account.meta.name}</Table.Cell>
             <Table.Cell>{account.address}</Table.Cell>
             <Table.Cell>{balances && balances[account.address]}</Table.Cell>
           </Table.Row>
-        ) }</Table.Body>
+        )}
+        </Table.Body>
       </Table>
     </Grid.Column>
   );
