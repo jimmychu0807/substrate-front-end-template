@@ -70,7 +70,7 @@ export default function App () {
           </Grid.Row>
           <Grid.Row>
             {api.query.templateModule &&
-              api.query.templateModule.something && (
+            api.query.templateModule.something && (
               <TemplateModule accountPair={accountPair} />
             )}
           </Grid.Row>
