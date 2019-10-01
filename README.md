@@ -38,9 +38,9 @@ yarn install
 yarn start
 ```
 
-## Some Details
+## Component Details
 
-### useSubstrate
+### useSubstrate Custom Hook
 
 The `useSubstrate` custom hook exposes this object:
 
@@ -74,3 +74,14 @@ and [transaction](https://polkadot.js.org/api/start/api.tx.html) request to the
 connected node, and app developers could reuse this component by passing the
 right parameters in. See [src/Transfer.js](./src/Transfer.js) for a transaction
 example and [src/ChainState.js](./src/ChainState.js) for a query example.
+
+## Further Learning
+
+  - To learn more about substrate frontend development, goto our
+  [Substrate Front-end Tutorial](https://substrate.dev/docs/en/tutorials/substrate-front-end/).
+
+  - To try an in-depth tutorial of building substrate runtime as well as the
+  UI, goto our [Substrate Collectables Workshop](https://substrate-developer-hub.github.io/substrate-collectables-workshop/).
+
+  - To know about how the underlying polkadot JS API library works, goto
+  [polkadot-js/api](https://polkadot.js.org/api/).
