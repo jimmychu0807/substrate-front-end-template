@@ -3,7 +3,7 @@
 ## Purpose
 
 The purpose of this front-end template is to allow you to quickly create a
-frontend app that connect to a [Substrate](https://github.com/paritytech/substrate)
+front-end application that connects to a [Substrate](https://github.com/paritytech/substrate)
 node without much configuration and simplify the underlying connection and
 handling of [Polkadot-JS](https://polkadot.js.org/api/).
 
@@ -13,13 +13,13 @@ connection information is exposed out via `substrate-lib/useSubstrate.js`
 
 ## Configuration
 
-The app configuration can be set in `src/config` folder, with
+The app configuration can be set in the `src/config` folder, with
 [common.json](./src/config/common.json)
-loaded in both development and production environment, and then the environment
+loaded in both development and production environments, and then the environment
 specific JSON file (with higher priority). More on React enviornment variables
 can be seen [here](https://create-react-app.dev/docs/adding-custom-environment-variables).
 
-When writing and deploying an app with your own node, you likely want to change:
+When writing and deploying an front end with your own node, you likely want to change:
 
   - `CUSTOM_TYPES` in `src/config/common.json`. See
   [Extending types](https://polkadot.js.org/api/start/types.extend.html).
@@ -55,13 +55,13 @@ The `useSubstrate` custom hook exposes this object:
 }
 ```
 
-  - `socket` - the remote provider socket it is connecting to
-  - `types` - the custom type used in the connected node
-  - `keyring` - keyring of the connected node
-  - `keyringState` - one of [`READY`, `ERROR`] states. `keyring` is valid
+  - `socket` - The remote provider socket it is connecting to.
+  - `types` - The custom type used in the connected node.
+  - `keyring` - Keyring of the connected node.
+  - `keyringState` - One of [`READY`, `ERROR`] states. `keyring` is valid
   only when `keyringState` === `READY`.
-  - `api` - the remote api to the connected node
-  - `apiState` - one of [`CONNECTING`, `READY`, `ERROR`] states. `api` is valid
+  - `api` - The remote api to the connected node.
+  - `apiState` - One of [`CONNECTING`, `READY`, `ERROR`] states. `api` is valid
   only when `apiState` === `READY`.
 
 
@@ -70,18 +70,18 @@ The `useSubstrate` custom hook exposes this object:
 There is a `TxButton` component in
 [src/substrate-lib/components/TxButton.js](./src/substrate-lib/components/TxButton.js).
 It handles a basic [query](https://polkadot.js.org/api/start/api.query.html)
-and [transaction](https://polkadot.js.org/api/start/api.tx.html) request to the
-connected node, and app developers could reuse this component by passing the
+and [transaction](https://polkadot.js.org/api/start/api.tx.html) requests to the
+connected node, and app developers can reuse this component by passing the
 right parameters in. See [src/Transfer.js](./src/Transfer.js) for a transaction
 example and [src/ChainState.js](./src/ChainState.js) for a query example.
 
 ## Further Learning
 
-  - To learn more about substrate frontend development, goto our
-  [Substrate Front-end Tutorial](https://substrate.dev/docs/en/tutorials/substrate-front-end/).
+  - To learn more about Substrate front-end development, go to our
+  [Substrate Front-End Tutorial](https://substrate.dev/docs/en/tutorials/substrate-front-end/).
 
-  - To try an in-depth tutorial of building substrate runtime as well as the
-  UI, goto our [Substrate Collectables Workshop](https://substrate-developer-hub.github.io/substrate-collectables-workshop/).
+  - To try an in-depth tutorial for building a custom Substrate runtime as well as a
+  user interface, goto our [Substrate Collectables Workshop](https://substrate-developer-hub.github.io/substrate-collectables-workshop/).
 
-  - To know about how the underlying polkadot JS API library works, goto
+  - To learn how the underlying Polkadot-JS API library works, go to
   [polkadot-js/api](https://polkadot.js.org/api/).
