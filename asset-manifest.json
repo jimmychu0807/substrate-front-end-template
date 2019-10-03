@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.js": "/substrate-front-end-template/static/js/main.4b055c9d.chunk.js",
-    "main.js.map": "/substrate-front-end-template/static/js/main.4b055c9d.chunk.js.map",
-    "runtime~main.js": "/substrate-front-end-template/static/js/runtime~main.4523e8ed.js",
-    "runtime~main.js.map": "/substrate-front-end-template/static/js/runtime~main.4523e8ed.js.map",
-    "static/css/2.385dbacd.chunk.css": "/substrate-front-end-template/static/css/2.385dbacd.chunk.css",
-    "static/js/2.0545879b.chunk.js": "/substrate-front-end-template/static/js/2.0545879b.chunk.js",
-    "static/js/2.0545879b.chunk.js.map": "/substrate-front-end-template/static/js/2.0545879b.chunk.js.map",
+    "main.js": "/substrate-front-end-template/static/js/main.5b9f77ab.chunk.js",
+    "main.js.map": "/substrate-front-end-template/static/js/main.5b9f77ab.chunk.js.map",
+    "runtime~main.js": "/substrate-front-end-template/static/js/runtime~main.11c44b3c.js",
+    "runtime~main.js.map": "/substrate-front-end-template/static/js/runtime~main.11c44b3c.js.map",
+    "static/css/2.d168aebc.chunk.css": "/substrate-front-end-template/static/css/2.d168aebc.chunk.css",
+    "static/js/2.a92cdf69.chunk.js": "/substrate-front-end-template/static/js/2.a92cdf69.chunk.js",
+    "static/js/2.a92cdf69.chunk.js.map": "/substrate-front-end-template/static/js/2.a92cdf69.chunk.js.map",
     "index.html": "/substrate-front-end-template/index.html",
-    "precache-manifest.2301a29ba4c42d7ab6a90951a3fb9bdf.js": "/substrate-front-end-template/precache-manifest.2301a29ba4c42d7ab6a90951a3fb9bdf.js",
+    "precache-manifest.94fd758231f36a2b30d1f84aa650d718.js": "/substrate-front-end-template/precache-manifest.94fd758231f36a2b30d1f84aa650d718.js",
     "service-worker.js": "/substrate-front-end-template/service-worker.js",
-    "static/css/2.385dbacd.chunk.css.map": "/substrate-front-end-template/static/css/2.385dbacd.chunk.css.map",
+    "static/css/2.d168aebc.chunk.css.map": "/substrate-front-end-template/static/css/2.d168aebc.chunk.css.map",
     "static/media/semantic.min.css": "/substrate-front-end-template/static/media/outline-icons.ef60a4f6.woff"
   }
 }
