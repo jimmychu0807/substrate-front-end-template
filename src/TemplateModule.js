@@ -75,6 +75,6 @@ function Main (props) {
 
 export default function TemplateModule (props) {
   const { api } = useSubstrate();
-  return (api.query.templateModule &&
-    <Main {...props} />);
+  return (api.query.templateModule && api.query.templateModule.something ? 
+    <Main {...props} /> : null);
 }
