@@ -4,7 +4,7 @@ import { Form, Input, Grid, Card, Statistic } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-export default function Transfer (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const { accountPair } = props;
 
@@ -71,4 +71,10 @@ export default function Transfer (props) {
       </Form>
     </Grid.Column>
   );
+}
+
+export default function TemplateModule (props) {
+  const { api } = useSubstrate();
+  return (api.query.templateModule &&
+    <Main {...props} />);
 }

@@ -19,7 +19,7 @@ import Upgrade from './Upgrade';
 
 function Main () {
   const [accountAddress, setAccountAddress] = useState(null);
-  const { api, apiState, keyring, keyringState } = useSubstrate();
+  const { apiState, keyring, keyringState } = useSubstrate();
   const accountPair =
     accountAddress &&
     keyringState === 'READY' &&
@@ -68,9 +68,7 @@ function Main () {
             <Events />
           </Grid.Row>
           <Grid.Row>
-            {api.query.templateModule && (
-              <TemplateModule accountPair={accountPair} />
-            )}
+            <TemplateModule accountPair={accountPair} />
           </Grid.Row>
         </Grid>
         <DeveloperConsole />

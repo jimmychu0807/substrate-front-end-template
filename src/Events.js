@@ -5,7 +5,6 @@ import { useSubstrate } from './substrate-lib';
 
 export default function Events (props) {
   const { api } = useSubstrate();
-
   const [eventFeed, setEventFeed] = useState([]);
 
   useEffect(() => {
@@ -27,22 +26,20 @@ export default function Events (props) {
           event.method
         }:: (phase=${phase.toString()})`;
 
+        if (filter.includes(eventName)) return;
+
         // loop through each of the parameters, displaying the type and data
-        const params = event.data.map((data, index) => {
-          return `${types[index].type}: ${data.toString()}`;
-        });
+        const params = event.data.map((data, index) =>
+          `${types[index].type}: ${data.toString()}`
+        );
 
-        if (!filter.includes(eventName)) {
-          const feedEvent = {
-            icon: 'bell',
-            date: 'X Blocks Ago',
-            summary: eventName,
-            extraText: event.meta.documentation.join().toString(),
-            content: params
-          };
-
-          setEventFeed(e => [feedEvent, ...e]);
-        }
+        setEventFeed(e => [{
+          icon: 'bell',
+          date: 'X Blocks Ago',
+          summary: `${eventName}-${e.length}`,
+          extraText: event.meta.documentation.join(', ').toString(),
+          content: params.join(', ')
+        }, ...e]);
       });
     });
   }, [api.query.system]);
