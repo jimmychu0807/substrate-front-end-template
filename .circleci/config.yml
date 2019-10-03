@@ -2,6 +2,17 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
+
+aliases:
+  - &filter-non-gh-pages
+      branches:
+        ignore:
+          - gh-pages
+  - &filter-only-master
+      branches:
+        only:
+          - master
+
 version: 2
 jobs:
   test:
@@ -42,10 +53,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - add_ssh_keys:
-          fingerprints:
-            # This key added by @paritytech-ci
-            - "a1:f6:36:72:14:54:c0:37:47:fe:0f:c1:01:7f:21:f5"
       - run:
           name: Build & Deploy
           # added skip host key checking to avoid the manual prompt
@@ -60,9 +67,8 @@ workflows:
   test_deploy:
     jobs:
       - test:
-          filters:
-            branches:
-              only: master
+          filters: *filter-non-gh-pages
       - deploy:
+          filters: *filter-only-master
           requires:
             - test
