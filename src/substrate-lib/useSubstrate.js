@@ -23,7 +23,7 @@ const useSubstrate = () => {
       await _api.isReady;
       dispatch({ type: 'CONNECT_SUCCESS' });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       dispatch({ type: 'CONNECT_ERROR' });
     }
   }, [api, socket, types, dispatch]);
@@ -43,7 +43,7 @@ const useSubstrate = () => {
       keyring.loadAll({ isDevelopment: config.DEVELOPMENT_KEYRING }, allAccounts);
       dispatch({ type: 'SET_KEYRING', payload: keyring });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       dispatch({ type: 'KEYRING_ERROR' });
     }
   }, [keyringState, dispatch]);

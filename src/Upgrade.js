@@ -4,7 +4,7 @@ import { Form, Input, Grid } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-export default function Upgrade (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const [status, setStatus] = useState('');
   const [proposal, setProposal] = useState({});
@@ -60,4 +60,9 @@ export default function Upgrade (props) {
       </Form>
     </Grid.Column>
   );
+}
+
+export default function Upgrade (props) {
+  const { api } = useSubstrate();
+  return (api.tx.sudo ? <Main {...props} /> : null);
 }
