@@ -44,7 +44,7 @@ TODO @jimmychu what's `test.json`? Can you please write about it or remove it?
 More on
 [React environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables).
 
-When writing and deploying your own front end, you will likely change:
+When writing and deploying your own front end, you should configure:
 
   - `CUSTOM_TYPES` in `src/config/common.json`. See
   [Extending types](https://polkadot.js.org/api/start/types.extend.html).
