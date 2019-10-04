@@ -51,8 +51,6 @@ function Main (props) {
 
 export default function Transfer (props) {
   const { api } = useSubstrate();
-  const result = (api.query.balances && api.tx.balances.transfer
+  return (api.query.balances && api.tx.balances.transfer
     ? <Main {...props} /> : null);
-  console.log(result);
-  return result;
 }
