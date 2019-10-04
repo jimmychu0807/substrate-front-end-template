@@ -4,7 +4,7 @@ import { Form, Input, Grid } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-export default function Transfer (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const [status, setStatus] = useState(null);
   const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
@@ -47,4 +47,12 @@ export default function Transfer (props) {
       </Form>
     </Grid.Column>
   );
+}
+
+export default function Transfer (props) {
+  const { api } = useSubstrate();
+  const result = (api.query.balances && api.tx.balances.transfer
+    ? <Main {...props} /> : null);
+  console.log(result);
+  return result;
 }
