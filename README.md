@@ -28,8 +28,11 @@ You can start the template in development mode to connect to a locally running n
 yarn start
 ```
 
-You can also start it in production mode...
-TODO @jimmychu What are the details about this again?
+You can also build the app in production mode,
+```bash
+yarn build
+```
+and open `build/index.html` in your favorite browser.
 
 ## Configuration
 
