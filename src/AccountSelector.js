@@ -11,11 +11,10 @@ import {
 
 import { useSubstrate } from './substrate-lib';
 
-export default function NodeInfo (props) {
+export default function AccountSelector (props) {
   const { api, keyring } = useSubstrate();
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
-  const [accountBalance, setAccountBalance] = useState(0);
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
@@ -39,21 +38,6 @@ export default function NodeInfo (props) {
     setAccountAddress(address);
     setAccountSelected(address);
   };
-
-  // When account address changes, update subscriptions
-  useEffect(() => {
-    let unsubscribe;
-
-    // If the user has selected an address, create a new subscription
-    accountSelected &&
-      api.query.balances.freeBalance(accountSelected, balance => {
-        setAccountBalance(balance.toString());
-      }).then(unsub => {
-        unsubscribe = unsub;
-      }).catch(console.error);
-
-    return () => unsubscribe && unsubscribe();
-  }, [accountSelected, api.query.balances]);
 
   return (
     <Menu
@@ -86,17 +70,42 @@ export default function NodeInfo (props) {
             onChange={(_, dropdown) => { onChange(dropdown.value); }}
             value={accountSelected}
           />
-          {api.query.balances && accountSelected
-            ? <Label pointing='left'>
-              <Icon
-                name='money bill alternate'
-                color={accountBalance > 0 ? 'green' : 'red'}
-              />
-              {accountBalance}
-            </Label>
-            : ''}
+          {api.query.balances && api.query.balances.freeBalance
+            ? <BalanceAnnotation accountSelected={accountSelected} />
+            : null}
         </Menu.Menu>
       </Container>
     </Menu>
   );
+}
+
+function BalanceAnnotation (props) {
+  const { accountSelected } = props;
+  const { api } = useSubstrate();
+  const [accountBalance, setAccountBalance] = useState(0);
+
+  // When account address changes, update subscriptions
+  useEffect(() => {
+    let unsubscribe;
+
+    // If the user has selected an address, create a new subscription
+    accountSelected &&
+      api.query.balances.freeBalance(accountSelected, balance => {
+        setAccountBalance(balance.toString());
+      }).then(unsub => {
+        unsubscribe = unsub;
+      }).catch(console.error);
+
+    return () => unsubscribe && unsubscribe();
+  }, [accountSelected, api.query.balances]);
+
+  return accountSelected
+    ? <Label pointing='left'>
+      <Icon
+        name='money bill alternate'
+        color={accountBalance > 0 ? 'green' : 'red'}
+      />
+      {accountBalance}
+    </Label>
+    : null;
 }
