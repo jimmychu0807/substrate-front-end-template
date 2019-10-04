@@ -3,7 +3,7 @@ import { Table, Grid } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
-export default function Balances (props) {
+function Main (props) {
   const { api, keyring } = useSubstrate();
   const accounts = keyring.getPairs();
   const [balances, setBalances] = useState({});
@@ -41,4 +41,10 @@ export default function Balances (props) {
       </Table>
     </Grid.Column>
   );
+}
+
+export default function Balances (props) {
+  const { api } = useSubstrate();
+  return (api.query.balances && api.query.balances.freeBalance
+    ? <Main {...props} /> : null);
 }
