@@ -91,12 +91,12 @@ only when `apiState === "READY"`.
 
 ### TxButton Component
 
-The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic [query]
-(https://polkadot.js.org/api/start/api.query.html) and [transaction]
-(https://polkadot.js.org/api/start/api.tx.html) requests to the connected node.
-You can reuse this component for a wide variety of queries and transactions. See
-[src/Transfer.js](./src/Transfer.js) for a transaction example and [src/ChainState.js]
-(./src/ChainState.js) for a query example.
+The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic 
+[query](https://polkadot.js.org/api/start/api.query.html) and 
+[transaction](https://polkadot.js.org/api/start/api.tx.html) requests to the 
+connected node. You can reuse this component for a wide variety of queries and 
+transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example 
+and [src/ChainState.js](./src/ChainState.js) for a query example.
 
 ### Account Selector
 
