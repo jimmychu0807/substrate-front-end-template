@@ -16,6 +16,7 @@ this template was built, visit the
 ### Installation
 
 The code can be installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/).
+
 ```bash
 # Clone the repository
 git clone https://substrate-developer-hub/substrate-front-end-template.git
@@ -24,11 +25,13 @@ cd ./substrate-front-end-template
 
 ## Usage
 You can start the template in development mode to connect to a locally running node
+
 ```bash
 yarn start
 ```
 
 You can also build the app in production mode,
+
 ```bash
 yarn build
 ```
@@ -36,26 +39,25 @@ and open `build/index.html` in your favorite browser.
 
 ## Configuration
 
-The template's configuration is in three files in the `src/config` directory.
-* `common.json` affects both development and production environments.
-* `development.json` affects only the development environment with higher
-precedence than `common.json`.
-* `production.json` affects only the production environment with higher
-precedence than `common.json`.
-TODO @jimmychu what's `test.json`? Can you please write about it or remove it?
+The template's configuration is stored in the `src/config` directory, with
+`common.json` being loaded first, and then the environment-specific json file
+with higher precedence:
+
+* `development.json` affects the development environment
+* `test.json` affects the test environment, triggered in `yarn test` command.
+* `production.json` affects the production environment, triggered in
+`yarn build` command.
 
 More on
 [React environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables).
 
 When writing and deploying your own front end, you should configure:
 
-  - `CUSTOM_TYPES` in `src/config/common.json`. See
+* `CUSTOM_TYPES` in `src/config/common.json`. See
   [Extending types](https://polkadot.js.org/api/start/types.extend.html).
-
-  - `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
+* `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
   deployed node.
-
-  - `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
+* `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
   See [Keyring](https://polkadot.js.org/api/start/keyring.html).
 
 
@@ -92,7 +94,7 @@ only when `apiState === "READY"`.
 The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic [query]
 (https://polkadot.js.org/api/start/api.query.html) and [transaction]
 (https://polkadot.js.org/api/start/api.tx.html) requests to the connected node.
-You can reuse this component for a wide variety of queries and transactiosn. See
+You can reuse this component for a wide variety of queries and transactions. See
 [src/Transfer.js](./src/Transfer.js) for a transaction example and [src/ChainState.js]
 (./src/ChainState.js) for a query example.
 
