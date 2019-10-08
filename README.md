@@ -60,6 +60,10 @@ When writing and deploying your own front end, you should configure:
 * `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
   See [Keyring](https://polkadot.js.org/api/start/keyring.html).
 
+`REACT_APP_PROVIDER_SOCKET` environment variable can also be set to override `PROVIDER_SOCKET` value.
+Finally this value can be provided via the `rpc` query parameter.
+
+If not value is provided for the socket URL, it defaults to wss://_HOSTNAME_:9944.
 
 ## Reusable Components
 
