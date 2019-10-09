@@ -40,16 +40,21 @@ and open `build/index.html` in your favorite browser.
 ## Configuration
 
 The template's configuration is stored in the `src/config` directory, with
-`common.json` being loaded first, and then the environment-specific json file
-with higher precedence:
+`common.json` being loaded first, then the environment-specific json file,
+and finally environment variables, with precedence.
 
 * `development.json` affects the development environment
 * `test.json` affects the test environment, triggered in `yarn test` command.
 * `production.json` affects the production environment, triggered in
 `yarn build` command.
 
-More on
-[React environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables).
+Some environment variables are read and integrated in the template `config` object,
+including:
+
+* `REACT_APP_PROVIDER_SOCKET` overriding `config[PROVIDER_SOCKET]`
+* `REACT_APP_DEVELOPMENT_KEYRING` overriding `config[DEVELOPMENT_KEYRING]`
+
+More on [React environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables).
 
 When writing and deploying your own front end, you should configure:
 
@@ -59,7 +64,6 @@ When writing and deploying your own front end, you should configure:
   deployed node.
 * `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
   See [Keyring](https://polkadot.js.org/api/start/keyring.html).
-
 
 ## Reusable Components
 
@@ -91,11 +95,11 @@ only when `apiState === "READY"`.
 
 ### TxButton Component
 
-The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic 
-[query](https://polkadot.js.org/api/start/api.query.html) and 
-[transaction](https://polkadot.js.org/api/start/api.tx.html) requests to the 
-connected node. You can reuse this component for a wide variety of queries and 
-transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example 
+The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic
+[query](https://polkadot.js.org/api/start/api.query.html) and
+[transaction](https://polkadot.js.org/api/start/api.tx.html) requests to the
+connected node. You can reuse this component for a wide variety of queries and
+transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example
 and [src/ChainState.js](./src/ChainState.js) for a query example.
 
 ### Account Selector
