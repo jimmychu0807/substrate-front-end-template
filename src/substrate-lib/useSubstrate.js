@@ -6,17 +6,6 @@ import keyring from '@polkadot/ui-keyring';
 import config from '../config';
 import { SubstrateContext } from './SubstrateContext';
 
-function normalizedSocket(socket) {
-  const rpc = new URLSearchParams(window.location.search).get("rpc");
-  const url = rpc || socket;
-  if (!!url) {
-    // No url provided, fallback to default (same host)
-    return `wss://${widow.location.hostname}:9944`;
-  } else {
-    return url;
-  }
-}
-
 const useSubstrate = () => {
   const [state, dispatch] = useContext(SubstrateContext);
 
@@ -26,7 +15,7 @@ const useSubstrate = () => {
   const connect = useCallback(async () => {
     if (api) return;
 
-    const provider = new WsProvider(normalizedSocket(rpc));
+    const provider = new WsProvider(socket);
 
     try {
       const _api = await ApiPromise.create({ provider, types });
