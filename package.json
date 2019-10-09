@@ -12,12 +12,14 @@
     "@polkadot/ui-keyring": "^0.42.1",
     "@polkadot/util": "^1.2.1",
     "@polkadot/util-crypto": "^1.2.1",
+    "big.js": "^5.2.2",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^0.88.0",
+    "toformat": "^2.0.0"
   },
   "scripts": {
     "start": "PORT=8000 react-scripts start",
