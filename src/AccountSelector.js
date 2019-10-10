@@ -9,7 +9,7 @@ import {
   Label
 } from 'semantic-ui-react';
 
-import { useSubstrate, utils } from './substrate-lib';
+import { useSubstrate } from './substrate-lib';
 
 export default function AccountSelector (props) {
   const { api, keyring } = useSubstrate();
@@ -105,7 +105,7 @@ function BalanceAnnotation (props) {
         name='money bill alternate'
         color={accountBalance > 0 ? 'green' : 'red'}
       />
-      {utils.prettyBalance(accountBalance, { power: 11, unit: 'KUnits' })}
+      {accountBalance}
     </Label>
     : null;
 }

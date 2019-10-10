@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Grid } from 'semantic-ui-react';
 
-import { useSubstrate, utils } from './substrate-lib';
+import { useSubstrate } from './substrate-lib';
 
 function Main (props) {
   const { api, keyring } = useSubstrate();
@@ -36,7 +36,7 @@ function Main (props) {
             <Table.Cell>{account.address}</Table.Cell>
             <Table.Cell>{
               balances && balances[account.address] &&
-              utils.prettyBalance(balances[account.address], { power: 11, unit: 'KUnits' })
+              balances[account.address]
             }</Table.Cell>
           </Table.Row>
         )}
