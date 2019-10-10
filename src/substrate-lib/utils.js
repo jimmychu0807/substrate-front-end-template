@@ -1,4 +1,7 @@
-const Big = require('toformat')(require('big.js'));
+import BigJS from 'big.js';
+import toFormat from 'toformat';
+
+const Big = toFormat(BigJS);
 
 const utils = {
   prettyBalance: function (amt, opts = {}) {
