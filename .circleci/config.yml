@@ -17,7 +17,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/node:12.10
+      - image: circleci/node:10.16
     working_directory: ~/repo
     steps:
       - checkout
@@ -29,7 +29,9 @@ jobs:
             - v1-dependencies-
       - run:
           name: Install
-          command: yarn install
+          command: |
+            sudo apt-get install libusb-1.0-0-dev
+            yarn install
       - save_cache:
           paths:
             - node_modules
@@ -48,7 +50,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:12.10
+      - image: circleci/node:10.16
     working_directory: ~/repo
     steps:
       - attach_workspace:
