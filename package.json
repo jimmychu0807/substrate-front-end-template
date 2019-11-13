@@ -23,6 +23,7 @@
   },
   "scripts": {
     "start": "PORT=8000 react-scripts start",
+    "serve": "npx serve -n -l 8000 build",
     "build": "react-scripts build",
     "test": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -57,7 +58,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://substrate-developer-hub.github.io/substrate-front-end-template",
+  "homepage": ".",
   "bugs": {
     "url": "https://github.com/substrate-developer-hub/substrate-front-end-template/issues"
   },
