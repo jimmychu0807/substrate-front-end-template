@@ -21,6 +21,13 @@
     "semantic-ui-react": "^0.88.0",
     "toformat": "^2.0.0"
   },
+  "devDependencies": {
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
   "scripts": {
     "start": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
@@ -35,13 +42,10 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "standard-warn"
+      "standard"
     ],
     "rules": {
-      "semi": [
-        1,
-        "always"
-      ],
+      "semi": [1, "always"],
       "no-extra-semi": 1
     }
   },
@@ -65,13 +69,5 @@
     "substrate",
     "substrate-ui",
     "polkadot-js"
-  ],
-  "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-config-standard-warn": "^0.0.3",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "gh-pages": "^2.1.1"
-  }
+  ]
 }
