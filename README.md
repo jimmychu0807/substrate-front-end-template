@@ -23,7 +23,12 @@ git clone https://substrate-developer-hub/substrate-front-end-template.git
 cd ./substrate-front-end-template
 ```
 
+```bash
+yarn install
+```
+
 ## Usage
+
 You can start the template in development mode to connect to a locally running node
 
 ```bash
