@@ -24,6 +24,13 @@ cd ./substrate-front-end-template
 ```
 
 ## Usage
+
+Installation
+
+```bash
+yarn install
+```
+
 You can start the template in development mode to connect to a locally running node
 
 ```bash
