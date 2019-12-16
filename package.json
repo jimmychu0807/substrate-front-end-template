@@ -25,6 +25,7 @@
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-only-warn": "^1.0.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^2.1.1"
@@ -44,6 +45,9 @@
     "extends": [
       "react-app",
       "standard"
+    ],
+    "plugins": [
+      "only-warn"
     ],
     "rules": {
       "semi": [
