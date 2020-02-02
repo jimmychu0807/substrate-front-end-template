@@ -4,7 +4,7 @@ import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-export default function Extrinsics (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState(null);
@@ -101,4 +101,9 @@ export default function Extrinsics (props) {
       </Form>
     </Grid.Column>
   );
+}
+
+export default function Extrinsics (props) {
+  const { api } = useSubstrate();
+  return api.tx ? <Main {...props} /> : null;
 }

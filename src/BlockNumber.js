@@ -3,7 +3,7 @@ import { Statistic, Grid, Card, Icon } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
-export default function BlockNumber (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const { finalized } = props;
   const [blockNumber, setBlockNumber] = useState(0);
@@ -19,9 +19,11 @@ export default function BlockNumber (props) {
     bestNumber(number => {
       setBlockNumber(number.toNumber());
       setBlockNumberTimer(0);
-    }).then(unsub => {
-      unsubscribeAll = unsub;
-    }).catch(console.error);
+    })
+      .then(unsub => {
+        unsubscribeAll = unsub;
+      })
+      .catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
   }, [bestNumber]);
@@ -50,4 +52,14 @@ export default function BlockNumber (props) {
       </Card>
     </Grid.Column>
   );
+}
+
+export default function BlockNumber (props) {
+  const { api } = useSubstrate();
+  return api.derive &&
+    api.derive.chain &&
+    api.derive.chain.bestNumber &&
+    api.derive.chain.bestNumberFinalized ? (
+      <Main {...props} />
+    ) : null;
 }

@@ -3,7 +3,7 @@ import { Feed, Grid } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
-export default function Events (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const [eventFeed, setEventFeed] = useState([]);
 
@@ -29,17 +29,20 @@ export default function Events (props) {
         if (filter.includes(eventName)) return;
 
         // loop through each of the parameters, displaying the type and data
-        const params = event.data.map((data, index) =>
-          `${types[index].type}: ${data.toString()}`
+        const params = event.data.map(
+          (data, index) => `${types[index].type}: ${data.toString()}`
         );
 
-        setEventFeed(e => [{
-          icon: 'bell',
-          date: 'X Blocks Ago',
-          summary: `${eventName}-${e.length}`,
-          extraText: event.meta.documentation.join(', ').toString(),
-          content: params.join(', ')
-        }, ...e]);
+        setEventFeed(e => [
+          {
+            icon: 'bell',
+            date: 'X Blocks Ago',
+            summary: `${eventName}-${e.length}`,
+            extraText: event.meta.documentation.join(', ').toString(),
+            content: params.join(', ')
+          },
+          ...e
+        ]);
       });
     });
   }, [api.query.system]);
@@ -50,4 +53,11 @@ export default function Events (props) {
       <Feed style={{ overflow: 'auto', maxHeight: 250 }} events={eventFeed} />
     </Grid.Column>
   );
+}
+
+export default function Events (props) {
+  const { api } = useSubstrate();
+  return api.query && api.query.system && api.query.system.events ? (
+    <Main {...props} />
+  ) : null;
 }

@@ -4,7 +4,7 @@ import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-export default function ChainState (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState(null);
@@ -19,22 +19,26 @@ export default function ChainState (props) {
   const { module, storageItem, input } = formState;
 
   useEffect(() => {
-    const modules = Object.keys(api.query).sort().map(module => ({
-      key: module,
-      value: module,
-      text: module
-    }));
+    const modules = Object.keys(api.query)
+      .sort()
+      .map(module => ({
+        key: module,
+        value: module,
+        text: module
+      }));
 
     setModulesList(modules);
   }, [api]);
 
   useEffect(() => {
     if (module !== '') {
-      const storageItems = Object.keys(api.query[module]).sort().map(storage => ({
-        key: storage,
-        value: storage,
-        text: storage
-      }));
+      const storageItems = Object.keys(api.query[module])
+        .sort()
+        .map(storage => ({
+          key: storage,
+          value: storage,
+          text: storage
+        }));
 
       setStorageItemsList(storageItems);
     }
@@ -97,7 +101,7 @@ export default function ChainState (props) {
             type='QUERY'
             attrs={{
               params: [input],
-              tx: (api.query[module] && api.query[module][storageItem])
+              tx: api.query[module] && api.query[module][storageItem]
             }}
           />
         </Form.Field>
@@ -105,4 +109,9 @@ export default function ChainState (props) {
       </Form>
     </Grid.Column>
   );
+}
+
+export default function ChainState (props) {
+  const { api } = useSubstrate();
+  return api.query ? <Main {...props} /> : null;
 }
