@@ -16,16 +16,17 @@ const useSubstrate = () => {
     if (api) return;
 
     const provider = new WsProvider(socket);
+    const _api = new ApiPromise({ provider, types });
 
-    try {
-      const _api = await ApiPromise.create({ provider, types });
+    // We want to listen to event for disconnection and reconnection.
+    //  That's why we set for listeners.
+    _api.on('connected', () => {
       dispatch({ type: 'CONNECT', payload: _api });
-      await _api.isReady;
-      dispatch({ type: 'CONNECT_SUCCESS' });
-    } catch (e) {
-      console.error(e);
-      dispatch({ type: 'CONNECT_ERROR' });
-    }
+      // `ready` event is not emitted upon reconnection. So we check explicitly here.
+      _api.isReady.then((_api) => dispatch({ type: 'CONNECT_SUCCESS' }));
+    });
+    _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }));
+    _api.on('error', () => dispatch({ type: 'CONNECT_ERROR' }));
   }, [api, socket, types, dispatch]);
 
   // hook to get injected accounts
