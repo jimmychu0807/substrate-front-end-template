@@ -1,9 +1,14 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import config from '../config';
 
+const parsedQuery = queryString.parse(window.location.search);
+const connectedSocket = parsedQuery.rpc || config.PROVIDER_SOCKET;
+console.log(`Connected socket: ${connectedSocket}`);
+
 const INIT_STATE = {
-  socket: config.PROVIDER_SOCKET,
+  socket: connectedSocket,
   types: config.CUSTOM_TYPES,
   keyring: null,
   keyringState: null,
