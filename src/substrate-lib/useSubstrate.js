@@ -18,8 +18,11 @@ const useSubstrate = () => {
     const provider = new WsProvider(socket);
     const _api = new ApiPromise({ provider, types });
 
+    // We want to listen to event for disconnection and reconnection.
+    //  That's why we set for listeners.
     _api.on('connected', () => {
       dispatch({ type: 'CONNECT', payload: _api });
+      // `ready` event is not emitted upon reconnection. So we check explicitly here.
       _api.isReady.then((_api) => dispatch({ type: 'CONNECT_SUCCESS' }));
     });
     _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }));
