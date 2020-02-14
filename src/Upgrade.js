@@ -64,5 +64,5 @@ function Main (props) {
 
 export default function Upgrade (props) {
   const { api } = useSubstrate();
-  return (api.tx.sudo ? <Main {...props} /> : null);
+  return api.tx && api.tx.sudo ? <Main {...props} /> : null;
 }

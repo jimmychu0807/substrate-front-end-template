@@ -11,7 +11,7 @@ import {
 
 import { useSubstrate } from './substrate-lib';
 
-export default function AccountSelector (props) {
+function Main (props) {
   const { api, keyring } = useSubstrate();
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
@@ -55,6 +55,18 @@ export default function AccountSelector (props) {
           <Image src='Substrate-Logo.png' size='mini' />
         </Menu.Menu>
         <Menu.Menu position='right'>
+          {!accountSelected ? (
+            <span>
+              Add your account with the{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://github.com/polkadot-js/extension'
+              >
+                Polkadot JS Extension
+              </a>
+            </span>
+          ) : null}
           <Icon
             name='users'
             size='large'
@@ -67,12 +79,14 @@ export default function AccountSelector (props) {
             clearable
             placeholder='Select an account'
             options={keyringOptions}
-            onChange={(_, dropdown) => { onChange(dropdown.value); }}
+            onChange={(_, dropdown) => {
+              onChange(dropdown.value);
+            }}
             value={accountSelected}
           />
-          {api.query.balances && api.query.balances.freeBalance
-            ? <BalanceAnnotation accountSelected={accountSelected} />
-            : null}
+          {api.query.balances && api.query.balances.freeBalance ? (
+            <BalanceAnnotation accountSelected={accountSelected} />
+          ) : null}
         </Menu.Menu>
       </Container>
     </Menu>
@@ -90,22 +104,30 @@ function BalanceAnnotation (props) {
 
     // If the user has selected an address, create a new subscription
     accountSelected &&
-      api.query.balances.freeBalance(accountSelected, balance => {
-        setAccountBalance(balance.toString());
-      }).then(unsub => {
-        unsubscribe = unsub;
-      }).catch(console.error);
+      api.query.balances
+        .freeBalance(accountSelected, balance => {
+          setAccountBalance(balance.toString());
+        })
+        .then(unsub => {
+          unsubscribe = unsub;
+        })
+        .catch(console.error);
 
     return () => unsubscribe && unsubscribe();
   }, [accountSelected, api.query.balances]);
 
-  return accountSelected
-    ? <Label pointing='left'>
+  return accountSelected ? (
+    <Label pointing='left'>
       <Icon
         name='money bill alternate'
         color={accountBalance > 0 ? 'green' : 'red'}
       />
       {accountBalance}
     </Label>
-    : null;
+  ) : null;
+}
+
+export default function AccountSelector (props) {
+  const { api, keyring } = useSubstrate();
+  return keyring.getPairs && api.query ? <Main {...props} /> : null;
 }

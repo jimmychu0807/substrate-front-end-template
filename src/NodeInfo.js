@@ -3,7 +3,7 @@ import { Card, Icon, Grid } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
-export default function NodeInfo (props) {
+function Main (props) {
   const { api } = useSubstrate();
   const [nodeInfo, setNodeInfo] = useState({});
 
@@ -44,4 +44,15 @@ export default function NodeInfo (props) {
       </Card>
     </Grid.Column>
   );
+}
+
+export default function NodeInfo (props) {
+  const { api } = useSubstrate();
+  return api.rpc &&
+    api.rpc.system &&
+    api.rpc.system.chain &&
+    api.rpc.system.name &&
+    api.rpc.system.version ? (
+      <Main {...props} />
+    ) : null;
 }
