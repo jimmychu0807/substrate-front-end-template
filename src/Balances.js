@@ -12,11 +12,11 @@ function Main (props) {
     const addresses = keyring.getPairs().map(account => account.address);
     let unsubscribeAll = null;
 
-    api.query.balances.freeBalance
-      .multi(addresses, currentBalances => {
+    api.query.system.account
+      .multi(addresses, currentAccountDetails => {
         const balancesMap = addresses.reduce(
           (acc, address, index) => ({
-            ...acc, [address]: currentBalances[index].toString()
+            ...acc, [address]: currentAccountDetails[index].data.free.toString()
           }), {});
         setBalances(balancesMap);
       }).then(unsub => {
@@ -24,7 +24,7 @@ function Main (props) {
       }).catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.balances.freeBalance, setBalances, keyring]);
+  }, [api.query.system.account, setBalances, keyring]);
 
   return (
     <Grid.Column>
@@ -48,6 +48,6 @@ function Main (props) {
 
 export default function Balances (props) {
   const { api } = useSubstrate();
-  return (api.query.balances && api.query.balances.freeBalance
+  return (api.query.system && api.query.system.account
     ? <Main {...props} /> : null);
 }
