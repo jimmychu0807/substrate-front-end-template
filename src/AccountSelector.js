@@ -84,7 +84,7 @@ function Main (props) {
             }}
             value={accountSelected}
           />
-          {api.query.balances && api.query.balances.freeBalance ? (
+          {api.query.system && api.query.system.account ? (
             <BalanceAnnotation accountSelected={accountSelected} />
           ) : null}
         </Menu.Menu>
@@ -104,8 +104,8 @@ function BalanceAnnotation (props) {
 
     // If the user has selected an address, create a new subscription
     accountSelected &&
-      api.query.balances
-        .freeBalance(accountSelected, balance => {
+      api.query.system
+        .account(accountSelected, ({ data: { free: balance } }) => {
           setAccountBalance(balance.toString());
         })
         .then(unsub => {
@@ -114,7 +114,7 @@ function BalanceAnnotation (props) {
         .catch(console.error);
 
     return () => unsubscribe && unsubscribe();
-  }, [accountSelected, api.query.balances]);
+  }, [accountSelected, api.query.system]);
 
   return accountSelected ? (
     <Label pointing='left'>
