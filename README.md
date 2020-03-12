@@ -67,6 +67,13 @@ When writing and deploying your own front end, you should configure:
 * `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
   See [Keyring](https://polkadot.js.org/api/start/keyring.html).
 
+### Specifying Connecting Node
+
+There are two ways to specify it:
+
+* With `PROVIDER_SOCKET` in `{common, development, production}.json`.
+* With `rpc=<ws or wss connection>` query paramter after the URL. This overrides the above setting.
+
 ## Reusable Components
 
 ### useSubstrate Custom Hook
