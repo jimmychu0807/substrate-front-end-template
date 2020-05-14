@@ -6,46 +6,80 @@ import { TxButton } from './substrate-lib/components';
 
 function Main (props) {
   const { api } = useSubstrate();
-  const [modulesList, setModulesList] = useState([]);
-  const [status, setStatus] = useState(null);
-  const [callableFunctionList, setCallableFunctionList] = useState([]);
   const { accountPair } = props;
+  const [status, setStatus] = useState(null);
+  const [pallets, setPallets] = useState([]);
+  const [extrinsics, setExtrinsics] = useState([]);
+  const [paramFields, setParamFields] = useState([]);
 
   const [formState, setFormState] = useState({
-    module: '',
-    callableFunction: '',
-    input: ''
+    pallet: '',
+    extrinsic: '',
+    inputParams: []
   });
-  const { module, callableFunction, input } = formState;
+  const { pallet, extrinsic, inputParams } = formState;
 
-  useEffect(() => {
-    const modules = Object.keys(api.tx)
+  const updatePallets = () => {
+    const pallets = Object.keys(api.tx)
       .sort()
-      .map(module => ({
-        key: module,
-        value: module,
-        text: module
+      .map(pallet => ({
+        key: pallet,
+        value: pallet,
+        text: pallet
       }));
 
-    setModulesList(modules);
-  }, [api]);
+    setPallets(pallets);
+  };
 
-  useEffect(() => {
-    if (module !== '') {
-      const callableFunctions = Object.keys(api.tx[module])
-        .sort()
-        .map(callable => ({
-          key: callable,
-          value: callable,
-          text: callable
-        }));
+  const updateExtrinsics = () => {
+    if (pallet === '' || !api.tx[pallet]) { return; }
 
-      setCallableFunctionList(callableFunctions);
+    const extrinsics = Object.keys(api.tx[pallet])
+      .sort()
+      .map(callable => ({
+        key: callable,
+        value: callable,
+        text: callable
+      }));
+
+    setExtrinsics(extrinsics);
+    // We want to clear the parameter list too. Because at this state, we have unset chosen
+    //   extrinsic, if we have chosen one.
+    setParamFields([]);
+  };
+
+  const updateParamFields = () => {
+    if (pallet === '' || extrinsic === '' || !api.tx[pallet] || !api.tx[pallet][extrinsic]) {
+      return;
     }
-  }, [api, module]);
 
-  const onChange = (_, data) =>
-    setFormState(formState => ({ ...formState, [data.state]: data.value }));
+    const paramFields = api.tx[pallet][extrinsic].meta.args.map(arg => ({
+      name: arg.name.toString(),
+      type: arg.type.toString()
+    }));
+
+    setParamFields(paramFields);
+  };
+
+  useEffect(updatePallets, [api]);
+  useEffect(updateExtrinsics, [api, pallet]);
+  useEffect(updateParamFields, [api, pallet, extrinsic]);
+
+  const onChange = (_, data) => {
+    setFormState(formState => {
+      let res;
+      if (Number.isInteger(data.state)) {
+        formState.inputParams[data.state] = data.value;
+        res = formState;
+      } else if (data.state === 'pallet') {
+        res = { ...formState, [data.state]: data.value, extrinsic: '', inputParams: [] };
+      } else if (data.state === 'extrinsic') {
+        res = { ...formState, [data.state]: data.value, inputParams: [] };
+      }
+      console.log(res);
+      return res;
+    });
+  };
 
   return (
     <Grid.Column>
@@ -53,38 +87,40 @@ function Main (props) {
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder='Select a module to call'
+            placeholder='Pallets'
             fluid
-            label='Module'
+            label='Pallet'
             onChange={onChange}
             search
             selection
-            state='module'
-            options={modulesList}
+            state='pallet'
+            options={pallets}
           />
         </Form.Field>
         <Form.Field>
           <Dropdown
-            placeholder='Select a function to call'
+            placeholder='Extrinsics'
             fluid
-            label='Callable Function'
+            label='Extrinsic'
             onChange={onChange}
             search
             selection
-            state='callableFunction'
-            options={callableFunctionList}
+            state='extrinsic'
+            options={extrinsics}
           />
         </Form.Field>
-        <Form.Field>
-          <Input
-            onChange={onChange}
-            label='Input'
-            fluid
-            placeholder='May not be needed'
-            state='input'
-            type='text'
-          />
-        </Form.Field>
+        {paramFields.map((paramField, ind) =>
+          <Form.Field key={`${paramField.name}-${paramField.type}`}>
+            <Input
+              placeholder={paramField.type}
+              fluid
+              type='text'
+              label={paramField.name}
+              state={ind}
+              onChange={onChange}
+            />
+          </Form.Field>
+        )}
         <Form.Field>
           <TxButton
             accountPair={accountPair}
@@ -92,8 +128,8 @@ function Main (props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: input ? [input] : null,
-              tx: api.tx[module] && api.tx[module][callableFunction]
+              params: inputParams,
+              tx: api.tx[pallet] && api.tx[pallet][extrinsic]
             }}
           />
         </Form.Field>

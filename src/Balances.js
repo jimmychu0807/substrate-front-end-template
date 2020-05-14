@@ -3,7 +3,7 @@ import { Table, Grid } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
-function Main (props) {
+export default function Main (props) {
   const { api, keyring } = useSubstrate();
   const accounts = keyring.getPairs();
   const [balances, setBalances] = useState({});
@@ -12,19 +12,18 @@ function Main (props) {
     const addresses = keyring.getPairs().map(account => account.address);
     let unsubscribeAll = null;
 
-    api.query.system.account
-      .multi(addresses, currentAccountDetails => {
-        const balancesMap = addresses.reduce(
-          (acc, address, index) => ({
-            ...acc, [address]: currentAccountDetails[index].data.free.toString()
-          }), {});
+    api.query.balances.freeBalance
+      .multi(addresses, balances => {
+        const balancesMap = addresses.reduce((acc, address, index) => ({
+          ...acc, [address]: balances[index].toHuman()
+        }), {});
         setBalances(balancesMap);
       }).then(unsub => {
         unsubscribeAll = unsub;
       }).catch(console.error);
 
     return () => unsubscribeAll && unsubscribeAll();
-  }, [api.query.system.account, setBalances, keyring]);
+  }, [api, keyring, setBalances]);
 
   return (
     <Grid.Column>
@@ -44,10 +43,4 @@ function Main (props) {
       </Table>
     </Grid.Column>
   );
-}
-
-export default function Balances (props) {
-  const { api } = useSubstrate();
-  return (api.query.system && api.query.system.account
-    ? <Main {...props} /> : null);
 }
