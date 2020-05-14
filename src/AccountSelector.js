@@ -12,7 +12,7 @@ import {
 import { useSubstrate } from './substrate-lib';
 
 function Main (props) {
-  const { api, keyring } = useSubstrate();
+  const { keyring } = useSubstrate();
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
 
@@ -84,9 +84,7 @@ function Main (props) {
             }}
             value={accountSelected}
           />
-          {api.query.system && api.query.system.account ? (
-            <BalanceAnnotation accountSelected={accountSelected} />
-          ) : null}
+          <BalanceAnnotation accountSelected={accountSelected} />
         </Menu.Menu>
       </Container>
     </Menu>
@@ -104,17 +102,16 @@ function BalanceAnnotation (props) {
 
     // If the user has selected an address, create a new subscription
     accountSelected &&
-      api.query.system
-        .account(accountSelected, ({ data: { free: balance } }) => {
-          setAccountBalance(balance.toString());
-        })
+      api.query.balances.freeBalance(accountSelected, balance => {
+        setAccountBalance(balance.toHuman());
+      })
         .then(unsub => {
           unsubscribe = unsub;
         })
         .catch(console.error);
 
     return () => unsubscribe && unsubscribe();
-  }, [accountSelected, api.query.system]);
+  }, [api, accountSelected]);
 
   return accountSelected ? (
     <Label pointing='left'>

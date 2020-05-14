@@ -65,6 +65,8 @@ function Main () {
           <Grid.Row>
             <Extrinsics accountPair={accountPair} />
             <ChainState />
+          </Grid.Row>
+          <Grid.Row>
             <Events />
           </Grid.Row>
           <Grid.Row>
