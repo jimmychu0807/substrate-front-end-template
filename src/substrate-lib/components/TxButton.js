@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 
 import { useSubstrate } from '../';
+import utils from '../utils';
 
 export default function TxButton ({
   accountPair = null,
@@ -38,29 +39,25 @@ export default function TxButton ({
     try {
       // Check if tx has params
       if (!params) {
-        txExecute = !sudo ? tx() : tx.sudo();
+        txExecute = sudo ? tx.sudo() : tx();
       } else {
-        txExecute = !sudo ? tx(...params) : tx.sudo(...params);
+        const transformed = params.map(transformParam);
+        txExecute = sudo ? tx.sudo(...transformed) : tx(...transformed);
       }
     } catch (e) {
       console.error('ERROR forming transaction:', e);
       setStatus(e.toString());
+      return;
     }
 
-    if (txExecute) {
-      txExecute
-        .signAndSend(fromParam, ({ status }) => {
-          status.isFinalized
-            ? setStatus(
-                `Completed at block hash #${status.asFinalized.toString()}`
-            )
-            : setStatus(`Current transaction status: ${status.type}`);
-        })
-        .catch(e => {
-          setStatus(':( transaction failed');
-          console.error('ERROR transaction:', e);
-        });
-    }
+    txExecute.signAndSend(fromParam, ({ status }) => {
+      status.isFinalized
+        ? setStatus(`Completed at block hash #${status.asFinalized.toString()}`)
+        : setStatus(`Current transaction status: ${status.type}`);
+    }).catch(e => {
+      setStatus(':( transaction failed');
+      console.error('ERROR transaction:', e);
+    });
   };
 
   const query = async () => {
@@ -85,3 +82,14 @@ export default function TxButton ({
     </Button>
   );
 }
+
+const transformParam = ({ value, type }) => {
+  let res;
+  if (utils.paramConversion.num.indexOf(type) >= 0) {
+    res = type.indexOf('.') >= 0 ? Number.parseFloat(value) : Number.parseInt(value);
+  } else {
+    res = value;
+  }
+
+  return res;
+};

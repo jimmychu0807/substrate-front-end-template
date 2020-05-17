@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Grid } from 'semantic-ui-react';
-
+import { Table, Grid, Button } from 'semantic-ui-react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSubstrate } from './substrate-lib';
 
 export default function Main (props) {
@@ -32,7 +32,25 @@ export default function Main (props) {
         <Table.Body>{accounts.map(account =>
           <Table.Row key={account.address}>
             <Table.Cell textAlign='right'>{account.meta.name}</Table.Cell>
-            <Table.Cell>{account.address}</Table.Cell>
+            <Table.Cell>
+              <Grid>
+                <Grid.Column width={13}>
+                  {account.address}
+                </Grid.Column>
+                <Grid.Column width={3}>
+                  <CopyToClipboard text={account.address}>
+                    <Button
+                      basic
+                      circular
+                      compact
+                      size='mini'
+                      color='blue'
+                      icon='copy outline'
+                    />
+                  </CopyToClipboard>
+                </Grid.Column>
+              </Grid>
+            </Table.Cell>
             <Table.Cell>{
               balances && balances[account.address] &&
               balances[account.address]

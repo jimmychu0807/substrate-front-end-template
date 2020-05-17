@@ -16,6 +16,13 @@ const utils = {
     const divisor = Big(10).pow(opts.power);
     const displayed = bn.div(divisor).toFormat(opts.decimal);
     return `${displayed.toString()} ${opts.unit}`;
+  },
+
+  paramConversion: {
+    num: [
+      'Compact<Balance>',
+      'BalanceOf'
+    ]
   }
 };
 

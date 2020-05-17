@@ -57,7 +57,6 @@ function Main (props) {
       name: arg.name.toString(),
       type: arg.type.toString()
     }));
-
     setParamFields(paramFields);
   };
 
@@ -68,15 +67,15 @@ function Main (props) {
   const onChange = (_, data) => {
     setFormState(formState => {
       let res;
-      if (Number.isInteger(data.state)) {
-        formState.inputParams[data.state] = data.value;
+      if (typeof data.state === 'object') {
+        const { ind, type } = data.state;
+        formState.inputParams[ind] = { value: data.value, type };
         res = formState;
       } else if (data.state === 'pallet') {
         res = { ...formState, [data.state]: data.value, extrinsic: '', inputParams: [] };
       } else if (data.state === 'extrinsic') {
         res = { ...formState, [data.state]: data.value, inputParams: [] };
       }
-      console.log(res);
       return res;
     });
   };
@@ -116,7 +115,7 @@ function Main (props) {
               fluid
               type='text'
               label={paramField.name}
-              state={ind}
+              state={{ ind, type: paramField.type }}
               onChange={onChange}
             />
           </Form.Field>
