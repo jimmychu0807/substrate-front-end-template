@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
-import { TxButton } from './substrate-lib/components';
+import { TxGroupButton } from './substrate-lib/components';
 
 function Main (props) {
   const { api } = useSubstrate();
@@ -120,12 +120,10 @@ function Main (props) {
             />
           </Form.Field>
         )}
-        <Form.Field>
-          <TxButton
+        <Form.Field style={{ textAlign: 'center' }}>
+          <TxGroupButton
             accountPair={accountPair}
-            label='Call'
             setStatus={setStatus}
-            type='TRANSACTION'
             attrs={{
               params: inputParams,
               tx: api.tx[pallet] && api.tx[pallet][extrinsic]
