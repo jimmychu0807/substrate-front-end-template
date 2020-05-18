@@ -9,55 +9,80 @@ export default function TxButton ({
   accountPair = null,
   label,
   setStatus,
+  color = 'grey',
   style = null,
-  type = null,
+  type = 'QUERY',
   attrs = null,
   disabled = false
 }) {
   const { api } = useSubstrate();
-  const { params = null, sudo = false, tx = null } = attrs;
+  const { params = null, tx = null } = attrs;
   const isQuery = () => type === 'QUERY';
+  const isSudo = () => type === 'SUDO-TX';
+  const isUnsigned = () => type === 'UNSIGNED-TX';
+  const isSigned = () => type === 'SIGNED-TX';
 
-  const transaction = async () => {
+  const getFromAcct = async () => {
     const {
       address,
       meta: { source, isInjected }
     } = accountPair;
-    let fromParam;
+    let fromAcct;
 
-    // set the signer
+    // signer is from Polkadot-js browser extension
     if (isInjected) {
       const injected = await web3FromSource(source);
-      fromParam = address;
+      fromAcct = address;
       api.setSigner(injected.signer);
     } else {
-      fromParam = accountPair;
-    }
-    setStatus('Sending...');
-
-    let txExecute;
-    try {
-      // Check if tx has params
-      if (!params) {
-        txExecute = sudo ? tx.sudo() : tx();
-      } else {
-        const transformed = params.map(transformParam);
-        txExecute = sudo ? tx.sudo(...transformed) : tx(...transformed);
-      }
-    } catch (e) {
-      console.error('ERROR forming transaction:', e);
-      setStatus(e.toString());
-      return;
+      fromAcct = accountPair;
     }
 
-    txExecute.signAndSend(fromParam, ({ status }) => {
-      status.isFinalized
-        ? setStatus(`Completed at block hash #${status.asFinalized.toString()}`)
-        : setStatus(`Current transaction status: ${status.type}`);
-    }).catch(e => {
-      setStatus(':( transaction failed');
-      console.error('ERROR transaction:', e);
-    });
+    return fromAcct;
+  };
+
+  const txResHandler = ({ status }) => {
+    status.isFinalized
+      ? setStatus(`Completed at block hash #${status.asFinalized.toString()}`)
+      : setStatus(`Current transaction status: ${status.type}`);
+  };
+
+  const txErrHandler = err => {
+    setStatus(':( transaction failed');
+    console.error('ERROR transaction:', err);
+  };
+
+  const sudoTx = async () => {
+    const fromAcct = await getFromAcct();
+    const { params, tx } = attrs;
+
+    const transformed = params.map(transformParams);
+    // transformed can be empty parameters
+    const txExecute = transformed ? api.tx.sudo.sudo(tx(...transformed)) : api.tx.sudo.sudo(tx());
+    txExecute.signAndSend(fromAcct, txResHandler)
+      .catch(txErrHandler);
+  };
+
+  const signedTx = async () => {
+    const fromAcct = await getFromAcct();
+    const { params, tx } = attrs;
+
+    const transformed = params.map(transformParams);
+    // transformed can be empty parameters
+    const txExecute = transformed ? tx(...transformed) : tx();
+    txExecute.signAndSend(fromAcct, txResHandler)
+      .catch(txErrHandler);
+  };
+
+  const unsignedTx = async () => {
+    const fromAcct = await getFromAcct();
+    const { params, tx } = attrs;
+
+    const transformed = params.map(transformParams);
+    // transformed can be empty parameters
+    const txExecute = transformed ? tx(...transformed) : tx();
+    txExecute.send(fromAcct, txResHandler)
+      .catch(txErrHandler);
   };
 
   const query = async () => {
@@ -70,12 +95,27 @@ export default function TxButton ({
     }
   };
 
+  const transaction = async () => {
+    setStatus('Sending...');
+
+    if (isSudo()) {
+      sudoTx();
+    } else if (isSigned()) {
+      signedTx();
+    } else if (isUnsigned()) {
+      unsignedTx();
+    } else if (isQuery()) {
+      query();
+    }
+  };
+
   return (
     <Button
-      primary
+      basic
+      color={color}
       style={style}
       type='submit'
-      onClick={isQuery() ? query : transaction}
+      onClick={transaction}
       disabled={disabled || !tx || (!isQuery() && !accountPair)}
     >
       {label}
@@ -83,7 +123,7 @@ export default function TxButton ({
   );
 }
 
-const transformParam = ({ value, type }) => {
+const transformParams = ({ value, type }) => {
   let res;
   if (utils.paramConversion.num.indexOf(type) >= 0) {
     res = type.indexOf('.') >= 0 ? Number.parseFloat(value) : Number.parseInt(value);
