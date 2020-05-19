@@ -75,13 +75,12 @@ export default function TxButton ({
   };
 
   const unsignedTx = async () => {
-    const fromAcct = await getFromAcct();
     const { params, tx } = attrs;
 
     const transformed = params.map(transformParams);
     // transformed can be empty parameters
     const txExecute = transformed ? tx(...transformed) : tx();
-    txExecute.send(fromAcct, txResHandler)
+    txExecute.send(txResHandler)
       .catch(txErrHandler);
   };
 
