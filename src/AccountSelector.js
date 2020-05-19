@@ -102,8 +102,8 @@ function BalanceAnnotation (props) {
 
     // If the user has selected an address, create a new subscription
     accountSelected &&
-      api.query.balances.freeBalance(accountSelected, balance => {
-        setAccountBalance(balance.toHuman());
+      api.query.system.account(accountSelected, balance => {
+        setAccountBalance(balance.data.free.toHuman());
       })
         .then(unsub => {
           unsubscribe = unsub;

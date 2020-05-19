@@ -12,10 +12,10 @@ export default function Main (props) {
     const addresses = keyring.getPairs().map(account => account.address);
     let unsubscribeAll = null;
 
-    api.query.balances.freeBalance
+    api.query.system.account
       .multi(addresses, balances => {
         const balancesMap = addresses.reduce((acc, address, index) => ({
-          ...acc, [address]: balances[index].toHuman()
+          ...acc, [address]: balances[index].data.free.toHuman()
         }), {});
         setBalances(balancesMap);
       }).then(unsub => {
