@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import {
   Menu,
@@ -6,7 +7,8 @@ import {
   Container,
   Icon,
   Image,
-  Label
+  Label,
+  Button
 } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
@@ -73,6 +75,14 @@ function Main (props) {
             circular
             color={accountSelected ? 'green' : 'red'}
           />
+          <CopyToClipboard text={accountSelected}>
+            <Button
+              basic
+              compact
+              size='large'
+              icon='copy outline'
+            />
+          </CopyToClipboard>
           <Dropdown
             search
             selection
