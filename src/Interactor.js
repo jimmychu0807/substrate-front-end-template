@@ -232,6 +232,7 @@ function Main (props) {
               type='text'
               label={paramField.name}
               state={{ ind, type: paramField.type }}
+              value={ inputParams[ind] ? inputParams[ind].value : '' }
               onChange={onPalletCallableParamChange}
             />
           </Form.Field>

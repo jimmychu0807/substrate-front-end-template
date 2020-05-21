@@ -46,16 +46,13 @@ function TxButton ({
     return fromAcct;
   };
 
-  const txResHandler = ({ status }) => {
+  const txResHandler = ({ status }) =>
     status.isFinalized
-      ? setStatus(`Completed at block hash #${status.asFinalized.toString()}`)
+      ? setStatus(`😉 Finalized. Block hash: ${status.asFinalized.toString()}`)
       : setStatus(`Current transaction status: ${status.type}`);
-  };
 
-  const txErrHandler = err => {
-    setStatus(':( transaction failed');
-    console.error('ERROR transaction:', err);
-  };
+  const txErrHandler = err =>
+    setStatus(`😞 Transaction Failed: ${err.toString()}`);
 
   const sudoTx = async () => {
     const fromAcct = await getFromAcct();
@@ -102,8 +99,12 @@ function TxButton ({
 
   const rpc = async () => {
     const transformed = inputParams.map(transformParams);
-    const result = await api.rpc[palletRpc][callable](...transformed);
-    result.isNone ? setStatus('None') : setStatus(result.toString());
+    try {
+      const result = await api.rpc[palletRpc][callable](...transformed);
+      result.isNone ? setStatus('None') : setStatus(result.toString());
+    } catch (err) {
+      setStatus(err.toString());
+    }
   };
 
   const constant = () => {
