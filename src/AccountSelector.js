@@ -3,6 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import {
   Menu,
+  Button,
   Dropdown,
   Container,
   Icon,
