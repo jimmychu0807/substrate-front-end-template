@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Input, Grid } from 'semantic-ui-react';
-
-import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-function Main (props) {
-  const { api } = useSubstrate();
+export default function Main (props) {
   const [status, setStatus] = useState(null);
   const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
   const { accountPair } = props;
 
   const onChange = (_, data) =>
-    setFormState(prevState => ({ ...formState, [data.state]: data.value }));
+    setFormState(prev => ({ ...prev, [data.state]: data.value }));
 
   const { addressTo, amount } = formState;
 
@@ -21,25 +18,34 @@ function Main (props) {
       <Form>
         <Form.Field>
           <Input
-            fluid label='To' type='text' placeholder='address'
-            state='addressTo' onChange={onChange}
+            fluid
+            label='To'
+            type='text'
+            placeholder='address'
+            state='addressTo'
+            onChange={onChange}
           />
         </Form.Field>
         <Form.Field>
           <Input
-            fluid label='Amount' type='number'
-            state='amount' onChange={onChange}
+            fluid
+            label='Amount'
+            type='number'
+            state='amount'
+            onChange={onChange}
           />
         </Form.Field>
-        <Form.Field>
+        <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
             accountPair={accountPair}
-            label='Send'
+            label='Submit'
+            type='SIGNED-TX'
             setStatus={setStatus}
-            type='TRANSACTION'
             attrs={{
-              params: [addressTo, amount],
-              tx: api.tx.balances.transfer
+              palletRpc: 'balances',
+              callable: 'transfer',
+              inputParams: [addressTo, amount],
+              paramFields: [true, true]
             }}
           />
         </Form.Field>
@@ -47,10 +53,4 @@ function Main (props) {
       </Form>
     </Grid.Column>
   );
-}
-
-export default function Transfer (props) {
-  const { api } = useSubstrate();
-  return (api.query.balances && api.tx.balances.transfer
-    ? <Main {...props} /> : null);
 }

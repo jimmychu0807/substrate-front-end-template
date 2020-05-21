@@ -36,7 +36,6 @@ function Main (props) {
         setEventFeed(e => [
           {
             icon: 'bell',
-            date: 'X Blocks Ago',
             summary: `${eventName}-${e.length}`,
             extraText: event.meta.documentation.join(', ').toString(),
             content: params.join(', ')

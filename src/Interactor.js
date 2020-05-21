@@ -15,6 +15,7 @@ function Main (props) {
   const [queries, setQueries] = useState([]);
   const [extrinsics, setExtrinsics] = useState([]);
   const [rpcCallables, setRpcCallables] = useState([]);
+  const [constants, setConstants] = useState([]);
 
   const [paramFields, setParamFields] = useState([]);
 
@@ -37,12 +38,10 @@ function Main (props) {
     setRpcs(rpcs);
   };
 
-  const showPalletsRPCs = () => {
-    if (interxType === 'QUERY' || interxType === 'EXTRINSIC') {
-      return pallets;
-    }
-    return rpcs;
-  };
+  const showPalletsRPCs = () =>
+    (['QUERY', 'EXTRINSIC', 'CONSTANT'].indexOf(interxType) >= 0)
+      ? pallets
+      : rpcs;
 
   const updateCallables = () => {
     if (!api || palletRpc === '') { return; }
@@ -71,6 +70,13 @@ function Main (props) {
     }
     setRpcCallables(rpcCallables);
 
+    let constants = [];
+    if (api.consts[palletRpc]) {
+      constants = Object.keys(api.consts[palletRpc]).sort()
+        .map(constant => ({ key: constant, value: constant, text: constant }));
+    }
+    setConstants(constants);
+
     // Clear param fields
     setParamFields([]);
   };
@@ -80,13 +86,14 @@ function Main (props) {
       return queries;
     } else if (interxType === 'EXTRINSIC') {
       return extrinsics;
+    } else if (interxType === 'RPC') {
+      return rpcCallables;
     }
-    return rpcCallables;
+    return constants;
   };
 
   const updateParamFields = () => {
-    // TODO: Not sure how to perform RPC params detection. Disable it for now.
-    if (palletRpc === '' || callable === '' || interxType === 'RPC') {
+    if (palletRpc === '' || callable === '') {
       setParamFields([]);
       return;
     }
@@ -119,6 +126,9 @@ function Main (props) {
           type: arg.type.toString()
         }));
       }
+    } else if (interxType === 'RPC' || interxType === 'CONSTANT') {
+      // NOTE: we don't know how to detect RPC parameters, so only support RPC with no params now.
+      paramFields = [];
     }
 
     setParamFields(paramFields);
@@ -160,13 +170,6 @@ function Main (props) {
         <Form.Group inline>
           <label>Interaction Type</label>
           <Form.Radio
-            label='Query'
-            name='interxType'
-            value='QUERY'
-            checked={interxType === 'QUERY'}
-            onChange={onInterxTypeChange}
-          />
-          <Form.Radio
             label='Extrinsic'
             name='interxType'
             value='EXTRINSIC'
@@ -174,10 +177,24 @@ function Main (props) {
             onChange={onInterxTypeChange}
           />
           <Form.Radio
+            label='Query'
+            name='interxType'
+            value='QUERY'
+            checked={interxType === 'QUERY'}
+            onChange={onInterxTypeChange}
+          />
+          <Form.Radio
             label='RPC'
             name='interxType'
             value='RPC'
             checked={interxType === 'RPC'}
+            onChange={onInterxTypeChange}
+          />
+          <Form.Radio
+            label='Constant'
+            name='interxType'
+            value='CONSTANT'
+            checked={interxType === 'CONSTANT'}
             onChange={onInterxTypeChange}
           />
         </Form.Group>
@@ -233,29 +250,27 @@ function Main (props) {
 }
 
 function InteractorSubmit (props) {
-  const { attrs } = props;
-  if (attrs.interxType === 'QUERY') {
+  const { attrs: { interxType } } = props;
+  if (interxType === 'QUERY') {
     return <TxButton
       label = 'Query'
       type = 'QUERY'
       color = 'blue'
       {...props}
     />;
-  } else if (attrs.interxType === 'EXTRINSIC') {
+  } else if (interxType === 'EXTRINSIC') {
     return <TxGroupButton {...props} />;
-  } else {
-    // attrs.interxType === RPC
-    // Disable RPC first, as we don't know how to detect its param types
+  } else if (interxType === 'RPC' || interxType === 'CONSTANT') {
     return <TxButton
       label = 'Submit'
-      type = 'RPC'
-      disabled
+      type = {interxType}
+      color = 'blue'
       {...props}
     />;
   }
 }
 
-export default function Extrinsics (props) {
+export default function Interactor (props) {
   const { api } = useSubstrate();
   return api.tx ? <Main {...props} /> : null;
 }

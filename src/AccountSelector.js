@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import {
   Menu,
@@ -29,8 +30,8 @@ function Main (props) {
 
   // Set the initial address
   useEffect(() => {
-    setAccountSelected(initialAddress);
     setAccountAddress(initialAddress);
+    setAccountSelected(initialAddress);
   }, [setAccountAddress, initialAddress]);
 
   const onChange = address => {
@@ -55,8 +56,8 @@ function Main (props) {
           <Image src='Substrate-Logo.png' size='mini' />
         </Menu.Menu>
         <Menu.Menu position='right'>
-          {!accountSelected ? (
-            <span>
+          { !accountSelected
+            ? <span>
               Add your account with the{' '}
               <a
                 target='_blank'
@@ -66,13 +67,15 @@ function Main (props) {
                 Polkadot JS Extension
               </a>
             </span>
-          ) : null}
-          <Icon
-            name='users'
-            size='large'
-            circular
-            color={accountSelected ? 'green' : 'red'}
-          />
+            : null }
+          <CopyToClipboard text={accountSelected}>
+            <Icon
+              name='users'
+              size='large'
+              circular
+              color={accountSelected ? 'green' : 'red'}
+            />
+          </CopyToClipboard>
           <Dropdown
             search
             selection

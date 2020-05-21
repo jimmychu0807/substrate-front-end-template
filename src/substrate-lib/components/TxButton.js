@@ -10,7 +10,7 @@ function TxButton ({
   accountPair = null,
   label,
   setStatus,
-  color = 'grey',
+  color = 'blue',
   style = null,
   type = 'QUERY',
   attrs = null,
@@ -25,6 +25,7 @@ function TxButton ({
   const isUnsigned = () => type === 'UNSIGNED-TX';
   const isSigned = () => type === 'SIGNED-TX';
   const isRpc = () => type === 'RPC';
+  const isConstant = () => type === 'CONSTANT';
 
   const getFromAcct = async () => {
     const {
@@ -99,6 +100,17 @@ function TxButton ({
     setUnsub(unsub);
   };
 
+  const rpc = async () => {
+    const transformed = inputParams.map(transformParams);
+    const result = await api.rpc[palletRpc][callable](...transformed);
+    result.isNone ? setStatus('None') : setStatus(result.toString());
+  };
+
+  const constant = () => {
+    const result = api.consts[palletRpc][callable];
+    result.isNone ? setStatus('None') : setStatus(result.toString());
+  };
+
   const transaction = async () => {
     if (unsub) {
       unsub();
@@ -107,18 +119,21 @@ function TxButton ({
 
     setStatus('Sending...');
 
-    if (isSudo()) {
-      sudoTx();
-    } else if (isSigned()) {
-      signedTx();
-    } else if (isUnsigned()) {
-      unsignedTx();
-    } else if (isQuery()) {
-      query();
-    }
+    isSudo() && sudoTx();
+    isSigned() && signedTx();
+    isUnsigned() && unsignedTx();
+    isQuery() && query();
+    isRpc() && rpc();
+    isConstant() && constant();
   };
 
-  const transformParams = ({ value, type }) => {
+  const transformParams = (param) => {
+    if (typeof param !== 'object') {
+      // param is a primitive value. Return
+      return param;
+    }
+
+    const { type, value } = param;
     let res = value;
     if (utils.paramConversion.num.indexOf(type) >= 0) {
       res = type.indexOf('.') >= 0 ? Number.parseFloat(value) : Number.parseInt(value);
@@ -129,8 +144,13 @@ function TxButton ({
   const allParamsFilled = () => {
     if (paramFields.length === 0) { return true; }
 
-    return paramFields.every((el, ind) => inputParams[ind] && inputParams[ind].value != null &&
-      inputParams[ind].value !== '');
+    return paramFields.every((el, ind) => {
+      const param = inputParams[ind];
+      if (param == null) { return false; }
+
+      const value = typeof param === 'object' ? param.value : param;
+      return value != null && value !== '';
+    });
   };
 
   return (
@@ -151,7 +171,9 @@ function TxButton ({
 TxButton.propTypes = {
   accountPair: PropTypes.object,
   setStatus: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(['QUERY', 'RPC', 'SIGNED-TX', 'UNSIGNED-TX', 'SUDO-TX']).isRequired,
+  type: PropTypes.oneOf([
+    'QUERY', 'RPC', 'SIGNED-TX', 'UNSIGNED-TX', 'SUDO-TX',
+    'CONSTANT']).isRequired,
   attrs: PropTypes.shape({
     palletRpc: PropTypes.string,
     callable: PropTypes.string,
@@ -166,6 +188,7 @@ function TxGroupButton (props) {
       <TxButton
         label='Unsigned'
         type='UNSIGNED-TX'
+        color='grey'
         {...props}
       />
       <Button.Or />
