@@ -69,10 +69,11 @@ function Main (props) {
             </span>
             : null }
           <CopyToClipboard text={accountSelected}>
-            <Icon
-              name='users'
-              size='large'
+            <Button
+              basic
               circular
+              size='large'
+              icon='users'
               color={accountSelected ? 'green' : 'red'}
             />
           </CopyToClipboard>
