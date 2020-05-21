@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import {
   Menu,
+  Button,
   Dropdown,
   Container,
   Icon,
@@ -12,7 +14,7 @@ import {
 import { useSubstrate } from './substrate-lib';
 
 function Main (props) {
-  const { api, keyring } = useSubstrate();
+  const { keyring } = useSubstrate();
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
 
@@ -29,8 +31,8 @@ function Main (props) {
 
   // Set the initial address
   useEffect(() => {
-    setAccountSelected(initialAddress);
     setAccountAddress(initialAddress);
+    setAccountSelected(initialAddress);
   }, [setAccountAddress, initialAddress]);
 
   const onChange = address => {
@@ -54,9 +56,9 @@ function Main (props) {
         <Menu.Menu>
           <Image src='Substrate-Logo.png' size='mini' />
         </Menu.Menu>
-        <Menu.Menu position='right'>
-          {!accountSelected ? (
-            <span>
+        <Menu.Menu position='right' style={{ alignItems: 'center' }}>
+          { !accountSelected
+            ? <span>
               Add your account with the{' '}
               <a
                 target='_blank'
@@ -66,13 +68,16 @@ function Main (props) {
                 Polkadot JS Extension
               </a>
             </span>
-          ) : null}
-          <Icon
-            name='users'
-            size='large'
-            circular
-            color={accountSelected ? 'green' : 'red'}
-          />
+            : null }
+          <CopyToClipboard text={accountSelected}>
+            <Button
+              basic
+              circular
+              size='large'
+              icon='users'
+              color={accountSelected ? 'green' : 'red'}
+            />
+          </CopyToClipboard>
           <Dropdown
             search
             selection
@@ -84,9 +89,7 @@ function Main (props) {
             }}
             value={accountSelected}
           />
-          {api.query.system && api.query.system.account ? (
-            <BalanceAnnotation accountSelected={accountSelected} />
-          ) : null}
+          <BalanceAnnotation accountSelected={accountSelected} />
         </Menu.Menu>
       </Container>
     </Menu>
@@ -104,24 +107,20 @@ function BalanceAnnotation (props) {
 
     // If the user has selected an address, create a new subscription
     accountSelected &&
-      api.query.system
-        .account(accountSelected, ({ data: { free: balance } }) => {
-          setAccountBalance(balance.toString());
-        })
+      api.query.system.account(accountSelected, balance => {
+        setAccountBalance(balance.data.free.toHuman());
+      })
         .then(unsub => {
           unsubscribe = unsub;
         })
         .catch(console.error);
 
     return () => unsubscribe && unsubscribe();
-  }, [accountSelected, api.query.system]);
+  }, [api, accountSelected]);
 
   return accountSelected ? (
     <Label pointing='left'>
-      <Icon
-        name='money bill alternate'
-        color={accountBalance > 0 ? 'green' : 'red'}
-      />
+      <Icon name='money' color='green' />
       {accountBalance}
     </Label>
   ) : null;

@@ -1,45 +1,58 @@
 import React, { useState } from 'react';
-import { Form, Input, Grid } from 'semantic-ui-react';
-
-import { useSubstrate } from './substrate-lib';
+import { Form, Input, Grid, Message, Icon } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
 
-function Main (props) {
-  const { api } = useSubstrate();
+export default function Main (props) {
   const [status, setStatus] = useState(null);
   const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
   const { accountPair } = props;
 
   const onChange = (_, data) =>
-    setFormState(prevState => ({ ...formState, [data.state]: data.value }));
+    setFormState(prev => ({ ...prev, [data.state]: data.value }));
 
   const { addressTo, amount } = formState;
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Transfer</h1>
       <Form>
+        <Message
+          compact info
+          size='small'
+        >
+          <Icon name='hand point right' size='large'/>
+          1 Unit = 1000000000000
+        </Message>
         <Form.Field>
           <Input
-            fluid label='To' type='text' placeholder='address'
-            state='addressTo' onChange={onChange}
+            fluid
+            label='To'
+            type='text'
+            placeholder='address'
+            state='addressTo'
+            onChange={onChange}
           />
         </Form.Field>
         <Form.Field>
           <Input
-            fluid label='Amount' type='number'
-            state='amount' onChange={onChange}
+            fluid
+            label='Amount'
+            type='number'
+            state='amount'
+            onChange={onChange}
           />
         </Form.Field>
-        <Form.Field>
+        <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
             accountPair={accountPair}
-            label='Send'
+            label='Submit'
+            type='SIGNED-TX'
             setStatus={setStatus}
-            type='TRANSACTION'
             attrs={{
-              params: [addressTo, amount],
-              tx: api.tx.balances.transfer
+              palletRpc: 'balances',
+              callable: 'transfer',
+              inputParams: [addressTo, amount],
+              paramFields: [true, true]
             }}
           />
         </Form.Field>
@@ -47,10 +60,4 @@ function Main (props) {
       </Form>
     </Grid.Column>
   );
-}
-
-export default function Transfer (props) {
-  const { api } = useSubstrate();
-  return (api.query.balances && api.tx.balances.transfer
-    ? <Main {...props} /> : null);
 }

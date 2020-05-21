@@ -8,9 +8,8 @@ import { DeveloperConsole } from './substrate-lib/components';
 import AccountSelector from './AccountSelector';
 import Balances from './Balances';
 import BlockNumber from './BlockNumber';
-import ChainState from './ChainState';
 import Events from './Events';
-import Extrinsics from './Extrinsics';
+import Interactor from './Interactor';
 import Metadata from './Metadata';
 import NodeInfo from './NodeInfo';
 import TemplateModule from './TemplateModule';
@@ -63,8 +62,7 @@ function Main () {
             <Upgrade accountPair={accountPair} />
           </Grid.Row>
           <Grid.Row>
-            <Extrinsics accountPair={accountPair} />
-            <ChainState />
+            <Interactor accountPair={accountPair} />
             <Events />
           </Grid.Row>
           <Grid.Row>

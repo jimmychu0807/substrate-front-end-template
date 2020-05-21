@@ -35,9 +35,9 @@ function Main (props) {
   }, [api.query.templateModule]);
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Template Module</h1>
-      <Card>
+      <Card centered>
         <Card.Content textAlign='center'>
           <Statistic
             label='Current Value'
@@ -48,22 +48,23 @@ function Main (props) {
       <Form>
         <Form.Field>
           <Input
-            type='number'
-            id='new_value'
-            state='newValue'
             label='New Value'
+            state='newValue'
+            type='number'
             onChange={(_, { value }) => setFormValue(value)}
           />
         </Form.Field>
-        <Form.Field>
+        <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
             accountPair={accountPair}
             label='Store Something'
+            type='SIGNED-TX'
             setStatus={setStatus}
-            type='TRANSACTION'
             attrs={{
-              params: [formValue],
-              tx: api.tx.templateModule.doSomething
+              palletRpc: 'templateModule',
+              callable: 'doSomething',
+              inputParams: [formValue],
+              paramFields: [true]
             }}
           />
         </Form.Field>

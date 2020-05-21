@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Input, Grid } from 'semantic-ui-react';
-
-import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-function Main (props) {
-  const { api } = useSubstrate();
+export default function Main (props) {
   const [status, setStatus] = useState('');
   const [proposal, setProposal] = useState({});
   const { accountPair } = props;
-
-  let fileReader;
 
   const bufferToHex = buffer => {
     return Array.from(new Uint8Array(buffer))
@@ -18,20 +13,18 @@ function Main (props) {
       .join('');
   };
 
-  const handleFileRead = e => {
-    const content = bufferToHex(fileReader.result);
-    const newProposal = api.tx.system.setCode(`0x${content}`);
-    setProposal(newProposal);
-  };
-
   const handleFileChosen = file => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
+    const fileReader = new FileReader();
+    fileReader.onloadend = e => {
+      const content = bufferToHex(fileReader.result);
+      setProposal(`0x${content}`);
+    };
+
     fileReader.readAsArrayBuffer(file);
   };
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Upgrade Runtime</h1>
       <Form>
         <Form.Field>
@@ -43,16 +36,17 @@ function Main (props) {
             onChange={e => handleFileChosen(e.target.files[0])}
           />
         </Form.Field>
-        <Form.Field>
+        <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
             accountPair={accountPair}
             label='Upgrade'
+            type='SUDO-TX'
             setStatus={setStatus}
-            type='TRANSACTION'
             attrs={{
-              params: [proposal],
-              sudo: true,
-              tx: api.tx.sudo
+              palletRpc: 'system',
+              callable: 'setCode',
+              inputParams: [proposal],
+              paramFields: [true]
             }}
           />
         </Form.Field>
@@ -60,9 +54,4 @@ function Main (props) {
       </Form>
     </Grid.Column>
   );
-}
-
-export default function Upgrade (props) {
-  const { api } = useSubstrate();
-  return api.tx && api.tx.sudo ? <Main {...props} /> : null;
 }
