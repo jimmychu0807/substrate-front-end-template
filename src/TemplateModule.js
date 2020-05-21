@@ -35,9 +35,9 @@ function Main (props) {
   }, [api.query.templateModule]);
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Template Module</h1>
-      <Card>
+      <Card centered>
         <Card.Content textAlign='center'>
           <Statistic
             label='Current Value'

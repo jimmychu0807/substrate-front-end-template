@@ -164,10 +164,10 @@ function Main (props) {
   };
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Pallet Interactor</h1>
       <Form>
-        <Form.Group inline>
+        <Form.Group style={{ overflowX: 'auto' }} inline>
           <label>Interaction Type</label>
           <Form.Radio
             label='Extrinsic'

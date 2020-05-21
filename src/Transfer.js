@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Grid } from 'semantic-ui-react';
+import { Form, Input, Grid, Message, Icon } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
 
 export default function Main (props) {
@@ -13,9 +13,16 @@ export default function Main (props) {
   const { addressTo, amount } = formState;
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Transfer</h1>
       <Form>
+        <Message
+          compact info
+          size='small'
+        >
+          <Icon name='hand point right' size='large'/>
+          1 Unit = 1000000000000
+        </Message>
         <Form.Field>
           <Input
             fluid

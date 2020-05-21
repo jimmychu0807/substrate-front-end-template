@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Feed, Grid } from 'semantic-ui-react';
+import { Feed, Grid, Button } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
@@ -47,9 +47,17 @@ function Main (props) {
   }, [api.query.system]);
 
   return (
-    <Grid.Column>
-      <h1>Events</h1>
-      <Feed style={{ overflow: 'auto', maxHeight: 250 }} events={eventFeed} />
+    <Grid.Column width={8}>
+      <h1 style={{ float: 'left' }}>Events</h1>
+      <Button
+        basic circular
+        size='mini'
+        color='grey'
+        floated='right'
+        icon='erase'
+        onClick={ _ => setEventFeed([]) }
+      />
+      <Feed style={{ clear: 'both', overflow: 'auto', maxHeight: 250 }} events={eventFeed} />
     </Grid.Column>
   );
 }

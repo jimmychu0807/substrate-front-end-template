@@ -55,7 +55,7 @@ function Main (props) {
         <Menu.Menu>
           <Image src='Substrate-Logo.png' size='mini' />
         </Menu.Menu>
-        <Menu.Menu position='right'>
+        <Menu.Menu position='right' style={{ alignItems: 'center' }}>
           { !accountSelected
             ? <span>
               Add your account with the{' '}
@@ -118,10 +118,7 @@ function BalanceAnnotation (props) {
 
   return accountSelected ? (
     <Label pointing='left'>
-      <Icon
-        name='money bill alternate'
-        color={accountBalance > 0 ? 'green' : 'red'}
-      />
+      <Icon name='money' color='green' />
       {accountBalance}
     </Label>
   ) : null;

@@ -24,7 +24,7 @@ export default function Main (props) {
   };
 
   return (
-    <Grid.Column>
+    <Grid.Column width={8}>
       <h1>Upgrade Runtime</h1>
       <Form>
         <Form.Field>
