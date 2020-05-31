@@ -42,7 +42,7 @@ function Main (props) {
       <Card>
         <Card.Content textAlign='center'>
           <Statistic
-            label={(finalized ? 'Finalized' : 'Current') + ' Block Number'}
+            label={(finalized ? 'Finalized' : 'Current') + ' Block'}
             value={blockNumber}
           />
         </Card.Content>
