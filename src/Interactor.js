@@ -3,6 +3,7 @@ import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 function Main (props) {
   const { api } = useSubstrate();
@@ -44,7 +45,10 @@ function Main (props) {
       : rpcs;
 
   const updateCallables = () => {
-    if (!api || palletRpc === '') { return; }
+    if (!api || palletRpc === '') {
+      setParamFields([]);
+      return;
+    }
 
     // For pallet queries
     let queries = [];
@@ -93,7 +97,7 @@ function Main (props) {
   };
 
   const updateParamFields = () => {
-    if (palletRpc === '' || callable === '') {
+    if (!api || palletRpc === '' || callable === '') {
       setParamFields([]);
       return;
     }
@@ -126,8 +130,22 @@ function Main (props) {
           type: arg.type.toString()
         }));
       }
-    } else if (interxType === 'RPC' || interxType === 'CONSTANT') {
-      // NOTE: we don't know how to detect RPC parameters, so only support RPC with no params now.
+    } else if (interxType === 'RPC') {
+      let metaParam = [];
+
+      if (api.rpc[palletRpc] && api.rpc[palletRpc][callable] && api.rpc[palletRpc][callable].params) {
+        metaParam = api.rpc[palletRpc][callable].params;
+      } else if (jsonrpc[palletRpc] && jsonrpc[palletRpc][callable]) {
+        metaParam = jsonrpc[palletRpc][callable].params;
+      }
+
+      if (metaParam.length > 0) {
+        paramFields = metaParam.map(arg => ({
+          name: arg.name,
+          type: arg.type
+        }));
+      }
+    } else if (interxType === 'CONSTANT') {
       paramFields = [];
     }
 

@@ -2,6 +2,7 @@ import { useContext, useEffect, useCallback } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import keyring from '@polkadot/ui-keyring';
+import { jsonrpc as rpc } from '@polkadot/types/interfaces/jsonrpc';
 
 import config from '../config';
 import { SubstrateContext } from './SubstrateContext';
@@ -16,7 +17,7 @@ const useSubstrate = () => {
     if (api) return;
 
     const provider = new WsProvider(socket);
-    const _api = new ApiPromise({ provider, types });
+    const _api = new ApiPromise({ provider, types, rpc });
 
     // We want to listen to event for disconnection and reconnection.
     //  That's why we set for listeners.

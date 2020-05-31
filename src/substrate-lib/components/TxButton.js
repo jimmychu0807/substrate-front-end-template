@@ -120,12 +120,12 @@ function TxButton ({
 
     setStatus('Sending...');
 
-    isSudo() && sudoTx();
-    isSigned() && signedTx();
-    isUnsigned() && unsignedTx();
-    isQuery() && query();
-    isRpc() && rpc();
-    isConstant() && constant();
+    (isSudo() && sudoTx()) ||
+      (isSigned() && signedTx()) ||
+      (isUnsigned() && unsignedTx()) ||
+      (isQuery() && query()) ||
+      (isRpc() && rpc()) ||
+      (isConstant() && constant());
   };
 
   const transformParams = (param) => {

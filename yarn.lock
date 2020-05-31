@@ -1419,7 +1419,7 @@
     "@polkadot/util" "^2.11.1"
     bn.js "^5.1.2"
 
-"@polkadot/types@1.16.1":
+"@polkadot/types@1.16.1", "@polkadot/types@^1.14.1":
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-1.16.1.tgz#6f43abdaa8c037bd6f06a7dcf6e7e4ae0fcbc716"
   integrity sha512-Z3RhHwV8YGG/wf5L7KeiFGt5NoAz4nS8hwIFgfMlTfPbb2obkuHEd6tEcsziwquqj5dnxM5sAfVFarInsyqD+A==

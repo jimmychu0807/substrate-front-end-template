@@ -4,5 +4,6 @@
   "CUSTOM_TYPES": {
     "Address": "AccountId",
     "LookupSource": "AccountId"
-  }
+  },
+  "RPC": {}
 }
