@@ -4,6 +4,9 @@ import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
 
+const argIsOptional = (arg) =>
+  arg.type.toString().startsWith('Option<');
+
 function Main (props) {
   const { api, jsonrpc } = useSubstrate();
   const { accountPair } = props;
@@ -16,7 +19,6 @@ function Main (props) {
   const [extrinsics, setExtrinsics] = useState([]);
   const [rpcCallables, setRpcCallables] = useState([]);
   const [constants, setConstants] = useState([]);
-
   const [paramFields, setParamFields] = useState([]);
 
   const initFormState = {
@@ -110,23 +112,28 @@ function Main (props) {
       } else if (metaType.isMap) {
         paramFields = [{
           name: metaType.asMap.key.toString(),
-          type: metaType.asMap.key.toString()
+          type: metaType.asMap.key.toString(),
+          optional: false
         }];
       } else if (metaType.isDoubleMap) {
         paramFields = [{
           name: metaType.asDoubleMap.key1.toString(),
-          type: metaType.asDoubleMap.key1.toString()
+          type: metaType.asDoubleMap.key1.toString(),
+          optional: false
         }, {
           name: metaType.asDoubleMap.key2.toString(),
-          type: metaType.asDoubleMap.key2.toString()
+          type: metaType.asDoubleMap.key2.toString(),
+          optional: false
         }];
       }
     } else if (interxType === 'EXTRINSIC') {
       const metaArgs = api.tx[palletRpc][callable].meta.args;
+
       if (metaArgs && metaArgs.length > 0) {
         paramFields = metaArgs.map(arg => ({
           name: arg.name.toString(),
-          type: arg.type.toString()
+          type: arg.type.toString(),
+          optional: argIsOptional(arg)
         }));
       }
     } else if (interxType === 'RPC') {
@@ -139,7 +146,8 @@ function Main (props) {
       if (metaParam.length > 0) {
         paramFields = metaParam.map(arg => ({
           name: arg.name,
-          type: arg.type
+          type: arg.type,
+          optional: arg.isOptional || false
         }));
       }
     } else if (interxType === 'CONSTANT') {
@@ -159,7 +167,7 @@ function Main (props) {
       const { state, value } = data;
       if (typeof state === 'object') {
         // Input parameter updated
-        const { ind, type } = state;
+        const { ind, paramField: { type } } = state;
         const inputParams = [...formState.inputParams];
         inputParams[ind] = { type, value };
         res = { ...formState, inputParams };
@@ -246,7 +254,7 @@ function Main (props) {
               fluid
               type='text'
               label={paramField.name}
-              state={{ ind, type: paramField.type }}
+              state={{ ind, paramField }}
               value={ inputParams[ind] ? inputParams[ind].value : '' }
               onChange={onPalletCallableParamChange}
             />
