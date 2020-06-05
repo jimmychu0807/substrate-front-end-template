@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import queryString from 'query-string';
 import config from '../config';
 
@@ -9,6 +10,7 @@ console.log(`Connected socket: ${connectedSocket}`);
 
 const INIT_STATE = {
   socket: connectedSocket,
+  jsonrpc: { ...jsonrpc, ...config.RPC },
   types: config.CUSTOM_TYPES,
   keyring: null,
   keyringState: null,

@@ -3,10 +3,9 @@ import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 function Main (props) {
-  const { api } = useSubstrate();
+  const { api, jsonrpc } = useSubstrate();
   const { accountPair } = props;
   const [status, setStatus] = useState(null);
   const [interxType, setInterxType] = useState('EXTRINSIC');
@@ -133,9 +132,7 @@ function Main (props) {
     } else if (interxType === 'RPC') {
       let metaParam = [];
 
-      if (api.rpc[palletRpc] && api.rpc[palletRpc][callable] && api.rpc[palletRpc][callable].params) {
-        metaParam = api.rpc[palletRpc][callable].params;
-      } else if (jsonrpc[palletRpc] && jsonrpc[palletRpc][callable]) {
+      if (jsonrpc[palletRpc] && jsonrpc[palletRpc][callable]) {
         metaParam = jsonrpc[palletRpc][callable].params;
       }
 
