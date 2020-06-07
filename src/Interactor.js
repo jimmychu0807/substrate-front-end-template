@@ -146,7 +146,7 @@ function Main (props) {
   const getOptionalMsg = (interxType) =>
     interxType === 'RPC'
       ? 'Optional Parameter'
-      : 'Option Parameter. Leaving this field as blank will submit a NONE value.';
+      : 'Leaving this field as blank will submit a NONE value';
 
   return (
     <Grid.Column width={8}>
