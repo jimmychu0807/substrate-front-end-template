@@ -15,6 +15,7 @@ const INIT_STATE = {
   keyring: null,
   keyringState: null,
   api: null,
+  apiError: null,
   apiState: null
 };
 
@@ -33,7 +34,7 @@ const reducer = (state, action) => {
       return { ...state, apiState: 'READY' };
 
     case 'CONNECT_ERROR':
-      return { ...state, apiState: 'ERROR' };
+      return { ...state, apiState: 'ERROR', apiError: action.payload };
 
     case 'SET_KEYRING':
       return { ...state, keyring: action.payload, keyringState: 'READY' };

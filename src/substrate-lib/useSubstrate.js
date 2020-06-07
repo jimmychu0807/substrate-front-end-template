@@ -26,7 +26,7 @@ const useSubstrate = () => {
       _api.isReady.then((_api) => dispatch({ type: 'CONNECT_SUCCESS' }));
     });
     _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }));
-    _api.on('error', () => dispatch({ type: 'CONNECT_ERROR' }));
+    _api.on('error', err => dispatch({ type: 'CONNECT_ERROR', payload: err }));
   }, [api, socket, jsonrpc, types, dispatch]);
 
   // hook to get injected accounts
