@@ -34,7 +34,7 @@ function TxButton ({
     (async function () {
       if (!api) { return; }
       const sudoKey = await api.query.sudo.key();
-      sudoKey.isSome ? setSudoKey(sudoKey.toString()) : setSudoKey(null);
+      sudoKey.isEmpty ? setSudoKey(null) : setSudoKey(sudoKey.toString());
     })();
   };
 
@@ -75,8 +75,9 @@ function TxButton ({
       ? api.tx.sudo.sudo(api.tx[palletRpc][callable](...transformed))
       : api.tx.sudo.sudo(api.tx[palletRpc][callable]());
 
-    txExecute.signAndSend(fromAcct, txResHandler)
+    const unsub = txExecute.signAndSend(fromAcct, txResHandler)
       .catch(txErrHandler);
+    setUnsub(() => unsub);
   };
 
   const signedTx = async () => {
@@ -88,39 +89,36 @@ function TxButton ({
       ? api.tx[palletRpc][callable](...transformed)
       : api.tx[palletRpc][callable]();
 
-    txExecute.signAndSend(fromAcct, txResHandler)
+    const unsub = await txExecute.signAndSend(fromAcct, txResHandler)
       .catch(txErrHandler);
+    setUnsub(() => unsub);
   };
 
-  const unsignedTx = () => {
+  const unsignedTx = async () => {
     const transformed = transformParams(paramFields, inputParams);
     // transformed can be empty parameters
     const txExecute = transformed
       ? api.tx[palletRpc][callable](...transformed)
       : api.tx[palletRpc][callable]();
 
-    txExecute.send(txResHandler)
+    const unsub = await txExecute.send(txResHandler)
       .catch(txErrHandler);
+    setUnsub(() => unsub);
   };
+
+  const queryResHandler = result =>
+    result.isNone ? setStatus('None') : setStatus(result.toString());
 
   const query = async () => {
     const transformed = transformParams(paramFields, inputParams);
-
-    const unsub = await api.query[palletRpc][callable](...transformed, result => {
-      result.isNone ? setStatus('None') : setStatus(result.toString());
-    });
-    setUnsub(unsub);
+    const unsub = await api.query[palletRpc][callable](...transformed, queryResHandler);
+    setUnsub(() => unsub);
   };
 
   const rpc = async () => {
     const transformed = transformParams(paramFields, inputParams, { emptyAsNull: false });
-
-    try {
-      const result = await api.rpc[palletRpc][callable](...transformed);
-      result.isNone ? setStatus('None') : setStatus(result.toString());
-    } catch (err) {
-      setStatus(err.toString());
-    }
+    const unsub = await api.rpc[palletRpc][callable](...transformed, queryResHandler);
+    setUnsub(() => unsub);
   };
 
   const constant = () => {
