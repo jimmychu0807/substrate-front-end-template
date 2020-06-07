@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
+import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
@@ -143,6 +143,11 @@ function Main (props) {
     setFormState(initFormState);
   };
 
+  const getOptionalMsg = (interxType) =>
+    interxType === 'RPC'
+      ? 'Optional Parameter'
+      : 'Option Parameter. Leaving this field as blank will submit a NONE value.';
+
   return (
     <Grid.Column width={8}>
       <h1>Pallet Interactor</h1>
@@ -215,6 +220,15 @@ function Main (props) {
               value={ inputParams[ind] ? inputParams[ind].value : '' }
               onChange={onPalletCallableParamChange}
             />
+            { paramField.optional
+              ? <Label
+                basic
+                pointing
+                color='teal'
+                content = { getOptionalMsg(interxType) }
+              />
+              : null
+            }
           </Form.Field>
         )}
         <Form.Field style={{ textAlign: 'center' }}>
