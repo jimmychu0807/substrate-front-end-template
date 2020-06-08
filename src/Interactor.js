@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
+import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
 
+const argIsOptional = (arg) =>
+  arg.type.toString().startsWith('Option<');
+
 function Main (props) {
-  const { api } = useSubstrate();
+  const { api, jsonrpc } = useSubstrate();
   const { accountPair } = props;
   const [status, setStatus] = useState(null);
+
   const [interxType, setInterxType] = useState('EXTRINSIC');
-  const [pallets, setPallets] = useState([]);
-  const [rpcs, setRpcs] = useState([]);
-
-  const [queries, setQueries] = useState([]);
-  const [extrinsics, setExtrinsics] = useState([]);
-  const [rpcCallables, setRpcCallables] = useState([]);
-  const [constants, setConstants] = useState([]);
-
+  const [palletRPCs, setPalletRPCs] = useState([]);
+  const [callables, setCallables] = useState([]);
   const [paramFields, setParamFields] = useState([]);
 
   const initFormState = {
@@ -28,72 +26,36 @@ function Main (props) {
   const [formState, setFormState] = useState(initFormState);
   const { palletRpc, callable, inputParams } = formState;
 
-  const updatePalletsRPCs = () => {
-    const pallets = Object.keys(api.tx).sort()
-      .map(pallet => ({ key: pallet, value: pallet, text: pallet }));
-    setPallets(pallets);
-
-    const rpcs = Object.keys(api.rpc).sort()
-      .map(rpc => ({ key: rpc, value: rpc, text: rpc }));
-    setRpcs(rpcs);
+  const getApiType = (api, interxType) => {
+    if (interxType === 'QUERY') {
+      return api.query;
+    } else if (interxType === 'EXTRINSIC') {
+      return api.tx;
+    } else if (interxType === 'RPC') {
+      return api.rpc;
+    } else {
+      return api.consts;
+    }
   };
 
-  const showPalletsRPCs = () =>
-    (['QUERY', 'EXTRINSIC', 'CONSTANT'].indexOf(interxType) >= 0)
-      ? pallets
-      : rpcs;
+  const updatePalletRPCs = () => {
+    if (!api) { return; }
+    const apiType = getApiType(api, interxType);
+    const palletRPCs = Object.keys(apiType).sort()
+      .filter(pr => Object.keys(apiType[pr]).length > 0)
+      .map(pr => ({ key: pr, value: pr, text: pr }));
+    setPalletRPCs(palletRPCs);
+  };
 
   const updateCallables = () => {
     if (!api || palletRpc === '') { return; }
-
-    // For pallet queries
-    let queries = [];
-    if (api.query[palletRpc]) {
-      queries = Object.keys(api.query[palletRpc]).sort()
-        .map(callable => ({ key: callable, value: callable, text: callable }));
-    }
-    setQueries(queries);
-
-    // For pallet extrinsics
-    let extrinsics = [];
-    if (api.tx[palletRpc]) {
-      extrinsics = Object.keys(api.tx[palletRpc]).sort()
-        .map(callable => ({ key: callable, value: callable, text: callable }));
-    }
-    setExtrinsics(extrinsics);
-
-    // For RPC callables
-    let rpcCallables = [];
-    if (api.rpc[palletRpc]) {
-      rpcCallables = Object.keys(api.rpc[palletRpc]).sort()
-        .map(callable => ({ key: callable, value: callable, text: callable }));
-    }
-    setRpcCallables(rpcCallables);
-
-    let constants = [];
-    if (api.consts[palletRpc]) {
-      constants = Object.keys(api.consts[palletRpc]).sort()
-        .map(constant => ({ key: constant, value: constant, text: constant }));
-    }
-    setConstants(constants);
-
-    // Clear param fields
-    setParamFields([]);
-  };
-
-  const showCallables = () => {
-    if (interxType === 'QUERY') {
-      return queries;
-    } else if (interxType === 'EXTRINSIC') {
-      return extrinsics;
-    } else if (interxType === 'RPC') {
-      return rpcCallables;
-    }
-    return constants;
+    const callables = Object.keys(getApiType(api, interxType)[palletRpc]).sort()
+      .map(c => ({ key: c, value: c, text: c }));
+    setCallables(callables);
   };
 
   const updateParamFields = () => {
-    if (palletRpc === '' || callable === '') {
+    if (!api || palletRpc === '' || callable === '') {
       setParamFields([]);
       return;
     }
@@ -107,35 +69,53 @@ function Main (props) {
       } else if (metaType.isMap) {
         paramFields = [{
           name: metaType.asMap.key.toString(),
-          type: metaType.asMap.key.toString()
+          type: metaType.asMap.key.toString(),
+          optional: false
         }];
       } else if (metaType.isDoubleMap) {
         paramFields = [{
           name: metaType.asDoubleMap.key1.toString(),
-          type: metaType.asDoubleMap.key1.toString()
+          type: metaType.asDoubleMap.key1.toString(),
+          optional: false
         }, {
           name: metaType.asDoubleMap.key2.toString(),
-          type: metaType.asDoubleMap.key2.toString()
+          type: metaType.asDoubleMap.key2.toString(),
+          optional: false
         }];
       }
     } else if (interxType === 'EXTRINSIC') {
       const metaArgs = api.tx[palletRpc][callable].meta.args;
+
       if (metaArgs && metaArgs.length > 0) {
         paramFields = metaArgs.map(arg => ({
           name: arg.name.toString(),
-          type: arg.type.toString()
+          type: arg.type.toString(),
+          optional: argIsOptional(arg)
         }));
       }
-    } else if (interxType === 'RPC' || interxType === 'CONSTANT') {
-      // NOTE: we don't know how to detect RPC parameters, so only support RPC with no params now.
+    } else if (interxType === 'RPC') {
+      let metaParam = [];
+
+      if (jsonrpc[palletRpc] && jsonrpc[palletRpc][callable]) {
+        metaParam = jsonrpc[palletRpc][callable].params;
+      }
+
+      if (metaParam.length > 0) {
+        paramFields = metaParam.map(arg => ({
+          name: arg.name,
+          type: arg.type,
+          optional: arg.isOptional || false
+        }));
+      }
+    } else if (interxType === 'CONSTANT') {
       paramFields = [];
     }
 
     setParamFields(paramFields);
   };
 
-  useEffect(updatePalletsRPCs, [api]);
-  useEffect(updateCallables, [api, palletRpc]);
+  useEffect(updatePalletRPCs, [api, interxType]);
+  useEffect(updateCallables, [api, interxType, palletRpc]);
   useEffect(updateParamFields, [api, interxType, palletRpc, callable]);
 
   const onPalletCallableParamChange = (_, data) => {
@@ -144,7 +124,7 @@ function Main (props) {
       const { state, value } = data;
       if (typeof state === 'object') {
         // Input parameter updated
-        const { ind, type } = state;
+        const { ind, paramField: { type } } = state;
         const inputParams = [...formState.inputParams];
         inputParams[ind] = { type, value };
         res = { ...formState, inputParams };
@@ -162,6 +142,11 @@ function Main (props) {
     // clear the formState
     setFormState(initFormState);
   };
+
+  const getOptionalMsg = (interxType) =>
+    interxType === 'RPC'
+      ? 'Optional Parameter'
+      : 'Leaving this field as blank will submit a NONE value';
 
   return (
     <Grid.Column width={8}>
@@ -208,7 +193,7 @@ function Main (props) {
             selection
             state='palletRpc'
             value={palletRpc}
-            options={showPalletsRPCs()}
+            options={palletRPCs}
           />
         </Form.Field>
         <Form.Field>
@@ -221,7 +206,7 @@ function Main (props) {
             selection
             state='callable'
             value={callable}
-            options={showCallables()}
+            options={callables}
           />
         </Form.Field>
         {paramFields.map((paramField, ind) =>
@@ -231,10 +216,19 @@ function Main (props) {
               fluid
               type='text'
               label={paramField.name}
-              state={{ ind, type: paramField.type }}
+              state={{ ind, paramField }}
               value={ inputParams[ind] ? inputParams[ind].value : '' }
               onChange={onPalletCallableParamChange}
             />
+            { paramField.optional
+              ? <Label
+                basic
+                pointing
+                color='teal'
+                content = { getOptionalMsg(interxType) }
+              />
+              : null
+            }
           </Form.Field>
         )}
         <Form.Field style={{ textAlign: 'center' }}>

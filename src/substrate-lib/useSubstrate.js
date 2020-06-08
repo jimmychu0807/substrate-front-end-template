@@ -11,12 +11,12 @@ const useSubstrate = () => {
 
   // `useCallback` so that returning memoized function and not created
   //   everytime, and thus re-render.
-  const { api, socket, types } = state;
+  const { api, socket, jsonrpc, types } = state;
   const connect = useCallback(async () => {
     if (api) return;
 
     const provider = new WsProvider(socket);
-    const _api = new ApiPromise({ provider, types });
+    const _api = new ApiPromise({ provider, types, rpc: jsonrpc });
 
     // We want to listen to event for disconnection and reconnection.
     //  That's why we set for listeners.
@@ -26,8 +26,8 @@ const useSubstrate = () => {
       _api.isReady.then((_api) => dispatch({ type: 'CONNECT_SUCCESS' }));
     });
     _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }));
-    _api.on('error', () => dispatch({ type: 'CONNECT_ERROR' }));
-  }, [api, socket, types, dispatch]);
+    _api.on('error', err => dispatch({ type: 'CONNECT_ERROR', payload: err }));
+  }, [api, socket, jsonrpc, types, dispatch]);
 
   // hook to get injected accounts
   const { keyringState } = state;

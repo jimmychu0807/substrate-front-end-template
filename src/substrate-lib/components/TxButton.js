@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { web3FromSource } from '@polkadot/extension-dapp';
@@ -16,8 +16,11 @@ function TxButton ({
   attrs = null,
   disabled = false
 }) {
+  // Hooks
   const { api } = useSubstrate();
   const [unsub, setUnsub] = useState(null);
+  const [sudoKey, setSudoKey] = useState(null);
+
   const { palletRpc, callable, inputParams, paramFields } = attrs;
 
   const isQuery = () => type === 'QUERY';
@@ -26,6 +29,16 @@ function TxButton ({
   const isSigned = () => type === 'SIGNED-TX';
   const isRpc = () => type === 'RPC';
   const isConstant = () => type === 'CONSTANT';
+
+  const loadSudoKey = () => {
+    (async function () {
+      if (!api) { return; }
+      const sudoKey = await api.query.sudo.key();
+      sudoKey.isEmpty ? setSudoKey(null) : setSudoKey(sudoKey.toString());
+    })();
+  };
+
+  useEffect(loadSudoKey, [api]);
 
   const getFromAcct = async () => {
     const {
@@ -56,55 +69,56 @@ function TxButton ({
 
   const sudoTx = async () => {
     const fromAcct = await getFromAcct();
-    const transformed = inputParams.map(transformParams);
+    const transformed = transformParams(paramFields, inputParams);
     // transformed can be empty parameters
     const txExecute = transformed
       ? api.tx.sudo.sudo(api.tx[palletRpc][callable](...transformed))
       : api.tx.sudo.sudo(api.tx[palletRpc][callable]());
 
-    txExecute.signAndSend(fromAcct, txResHandler)
+    const unsub = txExecute.signAndSend(fromAcct, txResHandler)
       .catch(txErrHandler);
+    setUnsub(() => unsub);
   };
 
   const signedTx = async () => {
     const fromAcct = await getFromAcct();
-    const transformed = inputParams.map(transformParams);
+    const transformed = transformParams(paramFields, inputParams);
+    // transformed can be empty parameters
+
+    const txExecute = transformed
+      ? api.tx[palletRpc][callable](...transformed)
+      : api.tx[palletRpc][callable]();
+
+    const unsub = await txExecute.signAndSend(fromAcct, txResHandler)
+      .catch(txErrHandler);
+    setUnsub(() => unsub);
+  };
+
+  const unsignedTx = async () => {
+    const transformed = transformParams(paramFields, inputParams);
     // transformed can be empty parameters
     const txExecute = transformed
       ? api.tx[palletRpc][callable](...transformed)
       : api.tx[palletRpc][callable]();
 
-    txExecute.signAndSend(fromAcct, txResHandler)
+    const unsub = await txExecute.send(txResHandler)
       .catch(txErrHandler);
+    setUnsub(() => unsub);
   };
 
-  const unsignedTx = () => {
-    const transformed = inputParams.map(transformParams);
-    // transformed can be empty parameters
-    const txExecute = transformed
-      ? api.tx[palletRpc][callable](...transformed)
-      : api.tx[palletRpc][callable]();
-
-    txExecute.send(txResHandler)
-      .catch(txErrHandler);
-  };
+  const queryResHandler = result =>
+    result.isNone ? setStatus('None') : setStatus(result.toString());
 
   const query = async () => {
-    const transformed = inputParams.map(transformParams);
-    const unsub = await api.query[palletRpc][callable](...transformed, result => {
-      result.isNone ? setStatus('None') : setStatus(result.toString());
-    });
-    setUnsub(unsub);
+    const transformed = transformParams(paramFields, inputParams);
+    const unsub = await api.query[palletRpc][callable](...transformed, queryResHandler);
+    setUnsub(() => unsub);
   };
 
   const rpc = async () => {
-    const transformed = inputParams.map(transformParams);
-    try {
-      const result = await api.rpc[palletRpc][callable](...transformed);
-      result.isNone ? setStatus('None') : setStatus(result.toString());
-    } catch (err) {
-      setStatus(err.toString());
-    }
+    const transformed = transformParams(paramFields, inputParams, { emptyAsNull: false });
+    const unsub = await api.rpc[palletRpc][callable](...transformed, queryResHandler);
+    setUnsub(() => unsub);
   };
 
   const constant = () => {
@@ -120,38 +134,62 @@ function TxButton ({
 
     setStatus('Sending...');
 
-    isSudo() && sudoTx();
-    isSigned() && signedTx();
-    isUnsigned() && unsignedTx();
-    isQuery() && query();
-    isRpc() && rpc();
-    isConstant() && constant();
+    (isSudo() && sudoTx()) ||
+      (isSigned() && signedTx()) ||
+      (isUnsigned() && unsignedTx()) ||
+      (isQuery() && query()) ||
+      (isRpc() && rpc()) ||
+      (isConstant() && constant());
   };
 
-  const transformParams = (param) => {
-    if (typeof param !== 'object') {
-      // param is a primitive value. Return
-      return param;
-    }
+  const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
+    // if `opts.emptyAsNull` is true, empty param value will be added to res as `null`.
+    //   Otherwise, it will not be added
+    const paramVal = inputParams.map(inputParam => typeof inputParam === 'object' ? inputParam.value.trim() : inputParam.trim());
+    const params = paramFields.map((field, ind) => ({ ...field, value: paramVal[ind] || null }));
 
-    const { type, value } = param;
-    let res = value;
-    if (utils.paramConversion.num.indexOf(type) >= 0) {
-      res = type.indexOf('.') >= 0 ? Number.parseFloat(value) : Number.parseInt(value);
-    }
-    return res;
+    return params.reduce((memo, { type = 'string', value }) => {
+      if (value == null || value === '') return (opts.emptyAsNull ? [...memo, null] : memo);
+
+      let converted = value;
+
+      // Deal with a vector
+      if (type.indexOf('Vec<') >= 0) {
+        converted = converted.split(',').map(e => e.trim());
+        converted = converted.map(single => isNumType(type)
+          ? (single.indexOf('.') >= 0 ? Number.parseFloat(single) : Number.parseInt(single))
+          : single
+        );
+        return [...memo, converted];
+      }
+
+      // Deal with a single value
+      if (isNumType(type)) {
+        converted = converted.indexOf('.') >= 0 ? Number.parseFloat(converted) : Number.parseInt(converted);
+      }
+      return [...memo, converted];
+    }, []);
   };
+
+  const isNumType = type =>
+    utils.paramConversion.num.some(el => type.indexOf(el) >= 0);
 
   const allParamsFilled = () => {
     if (paramFields.length === 0) { return true; }
 
-    return paramFields.every((el, ind) => {
+    return paramFields.every((paramField, ind) => {
       const param = inputParams[ind];
+      if (paramField.optional) { return true; }
       if (param == null) { return false; }
 
       const value = typeof param === 'object' ? param.value : param;
-      return value != null && value !== '';
+      return value !== null && value !== '';
     });
+  };
+
+  const isSudoer = acctPair => {
+    if (!sudoKey || !acctPair) { return false; }
+    return acctPair.address === sudoKey;
   };
 
   return (
@@ -161,7 +199,8 @@ function TxButton ({
       style={style}
       type='submit'
       onClick={transaction}
-      disabled={disabled || !palletRpc || !callable || !allParamsFilled() }
+      disabled={ disabled || !palletRpc || !callable || !allParamsFilled() ||
+        (isSudo() && !isSudoer(accountPair)) }
     >
       {label}
     </Button>

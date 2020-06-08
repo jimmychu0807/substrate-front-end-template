@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import queryString from 'query-string';
 import config from '../config';
 
@@ -9,10 +10,12 @@ console.log(`Connected socket: ${connectedSocket}`);
 
 const INIT_STATE = {
   socket: connectedSocket,
+  jsonrpc: { ...jsonrpc, ...config.RPC },
   types: config.CUSTOM_TYPES,
   keyring: null,
   keyringState: null,
   api: null,
+  apiError: null,
   apiState: null
 };
 
@@ -31,7 +34,7 @@ const reducer = (state, action) => {
       return { ...state, apiState: 'READY' };
 
     case 'CONNECT_ERROR':
-      return { ...state, apiState: 'ERROR' };
+      return { ...state, apiState: 'ERROR', apiError: action.payload };
 
     case 'SET_KEYRING':
       return { ...state, keyring: action.payload, keyringState: 'READY' };

@@ -74,7 +74,7 @@ function Main (props) {
               basic
               circular
               size='large'
-              icon='users'
+              icon='user'
               color={accountSelected ? 'green' : 'red'}
             />
           </CopyToClipboard>
