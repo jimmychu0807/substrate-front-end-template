@@ -3,7 +3,7 @@
 This template allows you to create a front-end application that connects to a
 [Substrate](https://github.com/paritytech/substrate) node back-end with minimal
 configuration. To learn about Substrate itself, visit the
-[Substrate Developer Hub](https://substrate.dev).
+[Substrate Developer Hub](https://substrate.dev). It serves as a learning tool to make it easy for people to understand the tools, protocols needed to interact with basic chains. Giving you an understanding of the basic capabilities of a Substrate node and also help you get familiar with exercising them. 
 
 The template is built with [Create React App](https://github.com/facebook/create-react-app)
 and [Polkadot js API](https://polkadot.js.org/api/). Familiarity with these tools
@@ -11,11 +11,14 @@ will be helpful, but the template strives to be self-explanatory. To learn how
 this template was built, visit the
 [Substrate Front-End Tutorial](https://substrate.dev/docs/en/tutorials/substrate-front-end/).
 
+
 ## Using The Template
 
 ### Installation
 
-The code can be installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/).
+The code can be installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). Ensure that you have a recent version of Yarn, for development purposes, a minimum of Yarn >=1.10.1 is required, consider migrating to [v2](https://yarnpkg.com/advanced/migration) if not already.
+
+Note: It is assumed that all cloned dependencies are being installed excluseily via yarn. Using npm will result in broken dependencies.
 
 ```bash
 # Clone the repository
