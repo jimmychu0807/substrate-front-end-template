@@ -18,7 +18,7 @@ this template was built, visit the
 
 The code can be installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). Ensure that you have a recent version of Yarn, for development purposes, a minimum of Yarn >=1.10.1 is required, consider migrating to [v2](https://yarnpkg.com/advanced/migration) if not already.
 
-Note: It is assumed that all cloned dependencies are being installed excluseily via yarn. Using npm will result in broken dependencies.
+Note: It is assumed that all cloned dependencies are being installed exclusively via yarn. Using npm will result in broken dependencies.
 
 ```bash
 # Clone the repository
