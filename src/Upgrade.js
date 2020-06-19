@@ -40,7 +40,7 @@ export default function Main (props) {
           <TxButton
             accountPair={accountPair}
             label='Upgrade'
-            type='SUDO-TX'
+            type='UNCHECKED-SUDO-TX'
             setStatus={setStatus}
             attrs={{
               palletRpc: 'system',
