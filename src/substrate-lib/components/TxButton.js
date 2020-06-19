@@ -25,6 +25,7 @@ function TxButton ({
 
   const isQuery = () => type === 'QUERY';
   const isSudo = () => type === 'SUDO-TX';
+  const isUncheckedSudo = () => type === 'UNCHECKED-SUDO-TX';
   const isUnsigned = () => type === 'UNSIGNED-TX';
   const isSigned = () => type === 'SIGNED-TX';
   const isRpc = () => type === 'RPC';
@@ -74,6 +75,16 @@ function TxButton ({
     const txExecute = transformed
       ? api.tx.sudo.sudo(api.tx[palletRpc][callable](...transformed))
       : api.tx.sudo.sudo(api.tx[palletRpc][callable]());
+
+    const unsub = txExecute.signAndSend(fromAcct, txResHandler)
+      .catch(txErrHandler);
+    setUnsub(() => unsub);
+  };
+
+  const uncheckedSudoTx = async () => {
+    const fromAcct = await getFromAcct();
+    const txExecute =
+        api.tx.sudo.sudoUncheckedWeight(api.tx[palletRpc][callable](...inputParams), 0);
 
     const unsub = txExecute.signAndSend(fromAcct, txResHandler)
       .catch(txErrHandler);
@@ -135,11 +146,12 @@ function TxButton ({
     setStatus('Sending...');
 
     (isSudo() && sudoTx()) ||
-      (isSigned() && signedTx()) ||
-      (isUnsigned() && unsignedTx()) ||
-      (isQuery() && query()) ||
-      (isRpc() && rpc()) ||
-      (isConstant() && constant());
+    (isUncheckedSudo() && uncheckedSudoTx()) ||
+    (isSigned() && signedTx()) ||
+    (isUnsigned() && unsignedTx()) ||
+    (isQuery() && query()) ||
+    (isRpc() && rpc()) ||
+    (isConstant() && constant());
   };
 
   const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
@@ -200,7 +212,7 @@ function TxButton ({
       type='submit'
       onClick={transaction}
       disabled={ disabled || !palletRpc || !callable || !allParamsFilled() ||
-        (isSudo() && !isSudoer(accountPair)) }
+        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair)) }
     >
       {label}
     </Button>
@@ -212,7 +224,7 @@ TxButton.propTypes = {
   accountPair: PropTypes.object,
   setStatus: PropTypes.func.isRequired,
   type: PropTypes.oneOf([
-    'QUERY', 'RPC', 'SIGNED-TX', 'UNSIGNED-TX', 'SUDO-TX',
+    'QUERY', 'RPC', 'SIGNED-TX', 'UNSIGNED-TX', 'SUDO-TX', 'UNCHECKED-SUDO-TX',
     'CONSTANT']).isRequired,
   attrs: PropTypes.shape({
     palletRpc: PropTypes.string,
