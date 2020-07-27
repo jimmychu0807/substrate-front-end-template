@@ -157,7 +157,14 @@ function TxButton ({
   const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
     // if `opts.emptyAsNull` is true, empty param value will be added to res as `null`.
     //   Otherwise, it will not be added
-    const paramVal = inputParams.map(inputParam => typeof inputParam === 'object' ? inputParam.value.trim() : inputParam.trim());
+    const paramVal = inputParams.map(inputParam => {
+      if (typeof inputParam === 'object' && typeof inputParam.value === 'string') {
+        return inputParam.value.trim();
+      } else if (typeof inputParam === 'string') {
+        return inputParam.trim();
+      }
+      return inputParam;
+    });
     const params = paramFields.map((field, ind) => ({ ...field, value: paramVal[ind] || null }));
 
     return params.reduce((memo, { type = 'string', value }) => {
@@ -219,7 +226,7 @@ function TxButton ({
   );
 }
 
-// prop typechecking
+// prop type checking
 TxButton.propTypes = {
   accountPair: PropTypes.object,
   setStatus: PropTypes.func.isRequired,
