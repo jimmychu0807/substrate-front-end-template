@@ -15,7 +15,7 @@ this template was built, visit the
 
 ### Installation
 
-The code can be installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/).
+The codebase is installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). This tutorial assumes you have installed yarn globally prior to installing it within the subdirectories. For the most recent version and how to install yarn, please refer to [yarn](https://yarnpkg.com/) documentation and installation guides. 
 
 ```bash
 # Clone the repository
