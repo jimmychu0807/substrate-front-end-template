@@ -71,11 +71,10 @@ const connect = (state, dispatch) => {
   const provider = new WsProvider(socket);
   const _api = new ApiPromise({ provider, types, rpc: jsonrpc });
 
-  // We want to listen to event for disconnection and reconnection.
-  //  That's why we set for listeners.
+  // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {
     dispatch({ type: 'CONNECT', payload: _api });
-    // `ready` event is not emitted upon reconnection. So we check explicitly here.
+    // `ready` event is not emitted upon reconnection and is checked explicitly here.
     _api.isReady.then((_api) => dispatch({ type: 'CONNECT_SUCCESS' }));
   });
   _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }));
@@ -103,7 +102,7 @@ const loadAccounts = (state, dispatch) => {
   };
 
   const { keyringState } = state;
-  // If `keyringState` is not null, `asyncLoadAccounts` is already being run.
+  // If `keyringState` is not null `asyncLoadAccounts` is running.
   if (keyringState) return;
   // If `loadAccts` is true, the `asyncLoadAccounts` has been run once.
   if (loadAccts) return dispatch({ type: 'SET_KEYRING', payload: keyring });
