@@ -19,7 +19,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^1.2.1"
   },
   "devDependencies": {
     "eslint-config-standard": "^14.1.1",
@@ -29,9 +29,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^3.1.0"
-  },
-  "resolutions": {
-    "lodash": "4.17.19"
   },
   "scripts": {
     "start": "react-scripts start",
