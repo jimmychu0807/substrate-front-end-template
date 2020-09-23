@@ -5,33 +5,30 @@
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Unlicense",
   "dependencies": {
-    "@polkadot/api": "^1.17.2",
-    "@polkadot/extension-dapp": "^0.25.1",
-    "@polkadot/types": "^1.17.2",
-    "@polkadot/ui-keyring": "^0.53.1",
-    "@polkadot/ui-settings": "^0.53.1",
-    "@polkadot/util": "^2.12.2",
-    "@polkadot/util-crypto": "^2.12.2",
+    "@polkadot/api": "^1.34.1",
+    "@polkadot/extension-dapp": "^0.34.1",
+    "@polkadot/types": "^1.34.1",
+    "@polkadot/ui-keyring": "^0.58.1",
+    "@polkadot/ui-settings": "^0.58.1",
+    "@polkadot/util": "^3.4.1",
+    "@polkadot/util-crypto": "^3.4.1",
     "prop-types": "^15.7.2",
-    "query-string": "^6.11.0",
-    "react": "^16.12.0",
+    "query-string": "^6.13.2",
+    "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^1.2.1"
   },
   "devDependencies": {
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-only-warn": "^1.0.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-only-warn": "^1.0.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "gh-pages": "^2.1.1"
-  },
-  "resolutions": {
-    "lodash": "4.17.19"
+    "gh-pages": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
