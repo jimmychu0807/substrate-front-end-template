@@ -57,6 +57,10 @@
       "no-extra-semi": 1
     }
   },
+  "engines" : {
+    "node" : ">=10",
+    "npm": ">=5"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
