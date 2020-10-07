@@ -58,8 +58,8 @@
     }
   },
   "engines" : {
-    "node" : ">=10",
-    "npm": ">=5"
+    "node" : ">=12",
+    "npm": ">=6"
   },
   "browserslist": {
     "production": [
