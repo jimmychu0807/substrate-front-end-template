@@ -19,7 +19,7 @@ export default function Main (props) {
         <Form.Field>
           <Label basic color='teal'>
             <Icon name='hand point right' />
-            1 Unit = 1000000000000000
+            1 Unit = 1000000000000
           </Label>
         </Form.Field>
         <Form.Field>Transfer more than the existential amount for account with 0 balance</Form.Field>
