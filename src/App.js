@@ -34,7 +34,7 @@ function Main () {
       <Grid.Column>
         <Message negative compact floating
           header='Error Connecting to Substrate'
-          content={`${err}`}
+          content={`${JSON.stringify(err,null,4)}`}
         />
       </Grid.Column>
     </Grid>;
