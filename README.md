@@ -7,9 +7,7 @@ configuration. To learn about Substrate itself, visit the
 
 The template is built with [Create React App](https://github.com/facebook/create-react-app)
 and [Polkadot js API](https://polkadot.js.org/api/). Familiarity with these tools
-will be helpful, but the template strives to be self-explanatory. To learn how
-this template was built, visit the
-[Substrate Front-End Tutorial](https://substrate.dev/docs/en/tutorials/substrate-front-end/).
+will be helpful, but the template strives to be self-explanatory.
 
 ## Using The Template
 
