@@ -4,6 +4,7 @@
   "private": true,
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Unlicense",
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
