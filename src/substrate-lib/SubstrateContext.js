@@ -19,7 +19,7 @@ console.log(`Connected socket: ${connectedSocket}`);
 const INIT_STATE = {
   socket: connectedSocket,
   jsonrpc: { ...jsonrpc, ...config.RPC },
-  types: config.CUSTOM_TYPES,
+  types: config.types,
   keyring: null,
   keyringState: null,
   api: null,
