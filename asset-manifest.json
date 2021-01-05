@@ -1,23 +1,21 @@
 {
   "files": {
-    "main.js": "/substrate-front-end-template/static/js/main.dcc0b6e4.chunk.js",
-    "main.js.map": "/substrate-front-end-template/static/js/main.dcc0b6e4.chunk.js.map",
-    "runtime-main.js": "/substrate-front-end-template/static/js/runtime-main.3980f1c6.js",
-    "runtime-main.js.map": "/substrate-front-end-template/static/js/runtime-main.3980f1c6.js.map",
-    "static/css/2.e7da6630.chunk.css": "/substrate-front-end-template/static/css/2.e7da6630.chunk.css",
-    "static/js/2.a5b86ed5.chunk.js": "/substrate-front-end-template/static/js/2.a5b86ed5.chunk.js",
-    "static/js/2.a5b86ed5.chunk.js.map": "/substrate-front-end-template/static/js/2.a5b86ed5.chunk.js.map",
+    "main.js": "/substrate-front-end-template/static/js/main.185c91a6.chunk.js",
+    "main.js.map": "/substrate-front-end-template/static/js/main.185c91a6.chunk.js.map",
+    "runtime-main.js": "/substrate-front-end-template/static/js/runtime-main.aba57e40.js",
+    "runtime-main.js.map": "/substrate-front-end-template/static/js/runtime-main.aba57e40.js.map",
+    "static/css/2.3cc91439.chunk.css": "/substrate-front-end-template/static/css/2.3cc91439.chunk.css",
+    "static/js/2.0e2f5789.chunk.js": "/substrate-front-end-template/static/js/2.0e2f5789.chunk.js",
+    "static/js/2.0e2f5789.chunk.js.map": "/substrate-front-end-template/static/js/2.0e2f5789.chunk.js.map",
     "index.html": "/substrate-front-end-template/index.html",
-    "precache-manifest.f2d7f3b3b7153ff98f789c6d49880f2d.js": "/substrate-front-end-template/precache-manifest.f2d7f3b3b7153ff98f789c6d49880f2d.js",
-    "service-worker.js": "/substrate-front-end-template/service-worker.js",
-    "static/css/2.e7da6630.chunk.css.map": "/substrate-front-end-template/static/css/2.e7da6630.chunk.css.map",
-    "static/js/2.a5b86ed5.chunk.js.LICENSE.txt": "/substrate-front-end-template/static/js/2.a5b86ed5.chunk.js.LICENSE.txt",
-    "static/media/semantic.min.css": "/substrate-front-end-template/static/media/outline-icons.ef60a4f6.woff"
+    "static/css/2.3cc91439.chunk.css.map": "/substrate-front-end-template/static/css/2.3cc91439.chunk.css.map",
+    "static/js/2.0e2f5789.chunk.js.LICENSE.txt": "/substrate-front-end-template/static/js/2.0e2f5789.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/substrate-front-end-template/static/media/outline-icons.ddae9b1b.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.3980f1c6.js",
-    "static/css/2.e7da6630.chunk.css",
-    "static/js/2.a5b86ed5.chunk.js",
-    "static/js/main.dcc0b6e4.chunk.js"
+    "static/js/runtime-main.aba57e40.js",
+    "static/css/2.3cc91439.chunk.css",
+    "static/js/2.0e2f5789.chunk.js",
+    "static/js/main.185c91a6.chunk.js"
   ]
 }
