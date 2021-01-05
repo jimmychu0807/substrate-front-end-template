@@ -47,7 +47,7 @@ function Main (props) {
 
 export default function Metadata (props) {
   const { api } = useSubstrate();
-  return api.rpc && api.rpc.state && api.rpc.state.getMetadata ? (
-    <Main {...props} />
-  ) : null;
+  return api.rpc && api.rpc.state && api.rpc.state.getMetadata
+    ? <Main {...props} />
+    : null;
 }

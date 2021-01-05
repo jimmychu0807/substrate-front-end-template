@@ -116,7 +116,7 @@ function Main (props) {
 
   useEffect(updatePalletRPCs, [api, interxType]);
   useEffect(updateCallables, [api, interxType, palletRpc]);
-  useEffect(updateParamFields, [api, interxType, palletRpc, callable]);
+  useEffect(updateParamFields, [api, interxType, palletRpc, callable, jsonrpc]);
 
   const onPalletCallableParamChange = (_, data) => {
     setFormState(formState => {

@@ -58,7 +58,7 @@ More on [React environment variables](https://create-react-app.dev/docs/adding-c
 
 When writing and deploying your own front end, you should configure:
 
-* `CUSTOM_TYPES` in `src/config/common.json`. See
+* Custom types as JSON in `src/config/types.json`. See
   [Extending types](https://polkadot.js.org/api/start/types.extend.html).
 * `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
   deployed node.

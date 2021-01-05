@@ -52,7 +52,7 @@ export default function NodeInfo (props) {
     api.rpc.system &&
     api.rpc.system.chain &&
     api.rpc.system.name &&
-    api.rpc.system.version ? (
-      <Main {...props} />
-    ) : null;
+    api.rpc.system.version
+    ? <Main {...props} />
+    : null;
 }
