@@ -1,4 +1,4 @@
 {
-  "Address": "AccountId",
-  "LookupSource": "AccountId"
+"Address": "MultiAddress",
+"LookupSource": "MultiAddress"
 }
