@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Install
           command: |
-            sudo apt-get install libusb-dev
+            sudo apt-get -y update
             yarn install
       - save_cache:
           paths:
