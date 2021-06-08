@@ -16,25 +16,27 @@
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {
-    "@polkadot/api": "^3.9.3",
-    "@polkadot/extension-dapp": "^0.37.1",
-    "@polkadot/keyring": "^5.6.3",
-    "@polkadot/networks": "^5.6.3",
-    "@polkadot/types": "^3.9.3",
-    "@polkadot/ui-keyring": "^0.69.1",
-    "@polkadot/ui-settings": "^0.69.1",
-    "@polkadot/util": "^5.6.3",
-    "@polkadot/util-crypto": "^5.6.3",
+    "@polkadot/api": "^4.8.1",
+    "@polkadot/extension-dapp": "^0.38.1",
+    "@polkadot/keyring": "^6.3.1",
+    "@polkadot/networks": "^6.3.1",
+    "@polkadot/types": "^4.8.1",
+    "@polkadot/ui-keyring": "^0.75.1",
+    "@polkadot/ui-settings": "^0.75.1",
+    "@polkadot/util": "^6.3.1",
+    "@polkadot/util-crypto": "^6.3.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.5",
     "react": "^16.14.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^16.14.0",
-    "react-scripts": "^4.0.2",
+    "react-scripts": "^4.0.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^7.20.0",
     "eslint-config-semistandard": "^15.0.1",
     "eslint-config-standard": "^16.0.2",
@@ -80,5 +82,14 @@
     "substrate",
     "substrate-ui",
     "polkadot-js"
-  ]
+  ],
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/__tests__/mock.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/src/__tests__/mock.js"
+    }
+  }
 }
