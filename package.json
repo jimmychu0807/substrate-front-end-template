@@ -12,7 +12,6 @@
     "lint": "eslint src/**/*.js",
     "lint:ci": "eslint src/**/*.js --max-warnings=0",
     "lint:fix": "eslint --fix src/**/*.js",
-    "predeploy": "yarn build",
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {
