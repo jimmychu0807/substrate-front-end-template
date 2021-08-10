@@ -38,7 +38,7 @@ function Main (props) {
           setEventFeed(e => [{
             icon: 'bell',
             summary: `${eventName}-${e.length}`,
-            extraText: event.meta.documentation.join(', ').toString(),
+            extraText: event.meta.docs.join(', ').toString(),
             content: params.join(', ')
           }, ...e]);
         });
