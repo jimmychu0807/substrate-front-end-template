@@ -4890,7 +4890,7 @@ __metadata:
     bn.js: ^5.1.1
     elliptic: ^6.4.1
     hash.js: ^1.1.7
-  checksum: 65cc1f5610ff8150a310d4089c799af535cd87cc3aee526abc0b586b003055c1f9668957a60c770290120e1b9e9c42e8758db15fb2712a10c9cedeb1203f2898
+  checksum: f43b8c10718e2e315fb54ed7e811e7385577a5594947a3ae9e2d3caf8ca26bf223b5bc96f56dd6751a3ceef0cd95965baff910a047114a558ba2ac060f399e17
   languageName: node
   linkType: hard
 
