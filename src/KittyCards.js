@@ -21,19 +21,19 @@ const TransferModal = props => {
   };
 
   return <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open}
-    trigger={<Button basic color='blue'>转让</Button>}>
-    <Modal.Header>毛孩转让</Modal.Header>
+    trigger={<Button basic color='blue'>Transfer</Button>}>
+    <Modal.Header>Kitty Transfer</Modal.Header>
     <Modal.Content><Form>
-      <Form.Input fluid label='毛孩 ID' readOnly value={kitty.id}/>
-      <Form.Input fluid label='转让对象' placeholder='对方地址' onChange={formChange('target')}/>
+      <Form.Input fluid label='Kitty ID' readOnly value={kitty.id}/>
+      <Form.Input fluid label='Receiver' placeholder='Receiver Address' onChange={formChange('target')}/>
     </Form></Modal.Content>
     <Modal.Actions>
-      <Button basic color='grey' onClick={() => setOpen(false)}>取消</Button>
+      <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
       <TxButton
-        accountPair={accountPair} label='确认转让' type='SIGNED-TX' setStatus={setStatus}
+        accountPair={accountPair} label='Transfer' type='SIGNED-TX' setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
-          palletRpc: 'kittiesModule',
+          palletRpc: 'substrateKitties',
           callable: 'transfer',
           inputParams: [formValue.target, kitty.id],
           paramFields: [true, true]
@@ -47,23 +47,22 @@ const TransferModal = props => {
 
 const KittyCard = props => {
   const { kitty, accountPair, setStatus } = props;
-  const { id = null, dna = null, owner = null } = kitty;
-  const displayDna = dna && dna.join(', ');
-  const displayId = id === null ? '' : (id < 10 ? `0${id}` : id.toString());
+  const { ind = {}, dna = null, owner = null } = kitty;
+  const displayDna = dna && dna.toJSON();
   const isSelf = accountPair.address === kitty.owner;
 
   return <Card>
-    { isSelf && <Label as='a' floating color='teal'>我的</Label> }
-    <KittyAvatar dna={dna} />
+    { isSelf && <Label as='a' floating color='teal'>Mine</Label> }
+    <KittyAvatar dna={dna.slice()} />
     <Card.Content>
-      <Card.Header>ID 号: {displayId}</Card.Header>
+      <Card.Header>Index: {ind}</Card.Header>
       <Card.Meta style={{ overflowWrap: 'break-word' }}>
-        基因: <br/>
+        DNA: <br/>
         {displayDna}
       </Card.Meta>
       <Card.Description>
         <p style={{ overflowWrap: 'break-word' }}>
-          猫奴:<br/>
+          Owner:<br/>
           {owner}
         </p>
       </Card.Description>
@@ -80,7 +79,7 @@ const KittyCards = props => {
 
   if (kitties.length === 0) {
     return <Message info>
-      <Message.Header>现在连一只毛孩都木有，赶快创建一只&nbsp;
+      <Message.Header>There is no kitties. Create one now!&nbsp;
         <span role='img' aria-label='point-down'>👇</span>
       </Message.Header>
     </Message>;
