@@ -1,0 +1,3 @@
+[submodule "substrate-node-template"]
+	path = substrate-node-template
+	url = https://github.com/substrate-developer-hub/substrate-node-template.git
