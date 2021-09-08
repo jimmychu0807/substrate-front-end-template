@@ -33,7 +33,7 @@ const TransferModal = props => {
         accountPair={accountPair} label='Transfer' type='SIGNED-TX' setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
-          palletRpc: 'substrateKitties',
+          palletRpc: 'kitties',
           callable: 'transfer',
           inputParams: [formValue.target, kitty.id],
           paramFields: [true, true]
@@ -47,23 +47,26 @@ const TransferModal = props => {
 
 const KittyCard = props => {
   const { kitty, accountPair, setStatus } = props;
-  const { ind = {}, dna = null, owner = null } = kitty;
+  const { id = null, dna = null, owner = null, gender = null } = kitty;
   const displayDna = dna && dna.toJSON();
   const isSelf = accountPair.address === kitty.owner;
 
   return <Card>
     { isSelf && <Label as='a' floating color='teal'>Mine</Label> }
-    <KittyAvatar dna={dna.slice()} />
+    <KittyAvatar dna={dna.toU8a()} />
     <Card.Content>
-      <Card.Header>Index: {ind}</Card.Header>
-      <Card.Meta style={{ overflowWrap: 'break-word' }}>
-        DNA: <br/>
-        {displayDna}
+      <Card.Header style={{ fontSize: '1em', overflowWrap: 'break-word' }}>
+        ID: {id}
+      </Card.Header>
+      <Card.Meta style={{ fontSize: '.9em', overflowWrap: 'break-word' }}>
+        DNA: {displayDna}
       </Card.Meta>
       <Card.Description>
         <p style={{ overflowWrap: 'break-word' }}>
-          Owner:<br/>
-          {owner}
+          Gender: {gender}
+        </p>
+        <p style={{ overflowWrap: 'break-word' }}>
+          Owner: {owner}
         </p>
       </Card.Description>
     </Card.Content>

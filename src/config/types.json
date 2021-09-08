@@ -6,6 +6,6 @@
     "dna": "[u8; 16]",
     "price": "Option<Balance>",
     "gender": "Gender",
-    "owner": "Account"
+    "owner": "AccountId"
   }
 }
