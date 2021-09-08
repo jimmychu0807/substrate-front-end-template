@@ -3,9 +3,9 @@
     "_enum": ["Male", "Female"]
   },
   "Kitty": {
-    "id": "Hash",
-    "dna": "Hash",
-    "price": "Balance",
-    "gender": "Gender"
+    "dna": "[u8; 16]",
+    "price": "Option<Balance>",
+    "gender": "Gender",
+    "owner": "Account"
   }
 }
