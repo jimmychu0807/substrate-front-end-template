@@ -47,7 +47,7 @@ const TransferModal = props => {
 
 const KittyCard = props => {
   const { kitty, accountPair, setStatus } = props;
-  const { id = null, dna = null, owner = null, gender = null } = kitty;
+  const { id = null, dna = null, owner = null, gender = null, price = null } = kitty;
   const displayDna = dna && dna.toJSON();
   const isSelf = accountPair.address === kitty.owner;
 
@@ -68,8 +68,15 @@ const KittyCard = props => {
         <p style={{ overflowWrap: 'break-word' }}>
           Owner: {owner}
         </p>
+        <p style={{ overflowWrap: 'break-word' }}>
+          Price: {price}
+        </p>
       </Card.Description>
     </Card.Content>
+    <Card.Content extra style={{ textAlign: 'center' }}>{ owner === accountPair.address
+      ? <SetPrice kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
+      : ''
+    }</Card.Content>
     <Card.Content extra style={{ textAlign: 'center' }}>{ owner === accountPair.address
       ? <TransferModal kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
       : ''
@@ -82,7 +89,7 @@ const KittyCards = props => {
 
   if (kitties.length === 0) {
     return <Message info>
-      <Message.Header>There is no kitties. Create one now!&nbsp;
+      <Message.Header>No Kitty found here... Create one now!&nbsp;
         <span role='img' aria-label='point-down'>👇</span>
       </Message.Header>
     </Message>;

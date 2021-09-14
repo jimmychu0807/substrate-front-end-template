@@ -63,8 +63,9 @@ export default function Kitties (props) {
     };
   };
 
-  useEffect(subscribeKittyCnt, [api, keyring]);
   useEffect(subscribeKitties, [api, kittyHashes]);
+  useEffect(subscribeKittyCnt, [api, keyring]);
+
 
   return <Grid.Column width={16}>
     <h1>Kitties</h1>

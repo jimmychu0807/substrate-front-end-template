@@ -62,6 +62,9 @@ function Main () {
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
+          <Grid.Row>
+            <Kitties accountPair={accountPair} />
+          </Grid.Row>
           <Grid.Row stretched>
             <Balances />
           </Grid.Row>
@@ -75,9 +78,6 @@ function Main () {
           </Grid.Row>
           <Grid.Row>
             <TemplateModule accountPair={accountPair} />
-          </Grid.Row>
-          <Grid.Row>
-            <Kitties accountPair={accountPair} />
           </Grid.Row>
         </Grid>
       </Container>
