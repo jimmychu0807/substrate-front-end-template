@@ -18,11 +18,12 @@ subdirectories. For the most recent version and how to install yarn, please ref
 [yarn](https://yarnpkg.com/) documentation and installation guides.
 
 ```bash
-# Clone the repository
+# This repo uses [zero install](https://yarnpkg.com/features/zero-installs/) to avoid build errors
+# so the clone size is a bit large.
+# Clone the repository:
 git clone https://github.com/substrate-developer-hub/substrate-front-end-template.git
 cd substrate-front-end-template
-# This repo uses [zero install](https://yarnpkg.com/features/zero-installs/) to avoid build errors
-# no `yarn install` step is needed
+yarn install
 ```
 
 ## Usage
