@@ -3,10 +3,14 @@ node_modules
 **/.DS_Store
 build
 .eslintcache
-# Setting for non zero-installs (https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored)
+# Setting for zero-installs
+# (https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored)
+# for v2 and v3 of yarn: https://github.com/yarnpkg/berry/issues/454#issuecomment-530312089
 .yarn/*
-!.yarn/releases
+!.yarn/cache
+!.yarn/patches
 !.yarn/plugins
+!.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-.pnp.*
+.yarn/build-state.yml
