@@ -73,7 +73,7 @@ export function Main (props) {
   // The actual UI elements which are returned from our component.
   return (
     <Grid.Column>
-      <h1>Proof Of Existence</h1>
+      <h1>Proof of Existence</h1>
       {/* Show warning or success message if the file is or is not claimed. */}
       <Form success={!!digest && !isClaimed()} warning={isClaimed()}>
         <Form.Field>
@@ -135,6 +135,7 @@ export function Main (props) {
 
 export default function TemplateModule (props) {
   const { api } = useSubstrate();
-  return (api.query.templateModule && api.query.templateModule.proofs
-    ? <Main {...props} /> : null);
+  return api.query.templateModule && api.query.templateModule.proofs
+    ? <Main {...props} />
+    : null;
 }
