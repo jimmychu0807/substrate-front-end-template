@@ -17,7 +17,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/node:12.13
+      - image: cimg/node:14.16
     working_directory: ~/repo
     steps:
       - checkout
@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Install
           command: |
-            sudo apt-get install libusb-1.0-0-dev
+            sudo apt-get -y update
             yarn install
       - save_cache:
           paths:
@@ -50,7 +50,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:12.13
+      - image: cimg/node:14.16
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -62,6 +62,7 @@ jobs:
             mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git config --global user.email "devhub-deploy@users.noreply.github.com"
             git config --global user.name "Devhub Deployer"
+            yarn build
             yarn deploy
 
 workflows:
