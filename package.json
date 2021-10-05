@@ -24,6 +24,7 @@
     "@polkadot/ui-settings": "^0.85.4",
     "@polkadot/util": "^7.4.1",
     "@polkadot/util-crypto": "^7.4.1",
+    "eslint-config-react-app": "^6.0.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.5",
     "react": "^17.0.2",
@@ -58,8 +59,8 @@
     ]
   },
   "engines": {
-    "node": ">=12",
-    "npm": ">=6"
+    "node": ">=14",
+    "npm": ">=7"
   },
   "browserslist": {
     "production": [
