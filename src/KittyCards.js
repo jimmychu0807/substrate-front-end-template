@@ -33,7 +33,7 @@ const TransferModal = props => {
         accountPair={accountPair} label='Transfer' type='SIGNED-TX' setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
-          palletRpc: 'kitties',
+          palletRpc: 'substrateKitties',
           callable: 'transfer',
           inputParams: [formValue.target, kitty.id],
           paramFields: [true, true]
@@ -72,7 +72,7 @@ const SetPrice = props => {
         accountPair={accountPair} label='Transfer' type='SIGNED-TX' setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
-          palletRpc: 'kitties',
+          palletRpc: 'substrateKitties',
           callable: 'setPrice',
           inputParams: [formValue.target, kitty.price],
           paramFields: [true, true]
