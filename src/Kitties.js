@@ -29,9 +29,9 @@ export default function Kitties (props) {
     let unsub = null;
 
     const asyncFetch = async () => {
-      unsub = await api.query.kitties.kittyCnt(async cnt => {
+      unsub = await api.query.substrateKitties.kittyCnt(async cnt => {
         // Fetch all kitty keys
-        const entries = await api.query.kitties.kitties.entries();
+        const entries = await api.query.substrateKitties.kitties.entries();
         const hashes = entries.map(convertToKittyHash);
         setKittyHashes(hashes);
       });
@@ -48,7 +48,7 @@ export default function Kitties (props) {
     let unsub = null;
 
     const asyncFetch = async () => {
-      unsub = await api.query.kitties.kitties.multi(kittyHashes, kitties => {
+      unsub = await api.query.substrateKitties.kitties.multi(kittyHashes, kitties => {
         const kittyArr = kitties
           .map((kitty, ind) => constructKitty(kittyHashes[ind], kitty.value));
         setKitties(kittyArr);
@@ -67,14 +67,14 @@ export default function Kitties (props) {
   useEffect(subscribeKittyCnt, [api, keyring]);
 
   return <Grid.Column width={16}>
-    <h1>Kitties</h1>
-    <KittyCards kitties={kitties} accountPair={accountPair} setStatus={setStatus}/>
-    <Form style={{ margin: '1em 0' }}>
+  <h1>Kitties</h1>
+  <KittyCards kitties={kitties} accountPair={accountPair} setStatus={setStatus}/>
+  <Form style={{ margin: '1em 0' }}>
       <Form.Field style={{ textAlign: 'center' }}>
         <TxButton
           accountPair={accountPair} label='Create Kitty' type='SIGNED-TX' setStatus={setStatus}
           attrs={{
-            palletRpc: 'kitties',
+            palletRpc: 'substrateKitties',
             callable: 'createKitty',
             inputParams: [],
             paramFields: []
