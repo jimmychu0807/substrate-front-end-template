@@ -5,20 +5,11 @@ import { useSubstrate } from './substrate-lib';
 
 // Events to be filtered from feed
 const FILTERED_EVENTS = [
-  'system:extrinsicSuccess::(phase={"applyExtrinsic":0})'
+  'system:ExtrinsicSuccess::(phase={"applyExtrinsic":0})'
 ];
 
-const eventName = ev => {
-  const level1key = Object.keys(ev)[0];
-  const level2key = Object.keys(ev[level1key])[0];
-  return `${level1key}:${level2key}`;
-};
-
-const eventParams = ev => {
-  const level1key = Object.keys(ev)[0];
-  const level2key = Object.keys(ev[level1key])[0];
-  return JSON.stringify(ev[level1key][level2key]);
-};
+const eventName = ev => `${ev.section}:${ev.method}`;
+const eventParams = ev => JSON.stringify(ev.data);
 
 function Main (props) {
   const { api } = useSubstrate();
@@ -35,9 +26,9 @@ function Main (props) {
           const { event, phase } = record;
 
           // show what we are busy with
-          const evjson = event.toJSON();
-          const evName = eventName(evjson);
-          const evParams = eventParams(evjson);
+          const evHuman = event.toHuman();
+          const evName = eventName(evHuman);
+          const evParams = eventParams(evHuman);
           const evNamePhase = `${evName}::(phase=${phase.toString()})`;
 
           if (FILTERED_EVENTS.includes(evNamePhase)) return;
