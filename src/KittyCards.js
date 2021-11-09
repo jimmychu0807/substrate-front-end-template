@@ -67,14 +67,14 @@ const SetPrice = props => {
       <Form.Input fluid label='Price' placeholder='Enter Price' onChange={formChange('target')}/>
     </Form></Modal.Content>
     <Modal.Actions>
-      <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
+      <Button basic color='grey' onClick={ () => setOpen(false)}>Cancel</Button>
       <TxButton
-        accountPair={accountPair} label='Transfer' type='SIGNED-TX' setStatus={setStatus}
+        accountPair={accountPair} label='Set Price' type='SIGNED-TX' setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
           palletRpc: 'substrateKitties',
           callable: 'setPrice',
-          inputParams: [formValue.target, kitty.price],
+          inputParams: [formValue.target, kitty.id],
           paramFields: [true, true]
         }}
       />
