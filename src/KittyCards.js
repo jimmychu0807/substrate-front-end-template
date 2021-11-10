@@ -16,8 +16,8 @@ const TransferModal = props => {
   };
 
   const confirmAndClose = (unsub) => {
-    unsub();
     setOpen(false);
+    if (unsub && typeof unsub === 'function') unsub();
   };
 
   return <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open}
@@ -55,8 +55,8 @@ const SetPrice = props => {
   };
 
   const confirmAndClose = (unsub) => {
-    unsub();
     setOpen(false);
+    if (unsub && typeof unsub === 'function') unsub();
   };
 
   return <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open}

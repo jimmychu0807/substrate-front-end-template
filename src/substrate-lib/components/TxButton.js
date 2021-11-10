@@ -10,6 +10,7 @@ function TxButton ({
   accountPair = null,
   label,
   setStatus,
+  onClick: txOnClickHandler = null,
   color = 'blue',
   style = null,
   type = 'QUERY',
@@ -152,6 +153,10 @@ function TxButton ({
     (isQuery() && query()) ||
     (isRpc() && rpc()) ||
     (isConstant() && constant());
+
+    if (txOnClickHandler && typeof txOnClickHandler === 'function') {
+      txOnClickHandler(unsub);
+    }
   };
 
   const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
