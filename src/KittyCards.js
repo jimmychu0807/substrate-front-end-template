@@ -74,7 +74,7 @@ const SetPrice = props => {
         attrs={{
           palletRpc: 'substrateKitties',
           callable: 'setPrice',
-          inputParams: [formValue.target, kitty.id],
+          inputParams: [kitty.id, formValue.target],
           paramFields: [true, true]
         }}
       />
@@ -113,11 +113,10 @@ const KittyCard = props => {
       </Card.Description>
     </Card.Content>
     <Card.Content extra style={{ textAlign: 'center' }}>{ owner === accountPair.address
-      ? <SetPrice kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
-      : ''
-    }</Card.Content>
-    <Card.Content extra style={{ textAlign: 'center' }}>{ owner === accountPair.address
-      ? <TransferModal kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
+      ? <>
+          <SetPrice kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
+          <TransferModal kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
+        </>
       : ''
     }</Card.Content>
   </Card>;
