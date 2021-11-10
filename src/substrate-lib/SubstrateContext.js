@@ -19,7 +19,6 @@ console.log(`Connected socket: ${connectedSocket}`);
 const INIT_STATE = {
   socket: connectedSocket,
   jsonrpc: { ...jsonrpc, ...config.RPC },
-  types: config.types,
   keyring: null,
   keyringState: null,
   api: null,
@@ -62,14 +61,14 @@ const reducer = (state, action) => {
 // Connecting to the Substrate node
 
 const connect = (state, dispatch) => {
-  const { apiState, socket, jsonrpc, types } = state;
+  const { apiState, socket, jsonrpc } = state;
   // We only want this function to be performed once
   if (apiState) return;
 
   dispatch({ type: 'CONNECT_INIT' });
 
   const provider = new WsProvider(socket);
-  const _api = new ApiPromise({ provider, types, rpc: jsonrpc });
+  const _api = new ApiPromise({ provider, rpc: jsonrpc });
 
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {
@@ -117,7 +116,7 @@ const SubstrateContext = React.createContext();
 const SubstrateContextProvider = (props) => {
   // filtering props and merge with default param value
   const initState = { ...INIT_STATE };
-  const neededPropNames = ['socket', 'types'];
+  const neededPropNames = ['socket'];
   neededPropNames.forEach(key => {
     initState[key] = (typeof props[key] === 'undefined' ? initState[key] : props[key]);
   });
@@ -133,8 +132,7 @@ const SubstrateContextProvider = (props) => {
 
 // prop typechecking
 SubstrateContextProvider.propTypes = {
-  socket: PropTypes.string,
-  types: PropTypes.object
+  socket: PropTypes.string
 };
 
 const useSubstrate = () => ({ ...useContext(SubstrateContext) });
