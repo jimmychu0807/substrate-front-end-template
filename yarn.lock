@@ -2204,7 +2204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:6.7.2, @polkadot/api@npm:^6.3.1":
+"@polkadot/api@npm:6.7.2, @polkadot/api@npm:^6.7.2":
   version: 6.7.2
   resolution: "@polkadot/api@npm:6.7.2"
   dependencies:
@@ -2223,30 +2223,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.40.3":
-  version: 0.40.4
-  resolution: "@polkadot/extension-dapp@npm:0.40.4"
+"@polkadot/extension-dapp@npm:^0.41.1":
+  version: 0.41.1
+  resolution: "@polkadot/extension-dapp@npm:0.41.1"
   dependencies:
     "@babel/runtime": ^7.15.4
-    "@polkadot/extension-inject": ^0.40.4
-    "@polkadot/util": ^7.6.1
-    "@polkadot/util-crypto": ^7.6.1
+    "@polkadot/extension-inject": ^0.41.1
+    "@polkadot/util": ^7.8.2
+    "@polkadot/util-crypto": ^7.8.2
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 96361daf09d0c5740913e9d4a2343efb78ee06cddef64838ba51cd5c609ef5425d4b0c93b1b20ea8026d8a053dff2da6aa149751d6e90debdd88ddcc0615e5d2
+  checksum: 0aa93223cd72ae183e18e73961691af41c576f6116e68c91dc8d38f96db201b1b235c8d3b14f124ffae6763cb8fc9fb3e7841183c8cf6d4403d2c7c51706cf5f
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:^0.40.4":
-  version: 0.40.4
-  resolution: "@polkadot/extension-inject@npm:0.40.4"
+"@polkadot/extension-inject@npm:^0.41.1":
+  version: 0.41.1
+  resolution: "@polkadot/extension-inject@npm:0.41.1"
   dependencies:
     "@babel/runtime": ^7.15.4
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: 2226145c75cdb4317db1a85fe69fb6ec1e9d5e0e3ff3cc49737beacde4c41008eb47c58e39942123c6124405cbbd61d5ef9961fae747e5f054d9042ddedb8bd0
+  checksum: 2e62b0746fd5d47271ef8bfa67b4d60d2cae7747a471588a0b4ce8459586dc2eb789261392a147a93ec58af887b3141bb5cbf2cb1f29127d9339cfff342a5c0a
   languageName: node
   linkType: hard
 
@@ -2266,7 +2266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/hw-ledger@npm:^7.4.1":
+"@polkadot/hw-ledger@npm:^7.8.2":
   version: 7.8.2
   resolution: "@polkadot/hw-ledger@npm:7.8.2"
   dependencies:
@@ -2278,7 +2278,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/keyring@npm:^7.4.1, @polkadot/keyring@npm:^7.8.2":
+"@polkadot/keyring@npm:^7.8.2":
   version: 7.8.2
   resolution: "@polkadot/keyring@npm:7.8.2"
   dependencies:
@@ -2292,7 +2292,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/networks@npm:7.8.2, @polkadot/networks@npm:^7.4.1, @polkadot/networks@npm:^7.8.2":
+"@polkadot/networks@npm:7.8.2, @polkadot/networks@npm:^7.8.2":
   version: 7.8.2
   resolution: "@polkadot/networks@npm:7.8.2"
   dependencies:
@@ -2342,7 +2342,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:6.7.2, @polkadot/types@npm:^6.3.1":
+"@polkadot/types@npm:6.7.2, @polkadot/types@npm:^6.7.2":
   version: 6.7.2
   resolution: "@polkadot/types@npm:6.7.2"
   dependencies:
@@ -2354,15 +2354,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ui-keyring@npm:^0.85.4":
-  version: 0.85.5
-  resolution: "@polkadot/ui-keyring@npm:0.85.5"
+"@polkadot/ui-keyring@npm:^0.86.5":
+  version: 0.86.5
+  resolution: "@polkadot/ui-keyring@npm:0.86.5"
   dependencies:
-    "@babel/runtime": ^7.15.4
-    "@polkadot/hw-ledger": ^7.4.1
-    "@polkadot/keyring": ^7.4.1
-    "@polkadot/ui-settings": 0.85.5
-    "@polkadot/util": ^7.4.1
+    "@babel/runtime": ^7.16.0
+    "@polkadot/hw-ledger": ^7.8.2
+    "@polkadot/keyring": ^7.8.2
+    "@polkadot/ui-settings": 0.86.5
+    "@polkadot/util": ^7.8.2
     mkdirp: ^1.0.4
     rxjs: ^7.4.0
     store: ^2.0.12
@@ -2370,27 +2370,27 @@ __metadata:
     "@polkadot/keyring": "*"
     "@polkadot/ui-settings": "*"
     "@polkadot/util": "*"
-  checksum: 85d97b804b6c0711a1d6243563f62b2e3c9b3385af6c97d9947154c47db3ffa222b57821b460b2870d7483e6bc73c22f7fec0690981cae5075293c9dab12032d
+  checksum: df6cc972b8d60bb501f17df3b18804ec18de5781c83a112fbe4017591bb8a55c811920ebd66c400b0d2e611e35d0a9f6f9da66264ae9dd729bdf798d443e6724
   languageName: node
   linkType: hard
 
-"@polkadot/ui-settings@npm:0.85.5, @polkadot/ui-settings@npm:^0.85.4":
-  version: 0.85.5
-  resolution: "@polkadot/ui-settings@npm:0.85.5"
+"@polkadot/ui-settings@npm:0.86.5, @polkadot/ui-settings@npm:^0.86.5":
+  version: 0.86.5
+  resolution: "@polkadot/ui-settings@npm:0.86.5"
   dependencies:
-    "@babel/runtime": ^7.15.4
-    "@polkadot/networks": ^7.4.1
-    "@polkadot/util": ^7.4.1
+    "@babel/runtime": ^7.16.0
+    "@polkadot/networks": ^7.8.2
+    "@polkadot/util": ^7.8.2
     eventemitter3: ^4.0.7
     store: ^2.0.12
   peerDependencies:
     "@polkadot/networks": "*"
     "@polkadot/util": "*"
-  checksum: 273914ee487658ef5303b9d716d0069888c7beb7c67d1fc5ddba80c477b7f4a1cc41c3203ea6f881d20a4b59570db4d91294f3a6253f59b322f18feed605c379
+  checksum: 4379c1c7672602fa0e55ccf545df2b1b74dd641a0861bf47c22e49a9f393927545b7a4fcd1462d7f9cf24e972234df634d269183a7be170405cf1d23dc17aa78
   languageName: node
   linkType: hard
 
-"@polkadot/util-crypto@npm:7.8.2, @polkadot/util-crypto@npm:^7.4.1, @polkadot/util-crypto@npm:^7.6.1, @polkadot/util-crypto@npm:^7.8.2":
+"@polkadot/util-crypto@npm:7.8.2, @polkadot/util-crypto@npm:^7.8.2":
   version: 7.8.2
   resolution: "@polkadot/util-crypto@npm:7.8.2"
   dependencies:
@@ -2417,7 +2417,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:7.8.2, @polkadot/util@npm:^7.4.1, @polkadot/util@npm:^7.6.1, @polkadot/util@npm:^7.8.2":
+"@polkadot/util@npm:7.8.2, @polkadot/util@npm:^7.8.2":
   version: 7.8.2
   resolution: "@polkadot/util@npm:7.8.2"
   dependencies:
@@ -14854,15 +14854,15 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "substrate-front-end-template@workspace:."
   dependencies:
-    "@polkadot/api": ^6.3.1
-    "@polkadot/extension-dapp": ^0.40.3
-    "@polkadot/keyring": ^7.4.1
-    "@polkadot/networks": ^7.4.1
-    "@polkadot/types": ^6.3.1
-    "@polkadot/ui-keyring": ^0.85.4
-    "@polkadot/ui-settings": ^0.85.4
-    "@polkadot/util": ^7.4.1
-    "@polkadot/util-crypto": ^7.4.1
+    "@polkadot/api": ^6.7.2
+    "@polkadot/extension-dapp": ^0.41.1
+    "@polkadot/keyring": ^7.8.2
+    "@polkadot/networks": ^7.8.2
+    "@polkadot/types": ^6.7.2
+    "@polkadot/ui-keyring": ^0.86.5
+    "@polkadot/ui-settings": ^0.86.5
+    "@polkadot/util": ^7.8.2
+    "@polkadot/util-crypto": ^7.8.2
     eslint: ^7.32.0
     eslint-config-react-app: ^6.0.0
     eslint-config-semistandard: ^16.0.0
