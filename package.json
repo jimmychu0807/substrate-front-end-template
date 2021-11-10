@@ -4,50 +4,58 @@
   "private": true,
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Unlicense",
+  "homepage": "https://substrate-developer-hub.github.io/substrate-front-end-template",
+  "bugs": {
+    "url": "https://github.com/substrate-developer-hub/substrate-front-end-template/issues"
+  },
+  "keywords": [
+    "substrate",
+    "substrate-ui",
+    "polkadot-js"
+  ],
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "CI=true react-app-rewired test --env=jsdom",
-    "eject": "react-app-rewired eject",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "CI=true react-scripts test",
+    "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js",
     "lint:ci": "eslint src/**/*.js --max-warnings=0",
     "lint:fix": "eslint --fix src/**/*.js",
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {
-    "@polkadot/api": "^6.3.1",
-    "@polkadot/extension-dapp": "^0.40.3",
-    "@polkadot/keyring": "^7.4.1",
-    "@polkadot/networks": "^7.4.1",
-    "@polkadot/types": "^6.3.1",
-    "@polkadot/ui-keyring": "^0.85.4",
-    "@polkadot/ui-settings": "^0.85.4",
-    "@polkadot/util": "^7.4.1",
-    "@polkadot/util-crypto": "^7.4.1",
-    "eslint-config-react-app": "^6.0.0",
+    "@polkadot/api": "^6.7.2",
+    "@polkadot/extension-dapp": "^0.41.1",
+    "@polkadot/keyring": "^7.8.2",
+    "@polkadot/networks": "^7.8.2",
+    "@polkadot/types": "^6.7.2",
+    "@polkadot/ui-keyring": "^0.86.5",
+    "@polkadot/ui-settings": "^0.86.5",
+    "@polkadot/util": "^7.8.2",
+    "@polkadot/util-crypto": "^7.8.2",
     "prop-types": "^15.7.2",
-    "query-string": "^6.13.5",
+    "query-string": "^7.0.1",
     "react": "^17.0.2",
-    "react-copy-to-clipboard": "^5.0.3",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^7.20.0",
-    "eslint-config-semistandard": "^15.0.1",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint": "^7.32.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-config-semistandard": "^16.0.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-only-warn": "^1.0.2",
-    "eslint-plugin-promise": "^4.3.1",
-    "eslint-plugin-standard": "^5.0.0",
-    "gh-pages": "^3.1.0",
-    "react-app-rewired": "^2.1.8",
+    "eslint-plugin-only-warn": "^1.0.3",
+    "eslint-plugin-promise": "^5.1.1",
+    "gh-pages": "^3.2.3",
     "semistandard": "^16.0.0"
+  },
+  "resolutions": {
+    "eslint-plugin-jsx-a11y": "6.4.1"
   },
   "eslintConfig": {
     "extends": [
@@ -73,23 +81,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "homepage": "https://substrate-developer-hub.github.io/substrate-front-end-template",
-  "bugs": {
-    "url": "https://github.com/substrate-developer-hub/substrate-front-end-template/issues"
-  },
-  "keywords": [
-    "substrate",
-    "substrate-ui",
-    "polkadot-js"
-  ],
-  "jest": {
-    "modulePathIgnorePatterns": [
-      "<rootDir>/src/__tests__/mock.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/src/__tests__/mock.js"
-    }
   }
 }
