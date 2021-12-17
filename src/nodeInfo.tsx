@@ -3,9 +3,9 @@ import { Card, Icon, Grid } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 
-function Main (props) {
+function Main(props) {
   const { api, socket } = useSubstrate();
-  const [nodeInfo, setNodeInfo] = useState({});
+  const [nodeInfo, setNodeInfo] = useState({} as any);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -41,7 +41,7 @@ function Main (props) {
   );
 }
 
-export default function NodeInfo (props) {
+export default function NodeInfo(props) {
   const { api } = useSubstrate();
   return api.rpc &&
     api.rpc.system &&

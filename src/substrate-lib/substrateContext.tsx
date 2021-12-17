@@ -111,7 +111,7 @@ const loadAccounts = (state, dispatch) => {
   asyncLoadAccounts();
 };
 
-const SubstrateContext = React.createContext();
+const SubstrateContext = React.createContext(undefined);
 
 const SubstrateContextProvider = (props) => {
   // filtering props and merge with default param value

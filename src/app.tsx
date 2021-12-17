@@ -5,18 +5,18 @@ import 'semantic-ui-css/semantic.min.css';
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
 import { DeveloperConsole } from './substrate-lib/components';
 
-import AccountSelector from './AccountSelector';
-import Balances from './Balances';
-import BlockNumber from './BlockNumber';
-import Events from './Events';
-import Interactor from './Interactor';
-import Metadata from './Metadata';
-import NodeInfo from './NodeInfo';
-import TemplateModule from './TemplateModule';
-import Transfer from './Transfer';
-import Upgrade from './Upgrade';
+import AccountSelector from './accountSelector';
+import Balances from './balances';
+import BlockNumber from './blockNumber';
+import Events from './events';
+import Interactor from './interactor';
+import Metadata from './metadata';
+import NodeInfo from './nodeInfo';
+import TemplateModule from './templateModule';
+import Transfer from './transfer';
+import Upgrade from './upgrade';
 
-function Main () {
+function Main() {
   const [accountAddress, setAccountAddress] = useState(null);
   const { apiState, keyring, keyringState, apiError } = useSubstrate();
   const accountPair =
@@ -46,7 +46,7 @@ function Main () {
     return loader('Loading accounts (please review any extension\'s authorization)');
   }
 
-  const contextRef = createRef();
+  const contextRef: React.RefObject<HTMLInputElement> = createRef();
 
   return (
     <div ref={contextRef}>
@@ -82,7 +82,7 @@ function Main () {
   );
 }
 
-export default function App () {
+export default function App() {
   return (
     <SubstrateContextProvider>
       <Main />

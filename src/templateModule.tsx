@@ -4,7 +4,7 @@ import { Form, Input, Grid, Card, Statistic } from 'semantic-ui-react';
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
 
-function Main (props) {
+function Main(props) {
   const { api } = useSubstrate();
   const { accountPair } = props;
 
@@ -12,8 +12,8 @@ function Main (props) {
   const [status, setStatus] = useState('');
 
   // The currently stored value
-  const [currentValue, setCurrentValue] = useState(0);
-  const [formValue, setFormValue] = useState(0);
+  const [currentValue, setCurrentValue] = useState('0');
+  const [formValue, setFormValue] = useState('0');
 
   useEffect(() => {
     let unsubscribe;
@@ -74,7 +74,7 @@ function Main (props) {
   );
 }
 
-export default function TemplateModule (props) {
+export default function TemplateModule(props) {
   const { api } = useSubstrate();
   return api.query.templateModule && api.query.templateModule.something
     ? <Main {...props} />
