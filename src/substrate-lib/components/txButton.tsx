@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 
-import { useSubstrate } from '../';
+import { useSubstrate } from '..';
 import utils from '../utils';
 
-function TxButton ({
+function TxButton({
   accountPair = null,
   label,
   setStatus,
@@ -84,7 +84,7 @@ function TxButton ({
   const uncheckedSudoTx = async () => {
     const fromAcct = await getFromAcct();
     const txExecute =
-        api.tx.sudo.sudoUncheckedWeight(api.tx[palletRpc][callable](...inputParams), 0);
+      api.tx.sudo.sudoUncheckedWeight(api.tx[palletRpc][callable](...inputParams), 0);
 
     const unsub = txExecute.signAndSend(fromAcct, txResHandler)
       .catch(txErrHandler);
@@ -146,12 +146,12 @@ function TxButton ({
     setStatus('Sending...');
 
     (isSudo() && sudoTx()) ||
-    (isUncheckedSudo() && uncheckedSudoTx()) ||
-    (isSigned() && signedTx()) ||
-    (isUnsigned() && unsignedTx()) ||
-    (isQuery() && query()) ||
-    (isRpc() && rpc()) ||
-    (isConstant() && constant());
+      (isUncheckedSudo() && uncheckedSudoTx()) ||
+      (isSigned() && signedTx()) ||
+      (isUnsigned() && unsignedTx()) ||
+      (isQuery() && query()) ||
+      (isRpc() && rpc()) ||
+      (isConstant() && constant());
   };
 
   const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
@@ -219,8 +219,8 @@ function TxButton ({
       style={style}
       type='submit'
       onClick={transaction}
-      disabled={ disabled || !palletRpc || !callable || !allParamsFilled() ||
-        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair)) }
+      disabled={disabled || !palletRpc || !callable || !allParamsFilled() ||
+        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair))}
     >
       {label}
     </Button>
@@ -242,7 +242,7 @@ TxButton.propTypes = {
   }).isRequired
 };
 
-function TxGroupButton (props) {
+function TxGroupButton(props) {
   return (
     <Button.Group>
       <TxButton

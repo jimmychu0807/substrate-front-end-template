@@ -1,6 +1,6 @@
 import {
   SubstrateContextProvider, useSubstrate
-} from './SubstrateContext';
+} from './substrateContext';
 import utils from './utils';
 
 export { useSubstrate, SubstrateContextProvider, utils };
