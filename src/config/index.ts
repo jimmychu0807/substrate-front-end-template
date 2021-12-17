@@ -12,7 +12,7 @@ const envVars = envVarNames.reduce((mem, n) => {
   // Remove the `REACT_APP_` prefix
   if (process.env[n] !== undefined) mem[n.slice(10)] = process.env[n];
   return mem;
-}, {} as any);
+}, {});
 
 const config = { ...configCommon, ...configEnv, ...envVars };
 export default config;
