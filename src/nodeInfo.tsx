@@ -44,7 +44,7 @@ function Main(props) {
 class NodeDTO {
   chain: string;
   nodeName: string;
-  nodeVersion: string; // todo any?
+  nodeVersion: string;
 }
 
 export default function NodeInfo(props) {
