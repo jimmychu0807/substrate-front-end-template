@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Icon, Grid } from 'semantic-ui-react'
+import React, { useEffect, useState } from 'react';
+import { Card, Icon, Grid } from 'semantic-ui-react';
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrate } from './substrate-lib';
 
 function Main (props) {
-  const { api, socket } = useSubstrate()
-  const [nodeInfo, setNodeInfo] = useState<NodeDTO>((new NodeDTO()))
+  const { api, socket } = useSubstrate();
+  const [nodeInfo, setNodeInfo] = useState<NodeDTO>((new NodeDTO()));
 
   useEffect(() => {
     const getInfo = async () => {
@@ -14,14 +14,14 @@ function Main (props) {
           api.rpc.system.chain(),
           api.rpc.system.name(),
           api.rpc.system.version()
-        ])
-        setNodeInfo({ chain, nodeName, nodeVersion })
+        ]);
+        setNodeInfo({ chain, nodeName, nodeVersion });
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-    }
-    getInfo()
-  }, [api.rpc.system])
+    };
+    getInfo();
+  }, [api.rpc.system]);
 
   return (
     <Grid.Column>
@@ -38,7 +38,7 @@ function Main (props) {
         </Card.Content>
       </Card>
     </Grid.Column>
-  )
+  );
 }
 
 class NodeDTO {
@@ -48,12 +48,12 @@ class NodeDTO {
 }
 
 export default function NodeInfo (props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrate();
   return api.rpc &&
     api.rpc.system &&
     api.rpc.system.chain &&
     api.rpc.system.name &&
     api.rpc.system.version
     ? <Main {...props} />
-    : null
+    : null;
 }

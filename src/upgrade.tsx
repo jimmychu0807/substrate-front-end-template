@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
-import { Form, Input, Grid } from 'semantic-ui-react'
-import { TxButton } from './substrate-lib/components'
+import React, { useState } from 'react';
+import { Form, Input, Grid } from 'semantic-ui-react';
+import { TxButton } from './substrate-lib/components';
 
 export default function Main ({ accountPair }: {accountPair: any}) {
-  const [status, setStatus] = useState('')
-  const [proposal, setProposal] = useState({})
+  const [status, setStatus] = useState('');
+  const [proposal, setProposal] = useState({});
 
   const bufferToHex = buffer => {
     return Array.from(new Uint8Array(buffer))
       .map(b => b.toString(16).padStart(2, '0'))
-      .join('')
-  }
+      .join('');
+  };
 
   const handleFileChosen = file => {
-    const fileReader = new FileReader()
+    const fileReader = new FileReader();
     fileReader.onloadend = e => {
-      const content = bufferToHex(fileReader.result)
-      setProposal(`0x${content}`)
-    }
+      const content = bufferToHex(fileReader.result);
+      setProposal(`0x${content}`);
+    };
 
-    fileReader.readAsArrayBuffer(file)
-  }
+    fileReader.readAsArrayBuffer(file);
+  };
 
   return (
     <Grid.Column width={8}>
@@ -52,5 +52,5 @@ export default function Main ({ accountPair }: {accountPair: any}) {
         <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
-  )
+  );
 }

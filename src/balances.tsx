@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { Table, Grid, Button } from 'semantic-ui-react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { useSubstrate } from './substrate-lib'
+import React, { useEffect, useState } from 'react';
+import { Table, Grid, Button } from 'semantic-ui-react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useSubstrate } from './substrate-lib';
 
 export default function Main (props) {
-  const { api, keyring } = useSubstrate()
-  const accounts = keyring.getPairs()
-  const [balances, setBalances] = useState({})
+  const { api, keyring } = useSubstrate();
+  const accounts = keyring.getPairs();
+  const [balances, setBalances] = useState({});
 
   useEffect(() => {
-    const addresses = keyring.getPairs().map(account => account.address)
-    let unsubscribeAll = null
+    const addresses = keyring.getPairs().map(account => account.address);
+    let unsubscribeAll = null;
 
     api.query.system.account
       .multi(addresses, balances => {
         const balancesMap = addresses.reduce((acc, address, index) => ({
           ...acc, [address]: balances[index].data.free.toHuman()
-        }), {})
-        setBalances(balancesMap)
+        }), {});
+        setBalances(balancesMap);
       }).then(unsub => {
-        unsubscribeAll = unsub
-      }).catch(console.error)
+        unsubscribeAll = unsub;
+      }).catch(console.error);
 
-    return () => unsubscribeAll && unsubscribeAll()
-  }, [api, keyring, setBalances])
+    return () => unsubscribeAll && unsubscribeAll();
+  }, [api, keyring, setBalances]);
 
   return (
     <Grid.Column>
@@ -68,5 +68,5 @@ export default function Main (props) {
         </Table.Body>
       </Table>
     </Grid.Column>
-  )
+  );
 }
