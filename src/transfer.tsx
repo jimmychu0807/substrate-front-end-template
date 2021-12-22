@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { Form, Input, Grid, Label, Icon } from 'semantic-ui-react'
 import { TxButton } from './substrate-lib/components'
 
-export default function Main (props) {
+export default function Main ({ accountPair }: {accountPair: any}) {
   const [status, setStatus] = useState(null)
   const [formState, setFormState] = useState({ addressTo: null, amount: 0 })
-  const { accountPair } = props
 
   const onChange = (_, data) =>
     setFormState(prev => ({ ...prev, [data.state]: data.value }))

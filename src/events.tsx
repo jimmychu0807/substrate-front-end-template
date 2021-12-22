@@ -11,7 +11,7 @@ const FILTERED_EVENTS = [
 const eventName = ev => `${ev.section}:${ev.method}`
 const eventParams = ev => JSON.stringify(ev.data)
 
-function Main (props) {
+function Main ({ feedMaxHeight = 250 }: { feedMaxHeight: number}) {
   const { api } = useSubstrate()
   const [eventFeed, setEventFeed] = useState([])
 
@@ -48,8 +48,6 @@ function Main (props) {
     allEvents()
     return () => unsub && unsub()
   }, [api.query.system])
-
-  const { feedMaxHeight = 250 } = props
 
   return (
     <Grid.Column width={8}>

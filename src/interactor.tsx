@@ -7,9 +7,8 @@ import { TxButton, TxGroupButton } from './substrate-lib/components'
 const argIsOptional = (arg) =>
   arg.type.toString().startsWith('Option<')
 
-function Main (props) {
+function Main ({ accountPair } : {accountPair: any}) {
   const { api, jsonrpc } = useSubstrate()
-  const { accountPair } = props
   const [status, setStatus] = useState(null)
 
   const [interxType, setInterxType] = useState('EXTRINSIC')
@@ -244,7 +243,7 @@ function Main (props) {
   )
 }
 
-function InteractorSubmit (props) {
+function InteractorSubmit (props: any) {
   const { attrs: { interxType } } = props
   if (interxType === 'QUERY') {
     return <TxButton

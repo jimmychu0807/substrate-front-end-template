@@ -57,7 +57,7 @@ function Main (props: any) {
           <Image src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`} size='mini' />
         </Menu.Menu>
         <Menu.Menu position='right' style={{ alignItems: 'center' }}>
-          { !accountSelected
+          {!accountSelected
             ? <span>
               Add your account with the{' '}
               <a
@@ -68,7 +68,7 @@ function Main (props: any) {
                 Polkadot JS Extension
               </a>
             </span>
-            : null }
+            : null}
           <CopyToClipboard text={accountSelected}>
             <Button
               basic
@@ -96,8 +96,7 @@ function Main (props: any) {
   )
 }
 
-function BalanceAnnotation (props) {
-  const { accountSelected } = props
+function BalanceAnnotation ({ accountSelected }: { accountSelected: any }) {
   const { api } = useSubstrate()
   const [accountBalance, setAccountBalance] = useState(0)
 
@@ -120,9 +119,9 @@ function BalanceAnnotation (props) {
 
   return accountSelected
     ? <Label pointing='left'>
-        <Icon name='money' color='green' />
-        {accountBalance}
-      </Label>
+      <Icon name='money' color='green' />
+      {accountBalance}
+    </Label>
     : null
 }
 

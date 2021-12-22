@@ -10,11 +10,12 @@ function TxButton ({
   accountPair = null,
   label,
   setStatus,
+  color = 'blue',
   style = null,
   type = 'QUERY',
   attrs = null,
   disabled = false
-}) {
+}: any) {
   // Hooks
   const { api } = useSubstrate()
   const [unsub, setUnsub] = useState(null)
@@ -214,7 +215,7 @@ function TxButton ({
   return (
     <Button
       basic
-      color={'blue'}
+      color={color}
       style={style}
       type='submit'
       onClick={transaction}

@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { Form, Input, Grid } from 'semantic-ui-react'
 import { TxButton } from './substrate-lib/components'
 
-export default function Main (props) {
+export default function Main ({ accountPair }: {accountPair: any}) {
   const [status, setStatus] = useState('')
   const [proposal, setProposal] = useState({})
-  const { accountPair } = props
 
   const bufferToHex = buffer => {
     return Array.from(new Uint8Array(buffer))

@@ -4,9 +4,8 @@ import { Form, Input, Grid, Card, Statistic } from 'semantic-ui-react'
 import { useSubstrate } from './substrate-lib'
 import { TxButton } from './substrate-lib/components'
 
-function Main (props) {
+function Main ({ accountPair }: {accountPair: any}) {
   const { api } = useSubstrate()
-  const { accountPair } = props
 
   // The transaction submission status
   const [status, setStatus] = useState('')

@@ -3,9 +3,8 @@ import { Statistic, Grid, Card, Icon } from 'semantic-ui-react'
 
 import { useSubstrate } from './substrate-lib'
 
-function Main (props) {
+function Main ({ finalized }: { finalized: any }) {
   const { api } = useSubstrate()
-  const { finalized } = props
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockNumberTimer, setBlockNumberTimer] = useState(0)
 

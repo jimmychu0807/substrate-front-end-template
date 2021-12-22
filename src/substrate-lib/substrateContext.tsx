@@ -113,7 +113,7 @@ const loadAccounts = (state, dispatch) => {
 
 const SubstrateContext = React.createContext(undefined)
 
-const SubstrateContextProvider = (props) => {
+const SubstrateContextProvider = (props: any) => {
   // filtering props and merge with default param value
   const initState = { ...INIT_STATE }
   const neededPropNames = ['socket']
