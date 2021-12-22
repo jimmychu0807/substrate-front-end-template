@@ -13,7 +13,7 @@ import {
 
 import { useSubstrate } from './substrate-lib'
 
-function Main (props) {
+function Main (props: any) {
   const { keyring } = useSubstrate()
   const { setAccountAddress } = props
   const [accountSelected, setAccountSelected] = useState('')

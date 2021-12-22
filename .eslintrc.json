@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true
     },
     "extends": [
         "eslint:recommended",
@@ -13,7 +14,7 @@
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 13,
+        "ecmaVersion": 2021,
         "sourceType": "module"
     },
     "plugins": [
@@ -21,6 +22,8 @@
         "@typescript-eslint"
     ],
     "rules": {
+        // note you must disable the base rule as it can report incorrect errors
+        "no-use-before-define": "off"
     },
     "settings": {
         "react": {
