@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Form, Input, Grid, Label, Icon } from 'semantic-ui-react';
-import { TxButton } from './substrate-lib/components';
+import React, { useState } from 'react'
+import { Form, Input, Grid, Label, Icon } from 'semantic-ui-react'
+import { TxButton } from './substrate-lib/components'
 
 export default function Main (props) {
-  const [status, setStatus] = useState(null);
-  const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
-  const { accountPair } = props;
+  const [status, setStatus] = useState(null)
+  const [formState, setFormState] = useState({ addressTo: null, amount: 0 })
+  const { accountPair } = props
 
   const onChange = (_, data) =>
-    setFormState(prev => ({ ...prev, [data.state]: data.value }));
+    setFormState(prev => ({ ...prev, [data.state]: data.value }))
 
-  const { addressTo, amount } = formState;
+  const { addressTo, amount } = formState
 
   return (
     <Grid.Column width={8}>
@@ -63,5 +63,5 @@ export default function Main (props) {
         <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
-  );
+  )
 }
