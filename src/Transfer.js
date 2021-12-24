@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Input, Grid, Label, Icon } from 'semantic-ui-react';
+import { Form, Input, Grid, Label, Icon, Dropdown } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
+import { useSubstrate } from './substrate-lib';
 
 export default function Main (props) {
   const [status, setStatus] = useState(null);
@@ -11,6 +12,14 @@ export default function Main (props) {
     setFormState(prev => ({ ...prev, [data.state]: data.value }));
 
   const { addressTo, amount } = formState;
+
+  const { keyring } = useSubstrate();
+  const accounts = keyring.getPairs();
+
+  const availableAccounts = [];
+  accounts.map(account => {
+    return availableAccounts.push({ key: account.meta.name, text: account.meta.name, value: account.address });
+  });
 
   return (
     <Grid.Column width={8}>
@@ -28,11 +37,24 @@ export default function Main (props) {
         </Form.Field>
 
         <Form.Field>
+          <Dropdown
+            placeholder='Select from available addresses'
+            fluid
+            selection
+            search
+            options={availableAccounts}
+            state='addressTo'
+            onChange={onChange}
+          />
+        </Form.Field>
+
+        <Form.Field>
           <Input
             fluid
             label='To'
             type='text'
             placeholder='address'
+            value={addressTo}
             state='addressTo'
             onChange={onChange}
           />
