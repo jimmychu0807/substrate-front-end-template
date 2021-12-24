@@ -6,7 +6,7 @@ configuration. To learn about Substrate itself, visit the
 [Substrate Developer Hub](https://substrate.dev).
 
 The template is built with [Create React App](https://github.com/facebook/create-react-app)
-and [Polkadot js API](https://polkadot.js.org/api/). Familiarity with these tools
+and [Polkadot js API](https://polkadot.js.org/docs/api/). Familiarity with these tools
 will be helpful, but the template strives to be self-explanatory.
 
 ## Using The Template
@@ -59,11 +59,11 @@ More on [React environment variables](https://create-react-app.dev/docs/adding-c
 When writing and deploying your own front end, you should configure:
 
 * Custom types as JSON in `src/config/types.json`. See
-  [Extending types](https://polkadot.js.org/api/start/types.extend.html).
+  [Extending types](https://polkadot.js.org/docs/api/start/types.extend).
 * `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
   deployed node.
 * `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
-  See [Keyring](https://polkadot.js.org/api/start/keyring.html).
+  See [Keyring](https://polkadot.js.org/docs/api/start/keyring).
 
 ### Specifying Connecting Node
 
@@ -103,8 +103,8 @@ only when `apiState === "READY"`.
 ### TxButton Component
 
 The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic
-[query](https://polkadot.js.org/api/start/api.query.html) and
-[transaction](https://polkadot.js.org/api/start/api.tx.html) requests to the
+[query](https://polkadot.js.org/docs/api/start/api.query) and
+[transaction](https://polkadot.js.org/docs/api/start/api.tx) requests to the
 connected node. You can reuse this component for a wide variety of queries and
 transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example
 and [src/ChainState.js](./src/ChainState.js) for a query example.
