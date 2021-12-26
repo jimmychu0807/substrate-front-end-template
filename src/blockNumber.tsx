@@ -41,12 +41,12 @@ function Main ({ finalized }: { finalized: any }) {
       <Card>
         <Card.Content textAlign='center'>
           <Statistic
-            label={(finalized ? 'Finalized' : 'Current') + ' Block'}
-            value={blockNumber}
+            label={ (finalized ? 'Finalized' : 'Current') + ' Block' }
+            value={ blockNumber }
           />
         </Card.Content>
         <Card.Content extra>
-          <Icon name='time' /> {blockNumberTimer}
+          <Icon name='time' /> { blockNumberTimer }
         </Card.Content>
       </Card>
     </Grid.Column>
@@ -59,6 +59,6 @@ export default function BlockNumber (props) {
     api.derive.chain &&
     api.derive.chain.bestNumber &&
     api.derive.chain.bestNumberFinalized
-    ? <Main {...props} />
+    ? <Main { ...props } />
     : null;
 }

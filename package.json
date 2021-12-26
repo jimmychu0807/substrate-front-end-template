@@ -19,7 +19,8 @@
     "test": "CI=true react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --fix --ext .ts,.tsx",
+    "lint:ci": "eslint . --ext .ts,.tsk --max-warnings=0",
+    "lint:fix": "eslint . --fix --ext .ts,.tsx",    
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {

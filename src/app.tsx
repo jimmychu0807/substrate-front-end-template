@@ -26,15 +26,15 @@ function Main () {
 
   const loader = text =>
     <Dimmer active>
-      <Loader size='small'>{text}</Loader>
+      <Loader size='small'>{ text }</Loader>
     </Dimmer>;
 
   const message = err =>
-    <Grid centered columns={2} padded>
+    <Grid centered columns={ 2 } padded>
       <Grid.Column>
         <Message negative compact floating
           header='Error Connecting to Substrate'
-          content={`${JSON.stringify(err, null, 4)}`}
+          content={ `${JSON.stringify(err, null, 4)}` }
         />
       </Grid.Column>
     </Grid>;
@@ -49,9 +49,9 @@ function Main () {
   const contextRef: React.RefObject<HTMLInputElement> = createRef();
 
   return (
-    <div ref={contextRef}>
-      <Sticky context={contextRef}>
-        <AccountSelector setAccountAddress={setAccountAddress} />
+    <div ref={ contextRef }>
+      <Sticky context={ contextRef }>
+        <AccountSelector setAccountAddress={ setAccountAddress } />
       </Sticky>
       <Container>
         <Grid stackable columns='equal'>
@@ -65,15 +65,15 @@ function Main () {
             <Balances />
           </Grid.Row>
           <Grid.Row>
-            <Transfer accountPair={accountPair} />
-            <Upgrade accountPair={accountPair} />
+            <Transfer accountPair={ accountPair } />
+            <Upgrade accountPair={ accountPair } />
           </Grid.Row>
           <Grid.Row>
-            <Interactor accountPair={accountPair} />
+            <Interactor accountPair={ accountPair } />
             <Events />
           </Grid.Row>
           <Grid.Row>
-            <TemplateModule accountPair={accountPair} />
+            <TemplateModule accountPair={ accountPair } />
           </Grid.Row>
         </Grid>
       </Container>

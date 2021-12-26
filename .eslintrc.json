@@ -5,9 +5,8 @@
         "jest": true
     },
     "extends": [
-        "eslint:recommended",
         "plugin:react/recommended",
-        "standard"
+        "semistandard"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -22,8 +21,8 @@
         "@typescript-eslint"
     ],
     "rules": {
-        // note you must disable the base rule as it can report incorrect errors
         "no-use-before-define": "off",
+        "react/jsx-curly-spacing": [2, { "when": "always", "children": true }],
         "semi": [2, "always"]
     },
     "settings": {
