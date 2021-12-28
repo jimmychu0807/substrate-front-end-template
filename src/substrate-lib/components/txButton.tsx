@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, SemanticCOLORS } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 
 import { useSubstrate } from '..';
@@ -15,16 +15,7 @@ function TxButton ({
   type = 'QUERY',
   attrs = null,
   disabled = false
-}: {
-  accountPair: any,
-  label: string,
-  setStatus: any,
-  color?: SemanticCOLORS,
-  style?: any,
-  type: string,
-  attrs: any,
-  disabled?: boolean
-}) {
+}: any) {
   // Hooks
   const { api } = useSubstrate();
   const [unsub, setUnsub] = useState(null);

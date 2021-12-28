@@ -5,7 +5,7 @@ import { useSubstrate } from './substrate-lib';
 
 function Main (props) {
   const { api, socket } = useSubstrate();
-  const [nodeInfo, setNodeInfo] = useState<NodeDTO>((new NodeDTO()));
+  const [nodeInfo, setNodeInfo] = useState<any>(({}));
 
   useEffect(() => {
     const getInfo = async () => {
@@ -39,12 +39,6 @@ function Main (props) {
       </Card>
     </Grid.Column>
   );
-}
-
-class NodeDTO {
-  chain: string;
-  nodeName: string;
-  nodeVersion: string;
 }
 
 export default function NodeInfo (props) {
