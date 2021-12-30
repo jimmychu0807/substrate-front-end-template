@@ -15,7 +15,16 @@ function TxButton ({
   type = 'QUERY',
   attrs = null,
   disabled = false
-}: any) {
+}: {
+  accountPair: any,
+  label: any,
+  setStatus: any,
+  color?: any,
+  style?: any,
+  type: any,
+  attrs: any,
+  disabled?: any
+}) {
   // Hooks
   const { api } = useSubstrate();
   const [unsub, setUnsub] = useState(null);
