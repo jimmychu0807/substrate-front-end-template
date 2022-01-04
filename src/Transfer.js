@@ -5,7 +5,7 @@ import { useSubstrate } from './substrate-lib';
 
 export default function Main (props) {
   const [status, setStatus] = useState(null);
-  const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
+  const [formState, setFormState] = useState({ addressTo: '', amount: 0 });
   const { accountPair } = props;
 
   const onChange = (_, data) =>
