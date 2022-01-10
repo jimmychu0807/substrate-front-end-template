@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 
 import { useSubstrate } from '../Index';
-import utils from '../Utils';
+import utils from '../utils';
 
 function TxButton ({
   accountPair = null,
@@ -228,8 +228,8 @@ function TxButton ({
       style={style}
       type='submit'
       onClick={transaction}
-      disabled={disabled || !palletRpc || !callable || !allParamsFilled() ||
-        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair))}
+      disabled={ disabled || !palletRpc || !callable || !allParamsFilled() ||
+        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair)) }
     >
       {label}
     </Button>

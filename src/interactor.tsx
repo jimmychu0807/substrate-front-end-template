@@ -217,15 +217,15 @@ function Main (props: any) {
               type='text'
               label={paramField.name}
               state={{ ind, paramField }}
-              value={inputParams[ind] ? inputParams[ind].value : ''}
+              value={ inputParams[ind] ? inputParams[ind].value : '' }
               onChange={onPalletCallableParamChange}
             />
-            {paramField.optional
+            { paramField.optional
               ? <Label
                 basic
                 pointing
                 color='teal'
-                content = {getOptionalMsg(interxType)}
+                content = { getOptionalMsg(interxType) }
               />
               : null
             }

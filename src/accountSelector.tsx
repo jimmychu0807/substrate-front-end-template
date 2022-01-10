@@ -57,7 +57,7 @@ function Main (props: any) {
           <Image src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`} size='mini' />
         </Menu.Menu>
         <Menu.Menu position='right' style={{ alignItems: 'center' }}>
-          {!accountSelected
+          { !accountSelected
             ? <span>
               Add your account with the{' '}
               <a
@@ -68,7 +68,7 @@ function Main (props: any) {
                 Polkadot JS Extension
               </a>
             </span>
-            : null}
+            : null }
           <CopyToClipboard text={accountSelected}>
             <Button
               basic

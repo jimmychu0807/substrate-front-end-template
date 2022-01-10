@@ -58,7 +58,7 @@ function Main ({ feedMaxHeight = 250 }: { feedMaxHeight: number}) {
         color='grey'
         floated='right'
         icon='erase'
-        onClick={_ => setEventFeed([])}
+        onClick={ _ => setEventFeed([]) }
       />
       <Feed style={{ clear: 'both', overflow: 'auto', maxHeight: feedMaxHeight }} events={eventFeed} />
     </Grid.Column>

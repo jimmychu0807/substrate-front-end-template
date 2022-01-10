@@ -22,7 +22,6 @@
     ],
     "rules": {
         "no-use-before-define": "off",
-        "react/jsx-curly-spacing": [2, { "when": "never", "children": true }],
         "semi": [2, "always"]
     },
     "settings": {
