@@ -11,7 +11,7 @@ import {
   Label
 } from 'semantic-ui-react';
 
-import { useSubstrate } from './substrate-lib';
+import { useSubstrate } from './substrate-lib/Index';
 
 function Main (props: any) {
   const { keyring } = useSubstrate();

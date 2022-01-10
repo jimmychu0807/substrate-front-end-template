@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Grid, Label, Icon } from 'semantic-ui-react';
-import { TxButton } from './substrate-lib/components';
+import { TxButton } from './substrate-lib/components/Index';
 
 export default function Main ({ accountPair }: {accountPair: any}) {
   const [status, setStatus] = useState(null);

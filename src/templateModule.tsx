@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Grid, Card, Statistic } from 'semantic-ui-react';
 
-import { useSubstrate } from './substrate-lib';
-import { TxButton } from './substrate-lib/components';
+import { useSubstrate } from './substrate-lib/Index';
+import { TxButton } from './substrate-lib/components/Index';
 
 function Main ({ accountPair }: {accountPair: any}) {
   const { api } = useSubstrate();
