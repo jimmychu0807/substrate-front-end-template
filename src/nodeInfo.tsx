@@ -27,14 +27,14 @@ function Main (props) {
     <Grid.Column>
       <Card>
         <Card.Content>
-          <Card.Header>{ nodeInfo.nodeName }</Card.Header>
+          <Card.Header>{nodeInfo.nodeName}</Card.Header>
           <Card.Meta>
-            <span>{ nodeInfo.chain }</span>
+            <span>{nodeInfo.chain}</span>
           </Card.Meta>
-          <Card.Description>{ socket }</Card.Description>
+          <Card.Description>{socket}</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Icon name='setting' />v{ nodeInfo.nodeVersion }
+          <Icon name='setting' />v{nodeInfo.nodeVersion}
         </Card.Content>
       </Card>
     </Grid.Column>
@@ -48,6 +48,6 @@ export default function NodeInfo (props) {
     api.rpc.system.chain &&
     api.rpc.system.name &&
     api.rpc.system.version
-    ? <Main { ...props } />
+    ? <Main {...props} />
     : null;
 }

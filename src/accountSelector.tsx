@@ -45,21 +45,21 @@ function Main (props: any) {
     <Menu
       attached='top'
       tabular
-      style={ {
+      style={{
         backgroundColor: '#fff',
         borderColor: '#fff',
         paddingTop: '1em',
         paddingBottom: '1em'
-      } }
+      }}
     >
       <Container>
         <Menu.Menu>
-          <Image src={ `${process.env.PUBLIC_URL}/assets/substrate-logo.png` } size='mini' />
+          <Image src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`} size='mini' />
         </Menu.Menu>
-        <Menu.Menu position='right' style={ { alignItems: 'center' } }>
-          { !accountSelected
+        <Menu.Menu position='right' style={{ alignItems: 'center' }}>
+          {!accountSelected
             ? <span>
-              Add your account with the{ ' ' }
+              Add your account with the{' '}
               <a
                 target='_blank'
                 rel='noopener noreferrer'
@@ -68,14 +68,14 @@ function Main (props: any) {
                 Polkadot JS Extension
               </a>
             </span>
-            : null }
-          <CopyToClipboard text={ accountSelected }>
+            : null}
+          <CopyToClipboard text={accountSelected}>
             <Button
               basic
               circular
               size='large'
               icon='user'
-              color={ accountSelected ? 'green' : 'red' }
+              color={accountSelected ? 'green' : 'red'}
             />
           </CopyToClipboard>
           <Dropdown
@@ -83,13 +83,13 @@ function Main (props: any) {
             selection
             clearable
             placeholder='Select an account'
-            options={ keyringOptions }
-            onChange={ (_, dropdown) => {
+            options={keyringOptions}
+            onChange={(_, dropdown) => {
               onChange(dropdown.value);
-            } }
-            value={ accountSelected }
+            }}
+            value={accountSelected}
           />
-          <BalanceAnnotation accountSelected={ accountSelected } />
+          <BalanceAnnotation accountSelected={accountSelected} />
         </Menu.Menu>
       </Container>
     </Menu>
@@ -120,12 +120,12 @@ function BalanceAnnotation ({ accountSelected }: { accountSelected: any }) {
   return accountSelected
     ? <Label pointing='left'>
       <Icon name='money' color='green' />
-      { accountBalance }
+      {accountBalance}
     </Label>
     : null;
 }
 
 export default function AccountSelector (props) {
   const { api, keyring } = useSubstrate();
-  return keyring.getPairs && api.query ? <Main { ...props } /> : null;
+  return keyring.getPairs && api.query ? <Main {...props} /> : null;
 }

@@ -125,8 +125,8 @@ const SubstrateContextProvider = (props: any) => {
   connect(state, dispatch);
   loadAccounts(state, dispatch);
 
-  return <SubstrateContext.Provider value={ state }>
-    { props.children }
+  return <SubstrateContext.Provider value={state}>
+    {props.children}
   </SubstrateContext.Provider>;
 };
 

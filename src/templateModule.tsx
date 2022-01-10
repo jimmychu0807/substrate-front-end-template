@@ -34,13 +34,13 @@ function Main ({ accountPair }: {accountPair: any}) {
   }, [api.query.templateModule]);
 
   return (
-    <Grid.Column width={ 8 }>
+    <Grid.Column width={8}>
       <h1>Template Module</h1>
       <Card centered>
         <Card.Content textAlign='center'>
           <Statistic
             label='Current Value'
-            value={ currentValue }
+            value={currentValue}
           />
         </Card.Content>
       </Card>
@@ -50,24 +50,24 @@ function Main ({ accountPair }: {accountPair: any}) {
             label='New Value'
             state='newValue'
             type='number'
-            onChange={ (_, { value }) => setFormValue(value) }
+            onChange={(_, { value }) => setFormValue(value)}
           />
         </Form.Field>
-        <Form.Field style={ { textAlign: 'center' } }>
+        <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={ accountPair }
+            accountPair={accountPair}
             label='Store Something'
             type='SIGNED-TX'
-            setStatus={ setStatus }
-            attrs={ {
+            setStatus={setStatus}
+            attrs={{
               palletRpc: 'templateModule',
               callable: 'doSomething',
               inputParams: [formValue],
               paramFields: [true]
-            } }
+            }}
           />
         </Form.Field>
-        <div style={ { overflowWrap: 'break-word' } }>{ status }</div>
+        <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
   );
@@ -76,6 +76,6 @@ function Main ({ accountPair }: {accountPair: any}) {
 export default function TemplateModule (props) {
   const { api } = useSubstrate();
   return api.query.templateModule && api.query.templateModule.something
-    ? <Main { ...props } />
+    ? <Main {...props} />
     : null;
 }

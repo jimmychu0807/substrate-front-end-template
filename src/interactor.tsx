@@ -149,38 +149,38 @@ function Main (props: any) {
       : 'Leaving this field as blank will submit a NONE value';
 
   return (
-    <Grid.Column width={ 8 }>
+    <Grid.Column width={8}>
       <h1>Pallet Interactor</h1>
       <Form>
-        <Form.Group style={ { overflowX: 'auto' } } inline>
+        <Form.Group style={{ overflowX: 'auto' }} inline>
           <label>Interaction Type</label>
           <Form.Radio
             label='Extrinsic'
             name='interxType'
             value='EXTRINSIC'
-            checked={ interxType === 'EXTRINSIC' }
-            onChange={ onInterxTypeChange }
+            checked={interxType === 'EXTRINSIC'}
+            onChange={onInterxTypeChange}
           />
           <Form.Radio
             label='Query'
             name='interxType'
             value='QUERY'
-            checked={ interxType === 'QUERY' }
-            onChange={ onInterxTypeChange }
+            checked={interxType === 'QUERY'}
+            onChange={onInterxTypeChange}
           />
           <Form.Radio
             label='RPC'
             name='interxType'
             value='RPC'
-            checked={ interxType === 'RPC' }
-            onChange={ onInterxTypeChange }
+            checked={interxType === 'RPC'}
+            onChange={onInterxTypeChange}
           />
           <Form.Radio
             label='Constant'
             name='interxType'
             value='CONSTANT'
-            checked={ interxType === 'CONSTANT' }
-            onChange={ onInterxTypeChange }
+            checked={interxType === 'CONSTANT'}
+            onChange={onInterxTypeChange}
           />
         </Form.Group>
         <Form.Field>
@@ -188,12 +188,12 @@ function Main (props: any) {
             placeholder='Pallets / RPC'
             fluid
             label='Pallet / RPC'
-            onChange={ onPalletCallableParamChange }
+            onChange={onPalletCallableParamChange}
             search
             selection
             state='palletRpc'
-            value={ palletRpc }
-            options={ palletRPCs }
+            value={palletRpc}
+            options={palletRPCs}
           />
         </Form.Field>
         <Form.Field>
@@ -201,44 +201,44 @@ function Main (props: any) {
             placeholder='Callables'
             fluid
             label='Callable'
-            onChange={ onPalletCallableParamChange }
+            onChange={onPalletCallableParamChange}
             search
             selection
             state='callable'
-            value={ callable }
-            options={ callables }
+            value={callable}
+            options={callables}
           />
         </Form.Field>
-        { paramFields.map((paramField, ind) =>
-          <Form.Field key={ `${paramField.name}-${paramField.type}` }>
+        {paramFields.map((paramField, ind) =>
+          <Form.Field key={`${paramField.name}-${paramField.type}`}>
             <Input
-              placeholder={ paramField.type }
+              placeholder={paramField.type}
               fluid
               type='text'
-              label={ paramField.name }
-              state={ { ind, paramField } }
-              value={ inputParams[ind] ? inputParams[ind].value : '' }
-              onChange={ onPalletCallableParamChange }
+              label={paramField.name}
+              state={{ ind, paramField }}
+              value={inputParams[ind] ? inputParams[ind].value : ''}
+              onChange={onPalletCallableParamChange}
             />
-            { paramField.optional
+            {paramField.optional
               ? <Label
                 basic
                 pointing
                 color='teal'
-                content = { getOptionalMsg(interxType) }
+                content = {getOptionalMsg(interxType)}
               />
               : null
             }
           </Form.Field>
-        ) }
-        <Form.Field style={ { textAlign: 'center' } }>
+        )}
+        <Form.Field style={{ textAlign: 'center' }}>
           <InteractorSubmit
-            accountPair={ accountPair }
-            setStatus={ setStatus }
-            attrs={ { interxType, palletRpc, callable, inputParams, paramFields } }
+            accountPair={accountPair}
+            setStatus={setStatus}
+            attrs={{ interxType, palletRpc, callable, inputParams, paramFields }}
           />
         </Form.Field>
-        <div style={ { overflowWrap: 'break-word' } }>{ status }</div>
+        <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
   );
@@ -251,21 +251,21 @@ function InteractorSubmit (props: any) {
       label = 'Query'
       type = 'QUERY'
       color = 'blue'
-      { ...props }
+      {...props}
     />;
   } else if (interxType === 'EXTRINSIC') {
-    return <TxGroupButton { ...props } />;
+    return <TxGroupButton {...props} />;
   } else if (interxType === 'RPC' || interxType === 'CONSTANT') {
     return <TxButton
       label = 'Submit'
-      type = { interxType }
+      type = {interxType}
       color = 'blue'
-      { ...props }
+      {...props}
     />;
   }
 }
 
 export default function Interactor (props) {
   const { api } = useSubstrate();
-  return api.tx ? <Main { ...props } /> : null;
+  return api.tx ? <Main {...props} /> : null;
 }

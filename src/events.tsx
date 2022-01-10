@@ -50,17 +50,17 @@ function Main ({ feedMaxHeight = 250 }: { feedMaxHeight: number}) {
   }, [api.query.system]);
 
   return (
-    <Grid.Column width={ 8 }>
-      <h1 style={ { float: 'left' } }>Events</h1>
+    <Grid.Column width={8}>
+      <h1 style={{ float: 'left' }}>Events</h1>
       <Button
         basic circular
         size='mini'
         color='grey'
         floated='right'
         icon='erase'
-        onClick={ _ => setEventFeed([]) }
+        onClick={_ => setEventFeed([])}
       />
-      <Feed style={ { clear: 'both', overflow: 'auto', maxHeight: feedMaxHeight } } events={ eventFeed } />
+      <Feed style={{ clear: 'both', overflow: 'auto', maxHeight: feedMaxHeight }} events={eventFeed} />
     </Grid.Column>
   );
 }
@@ -68,6 +68,6 @@ function Main ({ feedMaxHeight = 250 }: { feedMaxHeight: number}) {
 export default function Events (props) {
   const { api } = useSubstrate();
   return api.query && api.query.system && api.query.system.events
-    ? <Main { ...props } />
+    ? <Main {...props} />
     : null;
 }

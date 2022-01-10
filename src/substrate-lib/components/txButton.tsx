@@ -224,14 +224,14 @@ function TxButton ({
   return (
     <Button
       basic
-      color={ color }
-      style={ style }
+      color={color}
+      style={style}
       type='submit'
-      onClick={ transaction }
-      disabled={ disabled || !palletRpc || !callable || !allParamsFilled() ||
-        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair)) }
+      onClick={transaction}
+      disabled={disabled || !palletRpc || !callable || !allParamsFilled() ||
+        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair))}
     >
-      { label }
+      {label}
     </Button>
   );
 }
@@ -258,21 +258,21 @@ function TxGroupButton (props) {
         label='Unsigned'
         type='UNSIGNED-TX'
         color='grey'
-        { ...props }
+        {...props}
       />
       <Button.Or />
       <TxButton
         label='Signed'
         type='SIGNED-TX'
         color='blue'
-        { ...props }
+        {...props}
       />
       <Button.Or />
       <TxButton
         label='SUDO'
         type='SUDO-TX'
         color='red'
-        { ...props }
+        {...props}
       />
     </Button.Group>
   );
