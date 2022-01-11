@@ -8,6 +8,7 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import keyring from '@polkadot/ui-keyring';
 
 import config from '../config';
+import { State } from '../common/types';
 
 const parsedQuery = queryString.parse(window.location.search);
 const connectedSocket = parsedQuery.rpc || config.PROVIDER_SOCKET;
@@ -16,7 +17,7 @@ console.log(`Connected socket: ${connectedSocket}`);
 ///
 // Initial state for `useReducer`
 
-const INIT_STATE = {
+const INIT_STATE: State = {
   socket: connectedSocket,
   jsonrpc: { ...jsonrpc, ...config.RPC },
   keyring: null,
@@ -29,7 +30,7 @@ const INIT_STATE = {
 ///
 // Reducer function for `useReducer`
 
-const reducer = (state, action) => {
+const reducer = (state: State, action) => {
   switch (action.type) {
     case 'CONNECT_INIT':
       return { ...state, apiState: 'CONNECT_INIT' };
@@ -60,7 +61,7 @@ const reducer = (state, action) => {
 ///
 // Connecting to the Substrate node
 
-const connect = (state, dispatch) => {
+const connect = (state: State, dispatch) => {
   const { apiState, socket, jsonrpc } = state;
   // We only want this function to be performed once
   if (apiState) return;
@@ -84,7 +85,7 @@ const connect = (state, dispatch) => {
 // Loading accounts from dev and polkadot-js extension
 
 let loadAccts = false;
-const loadAccounts = (state, dispatch) => {
+const loadAccounts = (state: State, dispatch) => {
   const asyncLoadAccounts = async () => {
     dispatch({ type: 'LOAD_KEYRING' });
     try {

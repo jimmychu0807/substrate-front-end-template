@@ -21,6 +21,11 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/typedef": [2, {
+            "arrowParameter": true,
+            "variableDeclaration": true
+        }],
+        "no-explicit-any": [2, "always"],
         "no-use-before-define": "off",
         "semi": [2, "always"]
     },
