@@ -18,9 +18,8 @@
     "build": "react-app-rewired build",
     "test": "CI=true react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.js",
-    "lint:ci": "eslint src/**/*.js --max-warnings=0",
-    "lint:fix": "eslint --fix src/**/*.js",
+    "prettier:check": "prettier -c src/*",
+    "prettier:write": "prettier -w src/*",
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {
@@ -44,12 +43,20 @@
     "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^8.3.0",
     "gh-pages": "^3.2.3",
+    "prettier": "2.5.1",
     "react-app-rewired": "^2.1.11",
     "semistandard": "^16.0.0"
   },
   "resolutions": {
     "eslint-plugin-jsx-a11y": "6.4.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "prettier"
+    ]
   },
   "engines": {
     "node": ">=16",
