@@ -3,7 +3,7 @@
 This template allows you to create a front-end application that connects to a
 [Substrate](https://github.com/paritytech/substrate) node back-end with minimal
 configuration. To learn about Substrate itself, visit the
-[Substrate Developer Hub](https://substrate.dev).
+[Substrate Documentation](https://docs.substrate.io).
 
 The template is built with [Create React App](https://github.com/facebook/create-react-app)
 and [Polkadot js API](https://polkadot.js.org/docs/api/). Familiarity with these tools
@@ -13,7 +13,7 @@ will be helpful, but the template strives to be self-explanatory.
 
 ### Installation
 
-The codebase is installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). This tutorial assumes you have installed yarn globally prior to installing it within the subdirectories. For the most recent version and how to install yarn, please refer to [yarn](https://yarnpkg.com/) documentation and installation guides. 
+The codebase is installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). This tutorial assumes you have installed yarn globally prior to installing it within the subdirectories. For the most recent version and how to install yarn, please refer to [yarn](https://yarnpkg.com/) documentation and installation guides. 
 
 ```bash
 # Clone the repository
@@ -58,8 +58,6 @@ More on [React environment variables](https://create-react-app.dev/docs/adding-c
 
 When writing and deploying your own front end, you should configure:
 
-* Custom types as JSON in `src/config/types.json`. See
-  [Extending types](https://polkadot.js.org/docs/api/start/types.extend).
 * `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
   deployed node.
 * `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
@@ -82,7 +80,6 @@ keyring and the blockchain itself. Specifically it exposes this API.
 ```js
 {
   socket,
-  types,
   keyring,
   keyringState,
   api,
@@ -91,7 +88,6 @@ keyring and the blockchain itself. Specifically it exposes this API.
 ```
 
 - `socket` - The remote provider socket it is connecting to.
-- `types` - The custom types used in the connected node.
 - `keyring` - A keyring of accounts available to the user.
 - `keyringState` - One of `"READY"` or `"ERROR"` states. `keyring` is valid
 only when `keyringState === "READY"`.
@@ -102,12 +98,8 @@ only when `apiState === "READY"`.
 
 ### TxButton Component
 
-The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic
-[query](https://polkadot.js.org/docs/api/start/api.query) and
-[transaction](https://polkadot.js.org/docs/api/start/api.tx) requests to the
-connected node. You can reuse this component for a wide variety of queries and
-transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example
-and [src/ChainState.js](./src/ChainState.js) for a query example.
+The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic [query](https://polkadot.js.org/docs/api/start/api.query) and [transaction](https://polkadot.js.org/docs/api/start/api.tx) requests to the connected node. 
+You can reuse this component for a wide variety of queries and transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example and [src/Balances.js](./src/ChainState.js) for a query example.
 
 ### Account Selector
 
