@@ -1,7 +1,6 @@
 import React, { useReducer, useContext } from 'react';
 import PropTypes from 'prop-types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import queryString from 'query-string';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
@@ -9,7 +8,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import config from '../config';
 
-const parsedQuery = queryString.parse(window.location.search);
+const parsedQuery = new URLSearchParams(window.location.search);
 const connectedSocket = parsedQuery.rpc || config.PROVIDER_SOCKET;
 console.log(`Connected socket: ${connectedSocket}`);
 
