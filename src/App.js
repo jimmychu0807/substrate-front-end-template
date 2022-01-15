@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react'
+import React, { createRef } from 'react'
 import {
   Container,
   Dimmer,
@@ -9,7 +9,7 @@ import {
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
-import { SubstrateContextProvider, useSubstrate } from './substrate-lib'
+import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
 import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
@@ -24,12 +24,7 @@ import Transfer from './Transfer'
 import Upgrade from './Upgrade'
 
 function Main() {
-  const [accountAddress, setAccountAddress] = useState(null)
-  const { apiState, keyring, keyringState, apiError } = useSubstrate()
-  const accountPair =
-    accountAddress &&
-    keyringState === 'READY' &&
-    keyring.getPair(accountAddress)
+  const { apiState, apiError, keyringState } = useSubstrateState()
 
   const loader = text => (
     <Dimmer active>
@@ -65,7 +60,7 @@ function Main() {
   return (
     <div ref={contextRef}>
       <Sticky context={contextRef}>
-        <AccountSelector setAccountAddress={setAccountAddress} />
+        <AccountSelector />
       </Sticky>
       <Container>
         <Grid stackable columns="equal">
@@ -79,15 +74,15 @@ function Main() {
             <Balances />
           </Grid.Row>
           <Grid.Row>
-            <Transfer accountPair={accountPair} />
-            <Upgrade accountPair={accountPair} />
+            <Transfer />
+            <Upgrade />
           </Grid.Row>
           <Grid.Row>
-            <Interactor accountPair={accountPair} />
+            <Interactor />
             <Events />
           </Grid.Row>
           <Grid.Row>
-            <TemplateModule accountPair={accountPair} />
+            <TemplateModule />
           </Grid.Row>
         </Grid>
       </Container>

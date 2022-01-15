@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Input, Grid, Card, Statistic } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 import { TxButton } from './substrate-lib/components'
 
 function Main(props) {
-  const { api } = useSubstrate()
-  const { accountPair } = props
+  const { api, currentAccount } = useSubstrateState()
 
   // The transaction submission status
   const [status, setStatus] = useState('')
@@ -55,7 +54,7 @@ function Main(props) {
         </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={accountPair}
+            accountPair={currentAccount}
             label="Store Something"
             type="SIGNED-TX"
             setStatus={setStatus}
@@ -74,7 +73,7 @@ function Main(props) {
 }
 
 export default function TemplateModule(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   return api.query.templateModule && api.query.templateModule.something ? (
     <Main {...props} />
   ) : null

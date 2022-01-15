@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Statistic, Grid, Card, Icon } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 
 function Main(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   const { finalized } = props
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockNumberTimer, setBlockNumberTimer] = useState(0)
@@ -55,7 +55,7 @@ function Main(props) {
 }
 
 export default function BlockNumber(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   return api.derive &&
     api.derive.chain &&
     api.derive.chain.bestNumber &&

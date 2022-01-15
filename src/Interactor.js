@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 import { TxButton, TxGroupButton } from './substrate-lib/components'
 
 const argIsOptional = arg => arg.type.toString().startsWith('Option<')
 
 function Main(props) {
-  const { api, jsonrpc } = useSubstrate()
-  const { accountPair } = props
+  const { api, jsonrpc, currentAccount } = useSubstrateState()
   const [status, setStatus] = useState(null)
 
   const [interxType, setInterxType] = useState('EXTRINSIC')
@@ -245,7 +244,7 @@ function Main(props) {
         ))}
         <Form.Field style={{ textAlign: 'center' }}>
           <InteractorSubmit
-            accountPair={accountPair}
+            accountPair={currentAccount}
             setStatus={setStatus}
             attrs={{
               interxType,
@@ -276,6 +275,6 @@ function InteractorSubmit(props) {
 }
 
 export default function Interactor(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   return api.tx ? <Main {...props} /> : null
 }

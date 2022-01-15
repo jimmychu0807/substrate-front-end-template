@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { web3FromSource } from '@polkadot/extension-dapp'
 
-import { useSubstrate } from '../'
+import { useSubstrateState } from '../'
 import utils from '../utils'
 
 function TxButton({
@@ -17,7 +17,7 @@ function TxButton({
   disabled = false,
 }) {
   // Hooks
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   const [unsub, setUnsub] = useState(null)
   const [sudoKey, setSudoKey] = useState(null)
 

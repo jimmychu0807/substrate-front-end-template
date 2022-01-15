@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Icon, Grid } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 
 function Main(props) {
-  const { api, socket } = useSubstrate()
+  const { api, socket } = useSubstrateState()
   const [nodeInfo, setNodeInfo] = useState({})
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function Main(props) {
 }
 
 export default function NodeInfo(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   return api.rpc &&
     api.rpc.system &&
     api.rpc.system.chain &&

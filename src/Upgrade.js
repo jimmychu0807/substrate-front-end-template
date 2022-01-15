@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Form, Input, Grid } from 'semantic-ui-react'
 import { TxButton } from './substrate-lib/components'
+import { useSubstrateState } from './substrate-lib'
 
 export default function Main(props) {
   const [status, setStatus] = useState('')
   const [proposal, setProposal] = useState({})
-  const { accountPair } = props
+  const { currentAccount } = useSubstrateState()
 
   const bufferToHex = buffer => {
     return Array.from(new Uint8Array(buffer))
@@ -38,7 +39,7 @@ export default function Main(props) {
         </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={accountPair}
+            accountPair={currentAccount}
             label="Upgrade"
             type="UNCHECKED-SUDO-TX"
             setStatus={setStatus}

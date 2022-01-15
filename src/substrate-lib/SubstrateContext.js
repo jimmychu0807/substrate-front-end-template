@@ -16,6 +16,7 @@ console.log(`Connected socket: ${connectedSocket}`)
 // Initial state for `useReducer`
 
 const INIT_STATE = {
+  // These are the states
   socket: connectedSocket,
   jsonrpc: { ...jsonrpc, ...config.RPC },
   keyring: null,
@@ -23,6 +24,7 @@ const INIT_STATE = {
   api: null,
   apiError: null,
   apiState: null,
+  currentAccount: null,
 }
 
 ///
@@ -32,25 +34,20 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'CONNECT_INIT':
       return { ...state, apiState: 'CONNECT_INIT' }
-
     case 'CONNECT':
       return { ...state, api: action.payload, apiState: 'CONNECTING' }
-
     case 'CONNECT_SUCCESS':
       return { ...state, apiState: 'READY' }
-
     case 'CONNECT_ERROR':
       return { ...state, apiState: 'ERROR', apiError: action.payload }
-
     case 'LOAD_KEYRING':
       return { ...state, keyringState: 'LOADING' }
-
     case 'SET_KEYRING':
       return { ...state, keyring: action.payload, keyringState: 'READY' }
-
     case 'KEYRING_ERROR':
       return { ...state, keyring: null, keyringState: 'ERROR' }
-
+    case 'SET_CURRENT_ACCOUNT':
+      return { ...state, currentAccount: action.payload }
     default:
       throw new Error(`Unknown type: ${action.type}`)
   }
@@ -130,8 +127,12 @@ const SubstrateContextProvider = props => {
   connect(state, dispatch)
   loadAccounts(state, dispatch)
 
+  function setCurrentAccount(acct) {
+    dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: acct })
+  }
+
   return (
-    <SubstrateContext.Provider value={state}>
+    <SubstrateContext.Provider value={{ state, setCurrentAccount }}>
       {props.children}
     </SubstrateContext.Provider>
   )
@@ -142,6 +143,7 @@ SubstrateContextProvider.propTypes = {
   socket: PropTypes.string,
 }
 
-const useSubstrate = () => ({ ...useContext(SubstrateContext) })
+const useSubstrate = () => useContext(SubstrateContext)
+const useSubstrateState = () => useContext(SubstrateContext).state
 
-export { SubstrateContextProvider, useSubstrate }
+export { SubstrateContextProvider, useSubstrate, useSubstrateState }

@@ -80,11 +80,15 @@ keyring and the blockchain itself. Specifically it exposes this API.
 
 ```js
 {
-  socket,
-  keyring,
-  keyringState,
-  api,
-  apiState,
+  setCurrentAccount: func(acct) {...}
+  state: {
+    socket,
+    keyring,
+    keyringState,
+    api,
+    apiState,
+    currentAccount
+  }
 }
 ```
 
@@ -95,6 +99,7 @@ keyring and the blockchain itself. Specifically it exposes this API.
 - `api` - The remote api to the connected node.
 - `apiState` - One of `"CONNECTING"`, `"READY"`, or `"ERROR"` states. `api` is valid
   only when `apiState === "READY"`.
+- `currentAccount` - The current selected account pair in the application context.
 
 ### TxButton Component
 

@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 import { Form, Input, Grid, Label, Icon, Dropdown } from 'semantic-ui-react'
 import { TxButton } from './substrate-lib/components'
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 
 export default function Main(props) {
   const [status, setStatus] = useState(null)
   const [formState, setFormState] = useState({ addressTo: '', amount: 0 })
-  const { accountPair } = props
 
   const onChange = (_, data) =>
     setFormState(prev => ({ ...prev, [data.state]: data.value }))
 
   const { addressTo, amount } = formState
 
-  const { keyring } = useSubstrate()
+  const { keyring, currentAccount } = useSubstrateState()
   const accounts = keyring.getPairs()
 
   const availableAccounts = []
@@ -77,7 +76,7 @@ export default function Main(props) {
         </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={accountPair}
+            accountPair={currentAccount}
             label="Submit"
             type="SIGNED-TX"
             setStatus={setStatus}

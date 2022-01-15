@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Button, Card } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrateState } from './substrate-lib'
 
 function Main(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   const [metadata, setMetadata] = useState({ data: null, version: null })
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function Main(props) {
 }
 
 export default function Metadata(props) {
-  const { api } = useSubstrate()
+  const { api } = useSubstrateState()
   return api.rpc && api.rpc.state && api.rpc.state.getMetadata ? (
     <Main {...props} />
   ) : null

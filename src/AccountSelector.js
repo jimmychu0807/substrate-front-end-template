@@ -11,12 +11,15 @@ import {
   Label,
 } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib'
+import { useSubstrate, useSubstrateState } from './substrate-lib'
+
+const acctAddr = acct => (acct ? acct.address : '')
 
 function Main(props) {
-  const { keyring } = useSubstrate()
-  const { setAccountAddress } = props
-  const [accountSelected, setAccountSelected] = useState('')
+  const {
+    setCurrentAccount,
+    state: { keyring, currentAccount },
+  } = useSubstrate()
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
@@ -31,14 +34,11 @@ function Main(props) {
 
   // Set the initial address
   useEffect(() => {
-    setAccountAddress(initialAddress)
-    setAccountSelected(initialAddress)
-  }, [setAccountAddress, initialAddress])
+    setCurrentAccount(keyring.getPair(initialAddress))
+  }, [setCurrentAccount, keyring, initialAddress])
 
-  const onChange = address => {
-    // Update state with new account address
-    setAccountAddress(address)
-    setAccountSelected(address)
+  const onChange = addr => {
+    setCurrentAccount(keyring.getPair(addr))
   }
 
   return (
@@ -60,7 +60,7 @@ function Main(props) {
           />
         </Menu.Menu>
         <Menu.Menu position="right" style={{ alignItems: 'center' }}>
-          {!accountSelected ? (
+          {!currentAccount ? (
             <span>
               Add your account with the{' '}
               <a
@@ -72,13 +72,13 @@ function Main(props) {
               </a>
             </span>
           ) : null}
-          <CopyToClipboard text={accountSelected}>
+          <CopyToClipboard text={acctAddr(currentAccount)}>
             <Button
               basic
               circular
               size="large"
               icon="user"
-              color={accountSelected ? 'green' : 'red'}
+              color={currentAccount ? 'green' : 'red'}
             />
           </CopyToClipboard>
           <Dropdown
@@ -90,9 +90,9 @@ function Main(props) {
             onChange={(_, dropdown) => {
               onChange(dropdown.value)
             }}
-            value={accountSelected}
+            value={acctAddr(currentAccount)}
           />
-          <BalanceAnnotation accountSelected={accountSelected} />
+          <BalanceAnnotation />
         </Menu.Menu>
       </Container>
     </Menu>
@@ -100,8 +100,7 @@ function Main(props) {
 }
 
 function BalanceAnnotation(props) {
-  const { accountSelected } = props
-  const { api } = useSubstrate()
+  const { api, currentAccount } = useSubstrateState()
   const [accountBalance, setAccountBalance] = useState(0)
 
   // When account address changes, update subscriptions
@@ -109,20 +108,18 @@ function BalanceAnnotation(props) {
     let unsubscribe
 
     // If the user has selected an address, create a new subscription
-    accountSelected &&
+    currentAccount &&
       api.query.system
-        .account(accountSelected, balance => {
+        .account(acctAddr(currentAccount), balance =>
           setAccountBalance(balance.data.free.toHuman())
-        })
-        .then(unsub => {
-          unsubscribe = unsub
-        })
+        )
+        .then(unsub => (unsubscribe = unsub))
         .catch(console.error)
 
     return () => unsubscribe && unsubscribe()
-  }, [api, accountSelected])
+  }, [api, currentAccount])
 
-  return accountSelected ? (
+  return currentAccount ? (
     <Label pointing="left">
       <Icon name="money" color="green" />
       {accountBalance}
@@ -131,6 +128,6 @@ function BalanceAnnotation(props) {
 }
 
 export default function AccountSelector(props) {
-  const { api, keyring } = useSubstrate()
+  const { api, keyring } = useSubstrateState()
   return keyring.getPairs && api.query ? <Main {...props} /> : null
 }
