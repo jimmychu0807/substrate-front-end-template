@@ -36,7 +36,7 @@ function Main(props) {
   useEffect(() => {
     // `setCurrentAccount()` is called only when currentAccount is null (uninitialized)
     !currentAccount && setCurrentAccount(keyring.getPair(initialAddress))
-  }, [keyring, initialAddress])
+  }, [currentAccount, setCurrentAccount, keyring, initialAddress])
 
   const onChange = addr => {
     setCurrentAccount(keyring.getPair(addr))
