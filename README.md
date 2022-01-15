@@ -75,7 +75,7 @@ There are two ways to specify it:
 
 ### useSubstrate Custom Hook
 
-The custom hook `useSubstrate` provides access to the Polkadot js API and thus the
+The custom hook `useSubstrate()` provides access to the Polkadot js API and thus the
 keyring and the blockchain itself. Specifically it exposes this API.
 
 ```js
@@ -100,6 +100,9 @@ keyring and the blockchain itself. Specifically it exposes this API.
 - `apiState` - One of `"CONNECTING"`, `"READY"`, or `"ERROR"` states. `api` is valid
   only when `apiState === "READY"`.
 - `currentAccount` - The current selected account pair in the application context.
+- `setCurrentAccount` - Function to update the `currentAccount` value in the application context.
+
+If you are only interested in reading the `state`, there is a shorthand `useSubstrateState()` just to retrieve the state.
 
 ### TxButton Component
 
