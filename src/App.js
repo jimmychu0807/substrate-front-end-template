@@ -37,7 +37,7 @@ function Main() {
     </Dimmer>
   )
 
-  const message = err => (
+  const message = errObj => (
     <Grid centered columns={2} padded>
       <Grid.Column>
         <Message
@@ -45,7 +45,7 @@ function Main() {
           compact
           floating
           header="Error Connecting to Substrate"
-          content={`${JSON.stringify(err, null, 4)}`}
+          content={`Connection to websocket '${errObj.target.url}' failed.`}
         />
       </Grid.Column>
     </Grid>
