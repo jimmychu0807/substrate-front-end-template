@@ -1,6 +1,6 @@
 {
   "name": "substrate-front-end-template",
-  "version": "0.1.1",
+  "version": "monthly-2022-01",
   "private": true,
   "author": "Parity Technologies <admin@parity.io>",
   "license": "Unlicense",
@@ -14,44 +14,39 @@
     "polkadot-js"
   ],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "CI=true react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "CI=true react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.js",
-    "lint:ci": "eslint src/**/*.js --max-warnings=0",
-    "lint:fix": "eslint --fix src/**/*.js",
+    "prettier:check": "prettier -c src/*",
+    "prettier:write": "prettier -w src/*",
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {
-    "@polkadot/api": "^6.7.2",
-    "@polkadot/extension-dapp": "^0.41.1",
-    "@polkadot/keyring": "^7.8.2",
-    "@polkadot/networks": "^7.8.2",
-    "@polkadot/types": "^6.7.2",
-    "@polkadot/ui-keyring": "^0.86.5",
-    "@polkadot/ui-settings": "^0.86.5",
-    "@polkadot/util": "^7.8.2",
-    "@polkadot/util-crypto": "^7.8.2",
+    "@polkadot/api": "^7.3.1",
+    "@polkadot/extension-dapp": "^0.42.5",
+    "@polkadot/keyring": "^8.3.1",
+    "@polkadot/networks": "^8.3.1",
+    "@polkadot/types": "^7.3.1",
+    "@polkadot/ui-keyring": "^0.89.1",
+    "@polkadot/ui-settings": "^0.89.1",
+    "@polkadot/util": "^8.3.1",
+    "@polkadot/util-crypto": "^8.3.1",
+    "node-polyfill-webpack-plugin": "^1.1.4",
     "prop-types": "^15.7.2",
-    "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.3"
+    "react-scripts": "^5.0.0",
+    "semantic-ui-css": "Semantic-Org/Semantic-UI-CSS#master",
+    "semantic-ui-react": "^2.0.4",
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-config-semistandard": "^16.0.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-only-warn": "^1.0.3",
-    "eslint-plugin-promise": "^5.1.1",
+    "eslint-config-prettier": "^8.3.0",
     "gh-pages": "^3.2.3",
+    "prettier": "2.5.1",
+    "react-app-rewired": "^2.1.11",
     "semistandard": "^16.0.0"
   },
   "resolutions": {
@@ -60,15 +55,12 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "semistandard"
-    ],
-    "plugins": [
-      "only-warn"
+      "prettier"
     ]
   },
   "engines": {
-    "node": ">=14",
-    "npm": ">=7"
+    "node": ">=16",
+    "npm": ">=8"
   },
   "browserslist": {
     "production": [
@@ -81,5 +73,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }
