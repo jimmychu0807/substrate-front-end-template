@@ -18,14 +18,8 @@
     "build": "react-app-rewired build",
     "test": "CI=true react-app-rewired test",
     "eject": "react-scripts eject",
-<<<<<<< HEAD
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:ci": "eslint . --ext .ts,.tsk --max-warnings=0",
-    "lint:fix": "eslint . --fix --ext .ts,.tsx",    
-=======
     "prettier:check": "prettier -c src/*",
     "prettier:write": "prettier -w src/*",
->>>>>>> b58f4db4e023ddcd9cdb7f62cd84860ee47c8eb1
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
   "dependencies": {
@@ -43,10 +37,10 @@
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
-<<<<<<< HEAD
-    "react-scripts": "^4.0.3",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.3",
+    "react-scripts": "^5.0.0",
+    "semantic-ui-css": "Semantic-Org/Semantic-UI-CSS#master",
+    "semantic-ui-react": "^2.0.4",
+    "stream-browserify": "^3.0.0",
     "typescript": "^4.5.4"
   },
   "devDependencies": {
@@ -55,29 +49,12 @@
     "@types/react-copy-to-clipboard": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
-    "eslint": "^7.12.1",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^25.3.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "^4.2.1 || ^5.0.0",
-    "eslint-plugin-react": "^7.27.1",
-=======
-    "react-scripts": "^5.0.0",
-    "semantic-ui-css": "Semantic-Org/Semantic-UI-CSS#master",
-    "semantic-ui-react": "^2.0.4",
-    "stream-browserify": "^3.0.0"
-  },
-  "devDependencies": {
     "eslint-config-prettier": "^8.3.0",
->>>>>>> b58f4db4e023ddcd9cdb7f62cd84860ee47c8eb1
     "gh-pages": "^3.2.3",
     "prettier": "2.5.1",
     "react-app-rewired": "^2.1.11",
     "semistandard": "^16.0.0"
   },
-<<<<<<< HEAD
-=======
   "resolutions": {
     "eslint-plugin-jsx-a11y": "6.4.1"
   },
@@ -87,7 +64,6 @@
       "prettier"
     ]
   },
->>>>>>> b58f4db4e023ddcd9cdb7f62cd84860ee47c8eb1
   "engines": {
     "node": ">=16",
     "npm": ">=8"
