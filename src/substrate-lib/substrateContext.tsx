@@ -9,7 +9,7 @@ import keyring from '@polkadot/ui-keyring'
 import config from '../config'
 import { State } from '../common/types'
 
-const parsedQuery = new URLSearchParams(window.location.search)
+const parsedQuery: any = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.rpc || config.PROVIDER_SOCKET
 console.log(`Connected socket: ${connectedSocket}`)
 
