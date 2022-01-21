@@ -15,6 +15,6 @@ const utils = {
       'i128',
     ],
   },
-}
+};
 
-export default utils
+export default utils;
