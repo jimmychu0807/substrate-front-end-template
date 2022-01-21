@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Input, Grid } from 'semantic-ui-react';
-import { TxButton } from './substrate-lib/components/Index';
+import { TxButton } from './substrate-lib/components';
+import { useSubstrateState } from './substrate-lib';
 
-export default function Main ({ accountPair }: {accountPair: any}) {
+export default function Main(props) {
   const [status, setStatus] = useState('');
   const [proposal, setProposal] = useState({});
+  const { currentAccount } = useSubstrateState();
 
   const bufferToHex = buffer => {
     return Array.from(new Uint8Array(buffer))
@@ -28,24 +30,24 @@ export default function Main ({ accountPair }: {accountPair: any}) {
       <Form>
         <Form.Field>
           <Input
-            type='file'
-            id='file'
-            label='Wasm File'
-            accept='.wasm'
+            type="file"
+            id="file"
+            label="Wasm File"
+            accept=".wasm"
             onChange={e => handleFileChosen(e.target.files[0])}
           />
         </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={accountPair}
-            label='Upgrade'
-            type='UNCHECKED-SUDO-TX'
+            accountPair={currentAccount}
+            label="Upgrade"
+            type="UNCHECKED-SUDO-TX"
             setStatus={setStatus}
             attrs={{
               palletRpc: 'system',
               callable: 'setCode',
               inputParams: [proposal],
-              paramFields: [true]
+              paramFields: [true],
             }}
           />
         </Form.Field>

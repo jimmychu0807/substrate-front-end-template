@@ -10,8 +10,13 @@ describe('App Test Suite', () => {
   it('renders without crashing', () => {
     // const div = document.createElement('div');
     // ReactDOM.render(<App />, div);
+<<<<<<< HEAD:src/__tests__/app.tsx
   });
 });
 
 // Empty export is required if there are no imports
 export { };
+=======
+  })
+})
+>>>>>>> b58f4db4e023ddcd9cdb7f62cd84860ee47c8eb1:src/__tests__/App.js

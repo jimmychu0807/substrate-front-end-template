@@ -1,13 +1,11 @@
 import configCommon from './common.json';
-import { Config } from '../common/types';
-
 // Using `require` as `import` does not support dynamic loading (yet).
 const configEnv = require(`./${process.env.NODE_ENV}.json`);
 
 // Accepting React env vars and aggregating them into `config` object.
 const envVarNames = [
   'REACT_APP_PROVIDER_SOCKET',
-  'REACT_APP_DEVELOPMENT_KEYRING'
+  'REACT_APP_DEVELOPMENT_KEYRING',
 ];
 const envVars = envVarNames.reduce((mem, n) => {
   // Remove the `REACT_APP_` prefix
@@ -15,5 +13,5 @@ const envVars = envVarNames.reduce((mem, n) => {
   return mem;
 }, {});
 
-const config: Config = { ...configCommon, ...configEnv, ...envVars };
+const config = { ...configCommon, ...configEnv, ...envVars };
 export default config;
