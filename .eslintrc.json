@@ -1,0 +1,35 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
+    },
+    "extends": [
+        "plugin:react/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2021,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        // "@typescript-eslint/typedef": [2, {
+        //     "arrowParameter": true,
+        //     "variableDeclaration": true
+        // }],
+        // "no-use-before-define": "off",
+        "semi": [2, "always"]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}
