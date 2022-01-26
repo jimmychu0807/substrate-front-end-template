@@ -64,12 +64,12 @@ When writing and deploying your own front end, you should configure:
 - `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
   See [Keyring](https://polkadot.js.org/docs/api/start/keyring).
 
-### Specifying Connecting Node
+### Specifying Connecting WebSocket
 
 There are two ways to specify it:
 
 - With `PROVIDER_SOCKET` in `{common, development, production}.json`.
-- With `rpc=<ws or wss connection>` query paramter after the URL. This overrides the above setting.
+- With `rpc=<ws or wss connection>` query parameter after the URL. This overrides the above setting.
 
 ## Reusable Components
 
@@ -114,3 +114,23 @@ You can reuse this component for a wide variety of queries and transactions. See
 The [Account Selector](./src/AccountSelector.js) provides the user with a unified way to
 select their account from a keyring. If the Balances module is installed in the runtime,
 it also displays the user's token balance. It is included in the template already.
+
+## Miscellaneous
+
+- Polkadot-js API and related crypto libraries depend on [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) that is only supported by modern browsers. To ensure that react-scripts properly transpile your webapp code, update the `package.json` file:
+
+  ```json
+  {
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not ie <= 99",
+        "not android <= 4.4.4",
+        "not dead",
+        "not op_mini all"
+      ]
+    }
+  }
+  ```
+
+  Refer to [this doc page](https://github.com/vacp2p/docs.wakuconnect.dev/blob/develop/content/docs/guides/07_reactjs_relay.md).

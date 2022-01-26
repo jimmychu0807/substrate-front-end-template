@@ -1,5 +1,4 @@
 {
-  "APP_NAME": "substrate-front-end-tutorial",
-  "DEVELOPMENT_KEYRING": true,
-  "RPC": {}
+  "APP_NAME": "substrate-front-end-template",
+  "CUSTOM_RPC_METHODS": {}
 }

@@ -12371,9 +12371,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"semantic-ui-react@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "semantic-ui-react@npm:2.0.4"
+"semantic-ui-react@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "semantic-ui-react@npm:2.1.1"
   dependencies:
     "@babel/runtime": ^7.10.5
     "@fluentui/react-component-event-listener": ~0.51.6
@@ -12391,7 +12391,7 @@ resolve@^2.0.0-next.3:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
-  checksum: db2105ca7ab21a572854f12a0146482bf0124eeb1bdd603603f1f1073d5d3ddffc81db2b4158fc8cc109523f1b6373135caccf02d81e0cec9436830b6fdf6756
+  checksum: c62ffd545c460816c6ad1a1dadb51d871f9cae793da9271196d9059bad124d502c7e758761fa45bf6218af8781eae4b5b5e1a4aac02c35d74fb1705bef8f1636
   languageName: node
   linkType: hard
 
@@ -13127,7 +13127,7 @@ resolve@^2.0.0-next.3:
     react-dom: ^17.0.2
     react-scripts: ^5.0.0
     semantic-ui-css: "Semantic-Org/Semantic-UI-CSS#master"
-    semantic-ui-react: ^2.0.4
+    semantic-ui-react: ^2.1.1
     semistandard: ^16.0.0
     stream-browserify: ^3.0.0
   languageName: unknown
