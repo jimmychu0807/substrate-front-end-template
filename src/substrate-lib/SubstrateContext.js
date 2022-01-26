@@ -4,7 +4,7 @@ import jsonrpc from '@polkadot/types/interfaces/jsonrpc'
 
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp'
-import keyring from '@polkadot/ui-keyring'
+import { keyring as Keyring } from '@polkadot/ui-keyring'
 
 import config from '../config'
 
@@ -13,7 +13,7 @@ const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
 ///
 // Initial state for `useReducer`
 
-const INIT_STATE = {
+const initialState = {
   // These are the states
   socket: connectedSocket,
   jsonrpc: { ...jsonrpc, ...config.CUSTOM_RPC_METHODS },
@@ -77,11 +77,13 @@ const connect = (state, dispatch) => {
 
 ///
 // Loading accounts from dev and polkadot-js extension
-
-let loadAccts = false
+let keyringLoadAll = false
 const loadAccounts = (state, dispatch) => {
+  const { keyring, keyringState } = state
+  if (keyring || keyringState) return
+  dispatch({ type: 'LOAD_KEYRING' })
+
   const asyncLoadAccounts = async () => {
-    dispatch({ type: 'LOAD_KEYRING' })
     try {
       await web3Enable(config.APP_NAME)
       let allAccounts = await web3Accounts()
@@ -89,40 +91,34 @@ const loadAccounts = (state, dispatch) => {
         address,
         meta: { ...meta, name: `${meta.name} (${meta.source})` },
       }))
-      keyring.loadAll(
-        { isDevelopment: config.DEVELOPMENT_KEYRING },
-        allAccounts
-      )
-      dispatch({ type: 'SET_KEYRING', payload: keyring })
+
+      if (!keyringLoadAll) {
+        Keyring.loadAll(
+          { isDevelopment: config.DEVELOPMENT_KEYRING },
+          allAccounts
+        )
+        keyringLoadAll = true
+      }
+
+      dispatch({ type: 'SET_KEYRING', payload: Keyring })
     } catch (e) {
       console.error(e)
       dispatch({ type: 'KEYRING_ERROR' })
     }
   }
-
-  const { keyringState } = state
-  // If `keyringState` is not null `asyncLoadAccounts` is running.
-  if (keyringState) return
-  // If `loadAccts` is true, the `asyncLoadAccounts` has been run once.
-  if (loadAccts) return dispatch({ type: 'SET_KEYRING', payload: keyring })
-
-  // This is the heavy duty work
-  loadAccts = true
   asyncLoadAccounts()
 }
 
 const SubstrateContext = React.createContext()
 
 const SubstrateContextProvider = props => {
-  // filtering props and merge with default param value
-  const initState = { ...INIT_STATE }
   const neededPropNames = ['socket']
   neededPropNames.forEach(key => {
-    initState[key] =
-      typeof props[key] === 'undefined' ? initState[key] : props[key]
+    initialState[key] =
+      typeof props[key] === 'undefined' ? initialState[key] : props[key]
   })
 
-  const [state, dispatch] = useReducer(reducer, initState)
+  const [state, dispatch] = useReducer(reducer, initialState)
   connect(state, dispatch)
   loadAccounts(state, dispatch)
 
