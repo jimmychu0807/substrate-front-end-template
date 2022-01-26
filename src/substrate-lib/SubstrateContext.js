@@ -9,16 +9,14 @@ import keyring from '@polkadot/ui-keyring'
 import config from '../config'
 
 const parsedQuery = new URLSearchParams(window.location.search)
-const connectedSocket = parsedQuery.rpc || config.PROVIDER_SOCKET
-console.log(`Connected socket: ${connectedSocket}`)
-
+const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
 ///
 // Initial state for `useReducer`
 
 const INIT_STATE = {
   // These are the states
   socket: connectedSocket,
-  jsonrpc: { ...jsonrpc, ...config.RPC },
+  jsonrpc: { ...jsonrpc, ...config.CUSTOM_RPC_METHODS },
   keyring: null,
   keyringState: null,
   api: null,
@@ -63,6 +61,7 @@ const connect = (state, dispatch) => {
 
   dispatch({ type: 'CONNECT_INIT' })
 
+  console.log(`Connected socket: ${socket}`)
   const provider = new WsProvider(socket)
   const _api = new ApiPromise({ provider, rpc: jsonrpc })
 
