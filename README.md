@@ -22,7 +22,7 @@ cd substrate-front-end-template
 yarn install
 ```
 
-## Usage
+### Usage
 
 You can start the template in development mode to connect to a locally running node
 
@@ -37,6 +37,14 @@ yarn build
 ```
 
 and open `build/index.html` in your favorite browser.
+
+### Try the Hosted Version
+
+Connecting to the development Substrate node:<br/>
+https://substrate-developer-hub.github.io/substrate-front-end-template
+
+Connecting to your local Substrate node:<br/>
+https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=ws://localhost:9944
 
 ## Configuration
 
