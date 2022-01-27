@@ -12,7 +12,7 @@ export default function Main(props) {
 
   const { addressTo, amount } = formState
 
-  const { keyring, currentAccount } = useSubstrateState()
+  const { keyring } = useSubstrateState()
   const accounts = keyring.getPairs()
 
   const availableAccounts = []
@@ -76,7 +76,6 @@ export default function Main(props) {
         </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={currentAccount}
             label="Submit"
             type="SIGNED-TX"
             setStatus={setStatus}

@@ -40,11 +40,15 @@ and open `build/index.html` in your favorite browser.
 
 ### Try the Hosted Version
 
+Connecting to Polkadot:<br/>
+https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=wss://rpc.polkadot.io
+
+Connecting to your local Substrate node (only works with Chrome and Firefox as it uses insecure websocket connection):<br/>
+https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=ws://localhost:9944
+
 Connecting to the development Substrate node:<br/>
 https://substrate-developer-hub.github.io/substrate-front-end-template
 
-Connecting to your local Substrate node:<br/>
-https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=ws://localhost:9944
 
 ## Configuration
 

@@ -7,7 +7,7 @@ import { TxButton, TxGroupButton } from './substrate-lib/components'
 const argIsOptional = arg => arg.type.toString().startsWith('Option<')
 
 function Main(props) {
-  const { api, jsonrpc, currentAccount } = useSubstrateState()
+  const { api, jsonrpc } = useSubstrateState()
   const [status, setStatus] = useState(null)
 
   const [interxType, setInterxType] = useState('EXTRINSIC')
@@ -244,7 +244,6 @@ function Main(props) {
         ))}
         <Form.Field style={{ textAlign: 'center' }}>
           <InteractorSubmit
-            accountPair={currentAccount}
             setStatus={setStatus}
             attrs={{
               interxType,
