@@ -44,15 +44,18 @@ function TxButton({
 
   const getFromAcct = async () => {
     const {
+      address,
       meta: { source, isInjected },
     } = currentAccount
 
-    if (isInjected) {
-      // signer is from Polkadot-js browser extension
-      const injected = await web3FromSource(source)
-      api.setSigner(injected.signer)
+    if (!isInjected) {
+      return [currentAccount]
     }
-    return currentAccount
+
+    // currentAccount is injected from polkadot-JS extension, need to return the addr and signer object.
+    // ref: https://polkadot.js.org/docs/extension/cookbook#sign-and-send-a-transaction
+    const injector = await web3FromSource(source)
+    return [address, { signer: injector.signer }]
   }
 
   const txResHandler = ({ status }) =>
@@ -72,8 +75,9 @@ function TxButton({
       : api.tx.sudo.sudo(api.tx[palletRpc][callable]())
 
     const unsub = txExecute
-      .signAndSend(fromAcct, txResHandler)
+      .signAndSend(...fromAcct, txResHandler)
       .catch(txErrHandler)
+
     setUnsub(() => unsub)
   }
 
@@ -85,8 +89,9 @@ function TxButton({
     )
 
     const unsub = txExecute
-      .signAndSend(fromAcct, txResHandler)
+      .signAndSend(...fromAcct, txResHandler)
       .catch(txErrHandler)
+
     setUnsub(() => unsub)
   }
 
@@ -100,8 +105,9 @@ function TxButton({
       : api.tx[palletRpc][callable]()
 
     const unsub = await txExecute
-      .signAndSend(fromAcct, txResHandler)
+      .signAndSend(...fromAcct, txResHandler)
       .catch(txErrHandler)
+
     setUnsub(() => unsub)
   }
 
@@ -125,6 +131,7 @@ function TxButton({
       ...transformed,
       queryResHandler
     )
+
     setUnsub(() => unsub)
   }
 
