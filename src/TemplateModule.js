@@ -5,7 +5,7 @@ import { useSubstrateState } from './substrate-lib'
 import { TxButton } from './substrate-lib/components'
 
 function Main(props) {
-  const { api, currentAccount } = useSubstrateState()
+  const { api } = useSubstrateState()
 
   // The transaction submission status
   const [status, setStatus] = useState('')
@@ -54,7 +54,6 @@ function Main(props) {
         </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            accountPair={currentAccount}
             label="Store Something"
             type="SIGNED-TX"
             setStatus={setStatus}

@@ -7,7 +7,6 @@ import { useSubstrateState } from '../'
 import utils from '../utils'
 
 function TxButton({
-  accountPair = null,
   label,
   setStatus,
   color = 'blue',
@@ -17,7 +16,7 @@ function TxButton({
   disabled = false,
 }) {
   // Hooks
-  const { api } = useSubstrateState()
+  const { api, currentAccount } = useSubstrateState()
   const [unsub, setUnsub] = useState(null)
   const [sudoKey, setSudoKey] = useState(null)
 
@@ -45,21 +44,15 @@ function TxButton({
 
   const getFromAcct = async () => {
     const {
-      address,
       meta: { source, isInjected },
-    } = accountPair
-    let fromAcct
+    } = currentAccount
 
-    // signer is from Polkadot-js browser extension
     if (isInjected) {
+      // signer is from Polkadot-js browser extension
       const injected = await web3FromSource(source)
-      fromAcct = address
       api.setSigner(injected.signer)
-    } else {
-      fromAcct = accountPair
     }
-
-    return fromAcct
+    return currentAccount
   }
 
   const txResHandler = ({ status }) =>
@@ -263,7 +256,9 @@ function TxButton({
         !palletRpc ||
         !callable ||
         !allParamsFilled() ||
-        ((isSudo() || isUncheckedSudo()) && !isSudoer(accountPair))
+        // These txs required currentAccount to be set
+        ((isSudo() || isUncheckedSudo() || isSigned()) && !currentAccount) ||
+        ((isSudo() || isUncheckedSudo()) && !isSudoer(currentAccount))
       }
     >
       {label}
@@ -273,7 +268,6 @@ function TxButton({
 
 // prop type checking
 TxButton.propTypes = {
-  accountPair: PropTypes.object,
   setStatus: PropTypes.func.isRequired,
   type: PropTypes.oneOf([
     'QUERY',
