@@ -13,8 +13,10 @@ import {
 
 import { useSubstrate, useSubstrateState } from './substrate-lib'
 
-const CHROME_EXT_URL = 'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'
-const FIREFOX_ADDON_URL = 'https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/'
+const CHROME_EXT_URL =
+  'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'
+const FIREFOX_ADDON_URL =
+  'https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/'
 
 const acctAddr = acct => (acct ? acct.address : '')
 
@@ -38,9 +40,9 @@ function Main(props) {
   // Set the initial address
   useEffect(() => {
     // `setCurrentAccount()` is called only when currentAccount is null (uninitialized)
-    !currentAccount
-      && initialAddress.length > 0
-      && setCurrentAccount(keyring.getPair(initialAddress))
+    !currentAccount &&
+      initialAddress.length > 0 &&
+      setCurrentAccount(keyring.getPair(initialAddress))
   }, [currentAccount, setCurrentAccount, keyring, initialAddress])
 
   const onChange = addr => {
@@ -69,9 +71,13 @@ function Main(props) {
           {!currentAccount ? (
             <span>
               Create an account with Polkadot-JS Extension (
-              <a target="_blank" rel="noreferrer" href={CHROME_EXT_URL}>Chrome</a>
+              <a target="_blank" rel="noreferrer" href={CHROME_EXT_URL}>
+                Chrome
+              </a>
               ,&nbsp;
-              <a target="_blank" rel="noreferrer" href={FIREFOX_ADDON_URL}>Firefox</a>
+              <a target="_blank" rel="noreferrer" href={FIREFOX_ADDON_URL}>
+                Firefox
+              </a>
               )&nbsp;
             </span>
           ) : null}

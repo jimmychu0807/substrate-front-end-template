@@ -43,7 +43,9 @@ function TxButton({
   useEffect(loadSudoKey, [api])
 
   const getFromAcct = async () => {
-    const { meta: { source, isInjected } } = currentAccount
+    const {
+      meta: { source, isInjected },
+    } = currentAccount
 
     if (isInjected) {
       // signer is from Polkadot-js browser extension
