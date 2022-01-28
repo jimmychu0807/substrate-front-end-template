@@ -65,7 +65,6 @@ Some environment variables are read and integrated in the template `config` obje
 including:
 
 - `REACT_APP_PROVIDER_SOCKET` overriding `config[PROVIDER_SOCKET]`
-- `REACT_APP_DEVELOPMENT_KEYRING` overriding `config[DEVELOPMENT_KEYRING]`
 
 More on [React environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables).
 
@@ -73,8 +72,6 @@ When writing and deploying your own front end, you should configure:
 
 - `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
   deployed node.
-- `DEVELOPMENT_KEYRING` in `src/config/common.json` be set to `false`.
-  See [Keyring](https://polkadot.js.org/docs/api/start/keyring).
 
 ### Specifying Connecting WebSocket
 

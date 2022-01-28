@@ -3,10 +3,7 @@ import configCommon from './common.json'
 const configEnv = require(`./${process.env.NODE_ENV}.json`)
 
 // Accepting React env vars and aggregating them into `config` object.
-const envVarNames = [
-  'REACT_APP_PROVIDER_SOCKET',
-  'REACT_APP_DEVELOPMENT_KEYRING',
-]
+const envVarNames = ['REACT_APP_PROVIDER_SOCKET']
 const envVars = envVarNames.reduce((mem, n) => {
   // Remove the `REACT_APP_` prefix
   if (process.env[n] !== undefined) mem[n.slice(10)] = process.env[n]
