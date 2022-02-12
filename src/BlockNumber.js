@@ -17,7 +17,8 @@ function Main(props) {
     let unsubscribeAll = null
 
     bestNumber(number => {
-      setBlockNumber(number.toNumber())
+      // Append `.toLocaleString('en-US')` to display a nice thousand-separated digit.
+      setBlockNumber(number.toNumber().toLocaleString('en-US'))
       setBlockNumberTimer(0)
     })
       .then(unsub => {
