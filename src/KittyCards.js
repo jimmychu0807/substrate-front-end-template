@@ -88,6 +88,47 @@ const SetPrice = props => {
   </Modal>;
 };
 
+// --- Buy Kitty ---
+
+const BuyKitty = props => {
+  const { kitty, accountPair, setStatus } = props;
+  const [open, setOpen] = React.useState(false);
+
+  const confirmAndClose = (unsub) => {
+    setOpen(false);
+    if (unsub && typeof unsub === 'function') unsub();
+  };
+
+  if (!kitty.price) {
+    return <></>;
+  }
+
+  return <Modal onClose={() => setOpen(false)} onOpen={() => setOpen(true)} open={open}
+    trigger={<Button basic color='green'>Buy Kitty</Button>}>
+    <Modal.Header>Buy Kitty</Modal.Header>
+    <Modal.Content><Form>
+      <Form.Input fluid label='Kitty ID' readOnly value={kitty.dna} />
+      <Form.Input fluid label='Price' readOnly value={kitty.price} />
+    </Form></Modal.Content>
+    <Modal.Actions>
+      <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
+      <TxButton
+        accountPair={accountPair}
+        label='Buy Kitty'
+        type='SIGNED-TX'
+        setStatus={setStatus}
+        onClick={confirmAndClose}
+        attrs={{
+          palletRpc: 'substrateKitties',
+          callable: 'buyKitty',
+          inputParams: [kitty.dna, kitty.price],
+          paramFields: [true, true]
+        }}
+      />
+    </Modal.Actions>
+  </Modal>;
+};
+
 // --- About Kitty Card ---
 
 const KittyCard = props => {
@@ -120,7 +161,9 @@ const KittyCard = props => {
         <SetPrice kitty={kitty} accountPair={accountPair} setStatus={setStatus} />
         <TransferModal kitty={kitty} accountPair={accountPair} setStatus={setStatus} />
       </>
-      : ''
+      : <>
+        <BuyKitty kitty={kitty} accountPair={accountPair} setStatus={setStatus} />
+      </>
     }</Card.Content>
   </Card>;
 };
