@@ -68,7 +68,10 @@ export default function Kitties (props) {
     <Form style={{ margin: '1em 0' }}>
       <Form.Field style={{ textAlign: 'center' }}>
         <TxButton
-          accountPair={accountPair} label='Create Kitty' type='SIGNED-TX' setStatus={setStatus}
+          accountPair={accountPair}
+          label='Create Kitty'
+          type='SIGNED-TX'
+          setStatus={setStatus}
           attrs={{
             palletRpc: 'substrateKitties',
             callable: 'createKitty',

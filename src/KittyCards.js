@@ -30,7 +30,10 @@ const TransferModal = props => {
     <Modal.Actions>
       <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
       <TxButton
-        accountPair={accountPair} label='Transfer' type='SIGNED-TX' setStatus={setStatus}
+        accountPair={accountPair}
+        label='Transfer'
+        type='SIGNED-TX'
+        setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
           palletRpc: 'substrateKitties',
@@ -69,7 +72,10 @@ const SetPrice = props => {
     <Modal.Actions>
       <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
       <TxButton
-        accountPair={accountPair} label='Set Price' type='SIGNED-TX' setStatus={setStatus}
+        accountPair={accountPair}
+        label='Set Price'
+        type='SIGNED-TX'
+        setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
           palletRpc: 'substrateKitties',
