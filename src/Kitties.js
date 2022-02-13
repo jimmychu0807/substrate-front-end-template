@@ -6,11 +6,7 @@ import { TxButton } from './substrate-lib/components';
 
 import KittyCards from './KittyCards';
 
-const convertToKittyHash = entry =>
-  `0x${entry[0].toJSON().slice(-64)}`;
-
-const constructKitty = (hash, { dna, price, gender, owner }) => ({
-  id: hash,
+const parseKitty = ({ dna, price, gender, owner }) => ({
   dna,
   price: price.toJSON(),
   gender: gender.toJSON(),
@@ -21,19 +17,20 @@ export default function Kitties (props) {
   const { api, keyring } = useSubstrate();
   const { accountPair } = props;
 
-  const [kittyHashes, setKittyHashes] = useState([]);
+  const [kittyIds, setKittyIds] = useState([]);
   const [kitties, setKitties] = useState([]);
   const [status, setStatus] = useState('');
 
-  const subscribeKittyCnt = () => {
+  const subscribeCount = () => {
     let unsub = null;
 
     const asyncFetch = async () => {
-      unsub = await api.query.substrateKitties.kittyCnt(async cnt => {
+      unsub = await api.query.substrateKitties.countForKitties(async count => {
         // Fetch all kitty keys
+        console.log('count: ', count.toHuman());
         const entries = await api.query.substrateKitties.kitties.entries();
-        const hashes = entries.map(convertToKittyHash);
-        setKittyHashes(hashes);
+        const ids = entries.map(entry => entry[1].unwrap().dna);
+        setKittyIds(ids);
       });
     };
 
@@ -48,28 +45,27 @@ export default function Kitties (props) {
     let unsub = null;
 
     const asyncFetch = async () => {
-      unsub = await api.query.substrateKitties.kitties.multi(kittyHashes, kitties => {
-        const kittyArr = kitties
-          .map((kitty, ind) => constructKitty(kittyHashes[ind], kitty.value));
-        setKitties(kittyArr);
+      unsub = await api.query.substrateKitties.kitties.multi(kittyIds, kitties => {
+        const kittiesMap = kitties.map(kitty => parseKitty(kitty.unwrap()));
+        console.log('kitties: ', kittiesMap);
+        setKitties(kittiesMap);
       });
     };
 
     asyncFetch();
 
-    // return the unsubscription cleanup function
     return () => {
       unsub && unsub();
     };
   };
 
-  useEffect(subscribeKitties, [api, kittyHashes]);
-  useEffect(subscribeKittyCnt, [api, keyring]);
+  useEffect(subscribeCount, [api, keyring]);
+  useEffect(subscribeKitties, [api, keyring, kittyIds]);
 
   return <Grid.Column width={16}>
-  <h1>Kitties</h1>
-  <KittyCards kitties={kitties} accountPair={accountPair} setStatus={setStatus}/>
-  <Form style={{ margin: '1em 0' }}>
+    <h1>Kitties</h1>
+    <KittyCards kitties={kitties} accountPair={accountPair} setStatus={setStatus} />
+    <Form style={{ margin: '1em 0' }}>
       <Form.Field style={{ textAlign: 'center' }}>
         <TxButton
           accountPair={accountPair} label='Create Kitty' type='SIGNED-TX' setStatus={setStatus}

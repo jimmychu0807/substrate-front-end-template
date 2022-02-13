@@ -24,8 +24,8 @@ const TransferModal = props => {
     trigger={<Button basic color='blue'>Transfer</Button>}>
     <Modal.Header>Kitty Transfer</Modal.Header>
     <Modal.Content><Form>
-      <Form.Input fluid label='Kitty ID' readOnly value={kitty.id}/>
-      <Form.Input fluid label='Receiver' placeholder='Receiver Address' onChange={formChange('target')}/>
+      <Form.Input fluid label='Kitty ID' readOnly value={kitty.dna} />
+      <Form.Input fluid label='Receiver' placeholder='Receiver Address' onChange={formChange('target')} />
     </Form></Modal.Content>
     <Modal.Actions>
       <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
@@ -35,7 +35,7 @@ const TransferModal = props => {
         attrs={{
           palletRpc: 'substrateKitties',
           callable: 'transfer',
-          inputParams: [formValue.target, kitty.id],
+          inputParams: [formValue.target, kitty.dna],
           paramFields: [true, true]
         }}
       />
@@ -63,18 +63,18 @@ const SetPrice = props => {
     trigger={<Button basic color='blue'>Set Price</Button>}>
     <Modal.Header>Set Kitty Price</Modal.Header>
     <Modal.Content><Form>
-      <Form.Input fluid label='Kitty ID' readOnly value={kitty.id}/>
-      <Form.Input fluid label='Price' placeholder='Enter Price' onChange={formChange('target')}/>
+      <Form.Input fluid label='Kitty ID' readOnly value={kitty.dna} />
+      <Form.Input fluid label='Price' placeholder='Enter Price' onChange={formChange('target')} />
     </Form></Modal.Content>
     <Modal.Actions>
-      <Button basic color='grey' onClick={ () => setOpen(false)}>Cancel</Button>
+      <Button basic color='grey' onClick={() => setOpen(false)}>Cancel</Button>
       <TxButton
         accountPair={accountPair} label='Set Price' type='SIGNED-TX' setStatus={setStatus}
         onClick={confirmAndClose}
         attrs={{
           palletRpc: 'substrateKitties',
           callable: 'setPrice',
-          inputParams: [kitty.id, formValue.target],
+          inputParams: [kitty.dna, formValue.target],
           paramFields: [true, true]
         }}
       />
@@ -86,17 +86,14 @@ const SetPrice = props => {
 
 const KittyCard = props => {
   const { kitty, accountPair, setStatus } = props;
-  const { id = null, dna = null, owner = null, gender = null, price = null } = kitty;
+  const { dna = null, owner = null, gender = null, price = null } = kitty;
   const displayDna = dna && dna.toJSON();
   const isSelf = accountPair.address === kitty.owner;
 
   return <Card>
-    { isSelf && <Label as='a' floating color='teal'>Mine</Label> }
+    {isSelf && <Label as='a' floating color='teal'>Mine</Label>}
     <KittyAvatar dna={dna.toU8a()} />
     <Card.Content>
-      <Card.Header style={{ fontSize: '1em', overflowWrap: 'break-word' }}>
-        ID: {id}
-      </Card.Header>
       <Card.Meta style={{ fontSize: '.9em', overflowWrap: 'break-word' }}>
         DNA: {displayDna}
       </Card.Meta>
@@ -108,15 +105,15 @@ const KittyCard = props => {
           Owner: {owner}
         </p>
         <p style={{ overflowWrap: 'break-word' }}>
-          Price: {price}
+          Price: {price || 'Not For Sale'}
         </p>
       </Card.Description>
     </Card.Content>
-    <Card.Content extra style={{ textAlign: 'center' }}>{ owner === accountPair.address
+    <Card.Content extra style={{ textAlign: 'center' }}>{owner === accountPair.address
       ? <>
-          <SetPrice kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
-          <TransferModal kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
-        </>
+        <SetPrice kitty={kitty} accountPair={accountPair} setStatus={setStatus} />
+        <TransferModal kitty={kitty} accountPair={accountPair} setStatus={setStatus} />
+      </>
       : ''
     }</Card.Content>
   </Card>;
@@ -135,7 +132,7 @@ const KittyCards = props => {
 
   return <Grid columns={3}>{kitties.map((kitty, i) =>
     <Grid.Column key={`kitty-${i}`}>
-      <KittyCard kitty={kitty} accountPair={accountPair} setStatus={setStatus}/>
+      <KittyCard kitty={kitty} accountPair={accountPair} setStatus={setStatus} />
     </Grid.Column>
   )}</Grid>;
 };
