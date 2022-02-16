@@ -27,7 +27,6 @@ export default function Kitties (props) {
     const asyncFetch = async () => {
       unsub = await api.query.substrateKitties.countForKitties(async count => {
         // Fetch all kitty keys
-        console.log('count: ', count.toHuman());
         const entries = await api.query.substrateKitties.kitties.entries();
         const ids = entries.map(entry => entry[1].unwrap().dna);
         setKittyIds(ids);
@@ -47,7 +46,6 @@ export default function Kitties (props) {
     const asyncFetch = async () => {
       unsub = await api.query.substrateKitties.kitties.multi(kittyIds, kitties => {
         const kittiesMap = kitties.map(kitty => parseKitty(kitty.unwrap()));
-        console.log('kitties: ', kittiesMap);
         setKitties(kittiesMap);
       });
     };

@@ -146,17 +146,19 @@ function TxButton ({
 
     setStatus('Sending...');
 
-    (isSudo() && sudoTx()) ||
-    (isUncheckedSudo() && uncheckedSudoTx()) ||
-    (isSigned() && signedTx()) ||
-    (isUnsigned() && unsignedTx()) ||
-    (isQuery() && query()) ||
-    (isRpc() && rpc()) ||
-    (isConstant() && constant());
+    const asyncFunc = (isSudo() && sudoTx) ||
+      (isUncheckedSudo() && uncheckedSudoTx) ||
+      (isSigned() && signedTx) ||
+      (isUnsigned() && unsignedTx) ||
+      (isQuery() && query) ||
+      (isRpc() && rpc) ||
+      (isConstant() && constant);
 
-    if (txOnClickHandler && typeof txOnClickHandler === 'function') {
-      txOnClickHandler(unsub);
-    }
+    await asyncFunc();
+
+    return (txOnClickHandler && typeof txOnClickHandler === 'function')
+      ? txOnClickHandler(unsub)
+      : null;
   };
 
   const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
