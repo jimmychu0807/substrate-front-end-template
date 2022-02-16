@@ -4,7 +4,7 @@ import { Button, Card, Grid, Message, Modal, Form, Label } from 'semantic-ui-rea
 import KittyAvatar from './KittyAvatar';
 import { TxButton } from './substrate-lib/components';
 
-// --- About Modal ---
+// --- Transfer Modal ---
 
 const TransferModal = props => {
   const { kitty, accountPair, setStatus } = props;
