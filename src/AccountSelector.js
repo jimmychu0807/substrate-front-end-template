@@ -9,6 +9,7 @@ import {
   Icon,
   Image,
   Label,
+  Message,
 } from 'semantic-ui-react'
 
 import { useSubstrate, useSubstrateState } from './substrate-lib'
