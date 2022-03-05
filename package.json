@@ -18,6 +18,8 @@
     "build": "react-app-rewired build",
     "test": "CI=true react-app-rewired test",
     "eject": "react-scripts eject",
+    "eslint:check": "eslint --ext .jsx,.js src/",
+    "eslint:write": "eslint --fix --ext .jsx,.js src/",
     "prettier:check": "prettier -c src/*",
     "prettier:write": "prettier -w src/*",
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
@@ -43,7 +45,9 @@
     "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
+    "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.4.0",
+    "eslint-config-react-app": "^7.0.0",
     "gh-pages": "^3.2.3",
     "prettier": "2.5.1",
     "react-app-rewired": "^2.2.1",
@@ -55,6 +59,7 @@
   "eslintConfig": {
     "extends": [
       "react-app",
+      "eslint:recommended",
       "prettier"
     ]
   },

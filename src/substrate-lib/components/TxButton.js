@@ -7,13 +7,14 @@ import { useSubstrateState } from '../'
 import utils from '../utils'
 
 function TxButton({
+  attrs = null,
+  color = 'blue',
+  disabled = false,
   label,
   setStatus,
-  color = 'blue',
   style = null,
   type = 'QUERY',
-  attrs = null,
-  disabled = false,
+  txOnClickHandler = null,
 }) {
   // Hooks
   const { api, currentAccount } = useSubstrateState()
@@ -158,13 +159,21 @@ function TxButton({
     }
 
     setStatus('Sending...')
-    ;(isSudo() && sudoTx()) ||
-      (isUncheckedSudo() && uncheckedSudoTx()) ||
-      (isSigned() && signedTx()) ||
-      (isUnsigned() && unsignedTx()) ||
-      (isQuery() && query()) ||
-      (isRpc() && rpc()) ||
-      (isConstant() && constant())
+
+    const asyncFunc =
+      (isSudo() && sudoTx) ||
+      (isUncheckedSudo() && uncheckedSudoTx) ||
+      (isSigned() && signedTx) ||
+      (isUnsigned() && unsignedTx) ||
+      (isQuery() && query) ||
+      (isRpc() && rpc) ||
+      (isConstant() && constant)
+
+    await asyncFunc()
+
+    return txOnClickHandler && typeof txOnClickHandler === 'function'
+      ? txOnClickHandler(unsub)
+      : null
   }
 
   const transformParams = (
