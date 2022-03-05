@@ -14,7 +14,7 @@ function TxButton({
   setStatus,
   style = null,
   type = 'QUERY',
-  txOnClickHandler = null
+  txOnClickHandler = null,
 }) {
   // Hooks
   const { api, currentAccount } = useSubstrateState()
@@ -160,19 +160,20 @@ function TxButton({
 
     setStatus('Sending...')
 
-    const asyncFunc = (isSudo() && sudoTx) ||
+    const asyncFunc =
+      (isSudo() && sudoTx) ||
       (isUncheckedSudo() && uncheckedSudoTx) ||
       (isSigned() && signedTx) ||
       (isUnsigned() && unsignedTx) ||
       (isQuery() && query) ||
       (isRpc() && rpc) ||
-      (isConstant() && constant);
+      (isConstant() && constant)
 
-    await asyncFunc();
+    await asyncFunc()
 
-    return (txOnClickHandler && typeof txOnClickHandler === 'function')
+    return txOnClickHandler && typeof txOnClickHandler === 'function'
       ? txOnClickHandler(unsub)
-      : null;
+      : null
   }
 
   const transformParams = (
