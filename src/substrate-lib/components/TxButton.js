@@ -13,10 +13,8 @@ function TxButton({
   label,
   setStatus,
   onClick: txOnClickHandler = null,
-  color = 'blue',
   style = null,
   type = 'QUERY',
-  txOnClickHandler = null,
 }) {
   // Hooks
   const { api, currentAccount } = useSubstrateState()
@@ -34,10 +32,12 @@ function TxButton({
   const isConstant = () => type === 'CONSTANT'
 
   const loadSudoKey = () => {
-    (async function () {
-      if (!api || !api.query.sudo) { return; }
-      const sudoKey = await api.query.sudo.key();
-      sudoKey.isEmpty ? setSudoKey(null) : setSudoKey(sudoKey.toString());
+    ;(async function () {
+      if (!api || !api.query.sudo) {
+        return
+      }
+      const sudoKey = await api.query.sudo.key()
+      sudoKey.isEmpty ? setSudoKey(null) : setSudoKey(sudoKey.toString())
     })()
   }
 
