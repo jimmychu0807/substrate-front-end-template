@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Modal, Button, Card } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react'
+import { Grid, Modal, Button, Card } from 'semantic-ui-react'
 
-import { useSubstrate } from './substrate-lib';
+import { useSubstrateState } from './substrate-lib'
 
-function Main (props) {
-  const { api } = useSubstrate();
-  const [metadata, setMetadata] = useState({ data: null, version: null });
+function Main(props) {
+  const { api } = useSubstrateState()
+  const [metadata, setMetadata] = useState({ data: null, version: null })
 
   useEffect(() => {
     const getMetadata = async () => {
       try {
-        const data = await api.rpc.state.getMetadata();
-        setMetadata({ data, version: data.version });
+        const data = await api.rpc.state.getMetadata()
+        setMetadata({ data, version: data.version })
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
-    };
-    getMetadata();
-  }, [api.rpc.state]);
+    }
+    getMetadata()
+  }, [api.rpc.state])
 
   return (
     <Grid.Column>
@@ -42,12 +42,12 @@ function Main (props) {
         </Card.Content>
       </Card>
     </Grid.Column>
-  );
+  )
 }
 
-export default function Metadata (props) {
-  const { api } = useSubstrate();
-  return api.rpc && api.rpc.state && api.rpc.state.getMetadata
-    ? <Main {...props} />
-    : null;
+export default function Metadata(props) {
+  const { api } = useSubstrateState()
+  return api.rpc && api.rpc.state && api.rpc.state.getMetadata ? (
+    <Main {...props} />
+  ) : null
 }

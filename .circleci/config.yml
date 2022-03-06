@@ -5,19 +5,19 @@
 
 aliases:
   - &filter-non-gh-pages
-      branches:
-        ignore:
-          - gh-pages
-  - &filter-only-master
-      branches:
-        only:
-          - master
+    branches:
+      ignore:
+        - gh-pages
+  - &filter-only-main
+    branches:
+      only:
+        - main
 
 version: 2
 jobs:
   test:
     docker:
-      - image: cimg/node:14.16
+      - image: cimg/node:16.14
     working_directory: ~/repo
     steps:
       - checkout
@@ -37,20 +37,20 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
-          name: Syntax Lint
-          command: yarn lint:ci
+          name: ESLint / Prettier check
+          command: yarn eslint:check && yarn prettier:check
       - run:
           name: Test
           command: yarn test
       - persist_to_workspace:
           # relative to working_directory
-          root: "./"
+          root: './'
           paths:
-            - "./"
+            - './'
 
   deploy:
     docker:
-      - image: cimg/node:14.16
+      - image: cimg/node:16.14
     working_directory: ~/repo
     steps:
       - attach_workspace:
@@ -72,6 +72,6 @@ workflows:
       - test:
           filters: *filter-non-gh-pages
       - deploy:
-          filters: *filter-only-master
+          filters: *filter-only-main
           requires:
             - test

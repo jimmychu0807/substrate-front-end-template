@@ -1,9 +1,11 @@
-module.exports = function override(webpackConfig) {
-  webpackConfig.module.rules.push({
-    test: /\.mjs$/,
-    include: /node_modules/,
-    type: "javascript/auto"
-  });
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
-  return webpackConfig;
+module.exports = function override(config, env) {
+  config.resolve = {
+    fallback: {
+      stream: require.resolve('stream-browserify'),
+    },
+  }
+  config.plugins.push(new NodePolyfillPlugin())
+  return config
 }
