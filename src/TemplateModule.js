@@ -48,8 +48,15 @@ function Main(props) {
     api.query.templateModule
       .proofs(digest, result => {
         // Our storage item returns a tuple, which is represented as an array.
-        setOwner(result[0].toString())
-        setBlock(result[1].toNumber())
+		if (result.inspect().inner) {
+			let [tmpAddress, tmpBlock] = result.toHuman()
+			setOwner(tmpAddress)
+			setBlock(tmpBlock)
+		}
+		else {
+			setOwner('')
+			setBlock(0)
+		}
       })
       .then(unsub => {
         unsubscribe = unsub
