@@ -13,8 +13,6 @@ import { blake2AsHex } from '@polkadot/util-crypto'
 export function Main(props) {
   // Establish an API to talk to the Substrate node.
   const { api } = useSubstrateState()
-  // Get the selected user from the `AccountSelector` component.
-  const { accountPair } = props
   // React hooks for all the state variables we track.
   // Learn more at: https://reactjs.org/docs/hooks-intro.html
   const [status, setStatus] = useState('')
