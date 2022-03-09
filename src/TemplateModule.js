@@ -9,16 +9,17 @@ import { TxButton } from './substrate-lib/components'
 // Polkadot-JS utilities for hashing data.
 import { blake2AsHex } from '@polkadot/util-crypto'
 
-// Main Proof Of Existence component is exported.
-export function Main(props) {
+// Main Proof Of Existence component
+function Main(props) {
   // Establish an API to talk to the Substrate node.
-  const { api } = useSubstrateState()
+  const { api, currentAccount } = useSubstrateState()
   // React hooks for all the state variables we track.
   // Learn more at: https://reactjs.org/docs/hooks-intro.html
   const [status, setStatus] = useState('')
   const [digest, setDigest] = useState('')
   const [owner, setOwner] = useState('')
   const [block, setBlock] = useState(0)
+
   // Our `FileReader()` which is accessible from our functions below.
   let fileReader
   // Takes our file, and creates a digest using the Blake2 256 hash function
@@ -47,9 +48,8 @@ export function Main(props) {
     api.query.templateModule
       .proofs(digest, result => {
         // Our storage item returns a tuple, which is represented as an array.
-        let [tmpOwner, tmpBlock] = result.unwrapOrDefault();
-        setOwner(tmpOwner.toString())
-        setBlock(tmpBlock.toNumber())
+        setOwner(result[0].toString())
+        setBlock(result[1].toNumber())
       })
       .then(unsub => {
         unsubscribe = unsub
@@ -60,7 +60,7 @@ export function Main(props) {
     // value of the storage item has updated.
   }, [digest, api.query.templateModule])
 
-  // We can say a file digest is claimed if the stored block number is not `None`
+  // We *assume* a file digest is claimed if the stored block number is not 0
   function isClaimed() {
     return block !== 0
   }
@@ -92,9 +92,9 @@ export function Main(props) {
         <Form.Field>
           {/* Button to create a claim. Only active if a file is selected, and not already claimed. Updates the `status`. */}
           <TxButton
-            label={'Create Claim'}
-            setStatus={setStatus}
+            label="Create Claim"
             type="SIGNED-TX"
+            setStatus={setStatus}
             disabled={isClaimed() || !digest}
             attrs={{
               palletRpc: 'templateModule',
@@ -106,9 +106,9 @@ export function Main(props) {
           {/* Button to revoke a claim. Only active if a file is selected, and is already claimed. Updates the `status`. */}
           <TxButton
             label="Revoke Claim"
-            setStatus={setStatus}
             type="SIGNED-TX"
-            disabled={!isClaimed()}
+            setStatus={setStatus}
+            disabled={!isClaimed() || owner !== currentAccount.address}
             attrs={{
               palletRpc: 'templateModule',
               callable: 'revokeClaim',
@@ -126,7 +126,5 @@ export function Main(props) {
 
 export default function TemplateModule(props) {
   const { api } = useSubstrateState()
-  return api.query.templateModule && api.query.templateModule.proofs ? (
-    <Main {...props} />
-  ) : null
+  return api.query.templateModule ? <Main {...props} /> : null
 }
