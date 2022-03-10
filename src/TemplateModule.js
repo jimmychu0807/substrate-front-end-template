@@ -49,9 +49,9 @@ function Main(props) {
       .proofs(digest, result => {
         // Our storage item returns a tuple, which is represented as an array.
         if (result.inspect().inner) {
-          let [tmpAddress, tmpBlock] = result.toHuman()
-          setOwner(tmpAddress)
-          setBlock(tmpBlock)
+          const [owner, block] = result.toHuman()
+          setOwner(owner)
+          setBlock(block)
         } else {
           setOwner('')
           setBlock(0)
