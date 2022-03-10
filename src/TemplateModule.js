@@ -9,7 +9,7 @@ import { TxButton } from './substrate-lib/components'
 // Polkadot-JS utilities for hashing data.
 import { blake2AsHex } from '@polkadot/util-crypto'
 
-// Main Proof Of Existence component is exported.
+// Main Proof Of Existence component
 function Main(props) {
   // Establish an API to talk to the Substrate node.
   const { api, currentAccount } = useSubstrateState()
@@ -48,8 +48,14 @@ function Main(props) {
     api.query.templateModule
       .proofs(digest, result => {
         // Our storage item returns a tuple, which is represented as an array.
-        setOwner(result[0].toString())
-        setBlock(result[1].toNumber())
+        if (result.inspect().inner) {
+          let [tmpAddress, tmpBlock] = result.toHuman()
+          setOwner(tmpAddress)
+          setBlock(tmpBlock)
+        } else {
+          setOwner('')
+          setBlock(0)
+        }
       })
       .then(unsub => {
         unsubscribe = unsub
@@ -60,7 +66,7 @@ function Main(props) {
     // value of the storage item has updated.
   }, [digest, api.query.templateModule])
 
-  // We can say a file digest is claimed if the stored block number is not 0
+  // We *assume* a file digest is claimed if the stored block number is not 0
   function isClaimed() {
     return block !== 0
   }
