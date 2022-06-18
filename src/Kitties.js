@@ -13,6 +13,14 @@ const parseKitty = ({ dna, price, gender, owner }) => ({
   owner: owner.toJSON(),
 })
 
+function toHexString(byteArray) {
+  var s = '0x'
+  byteArray.forEach(function (byte) {
+    s += ('0' + (byte & 0xff).toString(16)).slice(-2)
+  })
+  return s
+}
+
 export default function Kitties(props) {
   const { api, keyring } = useSubstrateState()
   const [kittyIds, setKittyIds] = useState([])
@@ -26,7 +34,7 @@ export default function Kitties(props) {
       unsub = await api.query.substrateKitties.countForKitties(async count => {
         // Fetch all kitty keys
         const entries = await api.query.substrateKitties.kitties.entries()
-        const ids = entries.map(entry => entry[1].unwrap().dna)
+        const ids = entries.map(entry => toHexString(entry[0].slice(-32)))
         setKittyIds(ids)
       })
     }
