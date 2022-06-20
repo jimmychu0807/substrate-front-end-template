@@ -43,7 +43,7 @@ const TransferModal = props => {
       <Modal.Header>Kitty Transfer</Modal.Header>
       <Modal.Content>
         <Form>
-          <Form.Input fluid label="Kitty ID" readOnly value={kitty.dna} />
+          <Form.Input fluid label="Kitty ID" readOnly value={kitty.id} />
           <Form.Input
             fluid
             label="Receiver"
@@ -64,7 +64,7 @@ const TransferModal = props => {
           attrs={{
             palletRpc: 'substrateKitties',
             callable: 'transfer',
-            inputParams: [formValue.target, kitty.dna],
+            inputParams: [formValue.target, kitty.id],
             paramFields: [true, true],
           }}
         />
@@ -103,7 +103,7 @@ const SetPrice = props => {
       <Modal.Header>Set Kitty Price</Modal.Header>
       <Modal.Content>
         <Form>
-          <Form.Input fluid label="Kitty ID" readOnly value={kitty.dna} />
+          <Form.Input fluid label="Kitty ID" readOnly value={kitty.id} />
           <Form.Input
             fluid
             label="Price"
@@ -124,7 +124,7 @@ const SetPrice = props => {
           attrs={{
             palletRpc: 'substrateKitties',
             callable: 'setPrice',
-            inputParams: [kitty.dna, formValue.target],
+            inputParams: [kitty.id, formValue.target],
             paramFields: [true, true],
           }}
         />
@@ -162,7 +162,7 @@ const BuyKitty = props => {
       <Modal.Header>Buy Kitty</Modal.Header>
       <Modal.Content>
         <Form>
-          <Form.Input fluid label="Kitty ID" readOnly value={kitty.dna} />
+          <Form.Input fluid label="Kitty ID" readOnly value={kitty.id} />
           <Form.Input fluid label="Price" readOnly value={kitty.price} />
         </Form>
       </Modal.Content>
@@ -178,7 +178,7 @@ const BuyKitty = props => {
           attrs={{
             palletRpc: 'substrateKitties',
             callable: 'buyKitty',
-            inputParams: [kitty.dna, kitty.price],
+            inputParams: [kitty.id, kitty.price],
             paramFields: [true, true],
           }}
         />

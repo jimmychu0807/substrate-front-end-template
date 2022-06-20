@@ -23,7 +23,6 @@ function toHexString(byteArray) {
 
 export default function Kitties(props) {
   const { api, keyring } = useSubstrateState()
-  const [kittyIds, setKittyIds] = useState([])
   const [kitties, setKitties] = useState([])
   const [status, setStatus] = useState('')
 
@@ -34,8 +33,13 @@ export default function Kitties(props) {
       unsub = await api.query.substrateKitties.countForKitties(async count => {
         // Fetch all kitty keys
         const entries = await api.query.substrateKitties.kitties.entries()
-        const ids = entries.map(entry => toHexString(entry[0].slice(-32)))
-        setKittyIds(ids)
+        const kittiesMap = entries.map(entry => {
+          return {
+            id: toHexString(entry[0].slice(-32)),
+            ...parseKitty(entry[1].unwrap()),
+          }
+        })
+        setKitties(kittiesMap)
       })
     }
 
@@ -46,28 +50,7 @@ export default function Kitties(props) {
     }
   }
 
-  const subscribeKitties = () => {
-    let unsub = null
-
-    const asyncFetch = async () => {
-      unsub = await api.query.substrateKitties.kitties.multi(
-        kittyIds,
-        kitties => {
-          const kittiesMap = kitties.map(kitty => parseKitty(kitty.unwrap()))
-          setKitties(kittiesMap)
-        }
-      )
-    }
-
-    asyncFetch()
-
-    return () => {
-      unsub && unsub()
-    }
-  }
-
-  useEffect(subscribeCount, [api, keyring])
-  useEffect(subscribeKitties, [api, keyring, kittyIds])
+  useEffect(subscribeCount, [api, keyring, kitties])
 
   return (
     <Grid.Column width={16}>
