@@ -1,7 +1,13 @@
 import * as React from 'react'
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc'
-import { ApiPromise, WsProvider } from '@polkadot/api'
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp'
+import {
+  ApiPromise,
+  WsProvider
+} from '@polkadot/api'
+import {
+  web3Accounts,
+  web3Enable
+} from '@polkadot/extension-dapp'
 import { keyring as Keyring } from '@polkadot/ui-keyring'
 import { isTestChain } from '@polkadot/util'
 import { TypeRegistry } from '@polkadot/types/create'
@@ -10,13 +16,16 @@ import config from '../config'
 
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
-///
-// Initial state for `useReducer`
 
+///
+// Initial state for `React.useReducer`
 const initialState = {
   // These are the states
   socket: connectedSocket,
-  jsonrpc: { ...jsonrpc, ...config.CUSTOM_RPC_METHODS },
+  jsonrpc: {
+    ...jsonrpc,
+    ...config.CUSTOM_RPC_METHODS
+  },
   keyring: null,
   keyringState: null,
   api: null,
@@ -28,9 +37,8 @@ const initialState = {
 const registry = new TypeRegistry()
 
 ///
-// Reducer function for `useReducer`
-
-const reducer = (state, action) => {
+// Reducer function for `React.useReducer`
+const substrateReducer = (state, action) => {
   switch (action.type) {
     case 'CONNECT_INIT':
       return { ...state, apiState: 'CONNECT_INIT' }
@@ -55,7 +63,6 @@ const reducer = (state, action) => {
 
 ///
 // Connecting to the Substrate node
-
 const connect = (state, dispatch) => {
   const { apiState, socket, jsonrpc } = state
   // We only want this function to be performed once
@@ -137,7 +144,7 @@ const SubstrateProvider = props => {
       typeof props[key] === 'undefined' ? initialState[key] : props[key]
   })
 
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer(substrateReducer, initialState)
   connect(state, dispatch)
 
   React.useEffect(() => {
