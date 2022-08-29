@@ -62,18 +62,18 @@ const substrateReducer = (state, action) => {
         apiState: 'ERROR',
         apiError: action.payload
       }
-    case 'LOAD_KEYRING':
+    case 'SET_KEYRING_LOADING':
       return {
         ...state,
         keyringState: 'LOADING'
       }
-    case 'SET_KEYRING':
+    case 'SET_KEYRING_READY':
       return {
         ...state,
         keyring: action.payload,
         keyringState: 'READY'
       }
-    case 'KEYRING_ERROR':
+    case 'SET_KEYRING_ERROR':
       return {
         ...state,
         keyring: null,
@@ -130,7 +130,7 @@ const retrieveChainInfo = async api => {
 // Loading accounts from dev and polkadot-js extension
 const loadAccounts = (state, dispatch) => {
   const { api } = state
-  dispatch({ type: 'LOAD_KEYRING' })
+  dispatch({ type: 'SET_KEYRING_LOADING' })
 
   const asyncLoadAccounts = async () => {
     try {
@@ -152,10 +152,10 @@ const loadAccounts = (state, dispatch) => {
 
       Keyring.loadAll({ isDevelopment }, allAccounts)
 
-      dispatch({ type: 'SET_KEYRING', payload: Keyring })
+      dispatch({ type: 'SET_KEYRING_READY', payload: Keyring })
     } catch (e) {
       console.error(e)
-      dispatch({ type: 'KEYRING_ERROR' })
+      dispatch({ type: 'SET_KEYRING_ERROR' })
     }
   }
   asyncLoadAccounts()
