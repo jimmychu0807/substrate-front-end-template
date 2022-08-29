@@ -22,6 +22,16 @@ const KeyringStatus = Object.freeze({
   Error: 'ERROR'
 })
 
+// ray test touch <
+const ApiStatus = Object.freeze({
+  Idle: 'IDLE',
+  ConnectInit: 'CONNECT_INIT',
+  Connecting: 'CONNECTING',
+  Ready: 'READY',
+  Error: 'ERROR'
+})
+// ray test touch >
+
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
 
@@ -38,7 +48,9 @@ const initialState = {
   keyringState: KeyringStatus.Idle,
   api: null,
   apiError: null,
-  apiState: null,
+  // ray test touch <
+  apiStatus: ApiStatus.Idle,
+  // ray test touch >
   currentAccount: null,
 }
 
@@ -51,23 +63,23 @@ const substrateReducer = (state, action) => {
     case 'CONNECT_INIT':
       return {
         ...state,
-        apiState: 'CONNECT_INIT'
+        apiStatus: ApiStatus.ConnectInit
       }
     case 'CONNECT':
       return {
         ...state,
         api: action.payload,
-        apiState: 'CONNECTING'
+        apiStatus: ApiStatus.Connecting
       }
     case 'CONNECT_SUCCESS':
       return {
         ...state,
-        apiState: 'READY'
+        apiStatus: ApiStatus.Ready
       }
     case 'CONNECT_ERROR':
       return {
         ...state,
-        apiState: 'ERROR',
+        apiStatus: ApiStatus.Error,
         apiError: action.payload
       }
     case 'SET_KEYRING_LOADING':
@@ -100,9 +112,9 @@ const substrateReducer = (state, action) => {
 ///
 // Connecting to the Substrate node
 const connect = (state, dispatch) => {
-  const { apiState, socket, jsonrpc } = state
+  const { apiStatus, socket, jsonrpc } = state
   // We only want this function to be performed once
-  if (apiState) return
+  if (apiStatus) return
 
   dispatch({ type: 'CONNECT_INIT' })
 
@@ -184,8 +196,8 @@ const SubstrateProvider = props => {
   connect(state, dispatch)
 
   React.useEffect(() => {
-    const { apiState, keyringState } = state
-    if (apiState === 'READY' && !keyringState && !keyringLoadAll) {
+    const { apiStatus, keyringState } = state
+    if (apiStatus === ApiStatus.Ready && !keyringState && !keyringLoadAll) {
       keyringLoadAll = true
       loadAccounts(state, dispatch)
     }
