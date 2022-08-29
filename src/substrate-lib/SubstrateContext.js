@@ -121,78 +121,116 @@ const substrateReducer = (state, action) => {
 ///
 // Connecting to the Substrate node
 const connect = (state, dispatch) => {
-  const { apiStatus, socket, jsonrpc } = state
+  const {
+    apiStatus,
+    socket,
+    jsonrpc
+  } = state
+  // ray test touch <
   // We only want this function to be performed once
   if (apiStatus) return
+  // ray test touch >
 
   dispatch({ type: ActionType.ConnectInit })
 
+  // ray test touch <
   console.log(`Connected socket: ${socket}`)
+  // ray test touch >
+
   const provider = new WsProvider(socket)
-  const _api = new ApiPromise({ provider, rpc: jsonrpc })
+  const _api = new ApiPromise({
+    provider,
+    rpc: jsonrpc
+  })
 
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {
-    dispatch({ type: ActionType.Connect, payload: _api })
+    dispatch({
+      type: ActionType.Connect,
+      payload: _api
+    })
     // `ready` event is not emitted upon reconnection and is checked explicitly here.
-    _api.isReady.then(_api => dispatch({ type: ActionType.ConnectSuccess }))
+    _api.isReady.then(_api => {
+      dispatch({ type: ActionType.ConnectSuccess })
+      // ray test touch <
+      // ray test touch >
+    })
   })
   _api.on('ready', () => dispatch({ type: ActionType.ConnectSuccess }))
-  _api.on('error', err => dispatch({ type: ActionType.ConnectError, payload: err }))
+  _api.on('error', error => dispatch({
+    type: ActionType.ConnectError,
+    payload: error
+  }))
 }
 
+// ray test touch <
 const retrieveChainInfo = async api => {
-  const [systemChain, systemChainType] = await Promise.all([
+  const [
+    systemChain,
+    systemChainType
+  ] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
-      : Promise.resolve(registry.createType('ChainType', 'Live')),
+      : Promise.resolve(registry.createType('ChainType', 'Live'))
   ])
 
   return {
     systemChain: (systemChain || '<unknown>').toString(),
-    systemChainType,
+    systemChainType
   }
 }
+// ray test touch >
 
 ///
 // Loading accounts from dev and polkadot-js extension
-const loadAccounts = (state, dispatch) => {
-  const { api } = state
+const loadAccounts = async (state, dispatch) => {
   dispatch({ type: ActionType.SetKeyringLoading })
 
-  const asyncLoadAccounts = async () => {
-    try {
-      await web3Enable(config.APP_NAME)
-      let allAccounts = await web3Accounts()
+  try {
+    await web3Enable(config.APP_NAME)
 
-      allAccounts = allAccounts.map(({ address, meta }) => ({
-        address,
-        meta: { ...meta, name: `${meta.name} (${meta.source})` },
-      }))
+    let allAccounts = await web3Accounts()
+    allAccounts = allAccounts.map(({
+      address,
+      meta
+    }) => ({
+      address,
+      meta: {
+        ...meta,
+        name: `${meta.name} (${meta.source})`
+      }
+    }))
 
-      // Logics to check if the connecting chain is a dev chain, coming from polkadot-js Apps
-      // ref: https://github.com/polkadot-js/apps/blob/15b8004b2791eced0dde425d5dc7231a5f86c682/packages/react-api/src/Api.tsx?_pjax=div%5Bitemtype%3D%22http%3A%2F%2Fschema.org%2FSoftwareSourceCode%22%5D%20%3E%20main#L101-L110
-      const { systemChain, systemChainType } = await retrieveChainInfo(api)
-      const isDevelopment =
-        systemChainType.isDevelopment ||
-        systemChainType.isLocal ||
-        isTestChain(systemChain)
+    // ray test touch <
+    // Logics to check if the connecting chain is a dev chain, coming from polkadot-js Apps
+    // ref: https://github.com/polkadot-js/apps/blob/15b8004b2791eced0dde425d5dc7231a5f86c682/packages/react-api/src/Api.tsx?_pjax=div%5Bitemtype%3D%22http%3A%2F%2Fschema.org%2FSoftwareSourceCode%22%5D%20%3E%20main#L101-L110
+    const { systemChain, systemChainType } = await retrieveChainInfo(state.api)
+    const isDevelopment =
+      systemChainType.isDevelopment ||
+      systemChainType.isLocal ||
+      isTestChain(systemChain)
+    // ray test touch >
 
-      Keyring.loadAll({ isDevelopment }, allAccounts)
+    Keyring.loadAll({ isDevelopment }, allAccounts)
 
-      dispatch({ type: ActionType.SetKeyringReady, payload: Keyring })
-    } catch (e) {
-      console.error(e)
-      dispatch({ type: ActionType.SetKeyringError })
-    }
+    dispatch({
+      type: ActionType.SetKeyringReady,
+      payload: Keyring
+    })
+  } catch (error) {
+    console.error('[loadAccounts] error.message => ', error.message);
+    // ray test touch <
+    dispatch({ type: ActionType.SetKeyringError })
+    // ray test touch >
   }
-  asyncLoadAccounts()
 }
 
-const SubstrateContext = React.createContext()
+const SubstrateStateContext = React.createContext()
 
+// ray test touch <
 let keyringLoadAll = false
+// ray test touch >
 
 const SubstrateProvider = props => {
   const neededPropNames = ['socket']
@@ -217,14 +255,14 @@ const SubstrateProvider = props => {
   }
 
   return (
-    <SubstrateContext.Provider value={{ state, setCurrentAccount }}>
+    <SubstrateStateContext.Provider value={{ state, setCurrentAccount }}>
       {props.children}
-    </SubstrateContext.Provider>
+    </SubstrateStateContext.Provider>
   )
 }
 
-const useSubstrate = () => React.useContext(SubstrateContext)
-const useSubstrateState = () => React.useContext(SubstrateContext).state
+const useSubstrate = () => React.useContext(SubstrateStateContext)
+const useSubstrateState = () => React.useContext(SubstrateStateContext).state
 
 export {
   SubstrateProvider,
