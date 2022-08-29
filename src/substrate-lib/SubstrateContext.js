@@ -14,7 +14,6 @@ import { TypeRegistry } from '@polkadot/types/create'
 
 import config from '../config'
 
-// ray test touch <
 // TODO: use an enum with TypeScript
 const KeyringStatus = Object.freeze({
   Idle:'IDLE',
@@ -22,7 +21,6 @@ const KeyringStatus = Object.freeze({
   Ready: 'READY',
   Error: 'ERROR'
 })
-// ray test touch >
 
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
