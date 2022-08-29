@@ -14,6 +14,16 @@ import { TypeRegistry } from '@polkadot/types/create'
 
 import config from '../config'
 
+// ray test touch <
+// TODO: use an enum with TypeScript
+const KeyringStatus = Object.freeze({
+  Idle:'IDLE',
+  Loading: 'LOADING',
+  Ready: 'READY',
+  Error: 'ERROR'
+})
+// ray test touch >
+
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
 
@@ -27,7 +37,7 @@ const initialState = {
     ...config.CUSTOM_RPC_METHODS
   },
   keyring: null,
-  keyringState: null,
+  keyringState: KeyringStatus.Idle,
   api: null,
   apiError: null,
   apiState: null,
@@ -65,19 +75,19 @@ const substrateReducer = (state, action) => {
     case 'SET_KEYRING_LOADING':
       return {
         ...state,
-        keyringState: 'LOADING'
+        keyringState: KeyringStatus.Loading
       }
     case 'SET_KEYRING_READY':
       return {
         ...state,
         keyring: action.payload,
-        keyringState: 'READY'
+        keyringState: KeyringStatus.Ready
       }
     case 'SET_KEYRING_ERROR':
       return {
         ...state,
         keyring: null,
-        keyringState: 'ERROR'
+        keyringState: KeyringStatus.Error
       }
     case 'SET_CURRENT_ACCOUNT':
       return {
