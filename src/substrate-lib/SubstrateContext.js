@@ -22,7 +22,6 @@ const KeyringStatus = Object.freeze({
   Error: 'ERROR'
 })
 
-// ray test touch <
 const ApiStatus = Object.freeze({
   Idle: 'IDLE',
   ConnectInit: 'CONNECT_INIT',
@@ -30,7 +29,6 @@ const ApiStatus = Object.freeze({
   Ready: 'READY',
   Error: 'ERROR'
 })
-// ray test touch >
 
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
@@ -48,9 +46,7 @@ const initialState = {
   keyringState: KeyringStatus.Idle,
   api: null,
   apiError: null,
-  // ray test touch <
   apiStatus: ApiStatus.Idle,
-  // ray test touch >
   currentAccount: null,
 }
 
