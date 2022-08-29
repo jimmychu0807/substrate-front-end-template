@@ -233,26 +233,14 @@ let keyringLoadAll = false
 // ray test touch >
 
 const SubstrateProvider = ({
-  // ray test touch <
   children,
   socket
-  // ray test touch >
 }) => {
-  // ray test touch <
-  // const neededPropNames = ['socket']
-  // neededPropNames.forEach(key => {
-  //   initialState[key] =
-  //     typeof props[key] === 'undefined' ? initialState[key] : props[key]
-  // })
-  // ray test touch >
-
-  // ray test touch <
   const [state, dispatch] = React.useReducer(substrateReducer, {
     ...initialState,
     // Filtering props and merge with default param value
     socket: socket ?? initialState.socket
   })
-  // ray test touch >
   connect(state, dispatch)
 
   React.useEffect(() => {
