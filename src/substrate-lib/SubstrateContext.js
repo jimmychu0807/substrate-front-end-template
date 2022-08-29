@@ -1,5 +1,4 @@
-import React, { useReducer, useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import * as React from 'react'
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc'
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp'
@@ -138,10 +137,10 @@ const SubstrateProvider = props => {
       typeof props[key] === 'undefined' ? initialState[key] : props[key]
   })
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer(reducer, initialState)
   connect(state, dispatch)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const { apiState, keyringState } = state
     if (apiState === 'READY' && !keyringState && !keyringLoadAll) {
       keyringLoadAll = true
@@ -160,12 +159,7 @@ const SubstrateProvider = props => {
   )
 }
 
-// prop typechecking
-SubstrateProvider.propTypes = {
-  socket: PropTypes.string,
-}
-
-const useSubstrate = () => useContext(SubstrateContext)
-const useSubstrateState = () => useContext(SubstrateContext).state
+const useSubstrate = () => React.useContext(SubstrateContext)
+const useSubstrateState = () => React.useContext(SubstrateContext).state
 
 export { SubstrateProvider, useSubstrate, useSubstrateState }
