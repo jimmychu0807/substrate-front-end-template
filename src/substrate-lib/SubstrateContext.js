@@ -31,7 +31,6 @@ const ApiStatus = Object.freeze({
   Error: 'ERROR'
 })
 
-// ray test touch <
 // TODO: use an enum with TypeScript
 const ActionType = Object.freeze({
   ConnectInit: 'CONNECT_INIT',
@@ -43,7 +42,6 @@ const ActionType = Object.freeze({
   SetKeyringError: 'SET_KEYRING_ERROR',
   SetCurrentAccount: 'SET_CURRENT_ACCOUNT'
 })
-// ray test touch >
 
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
