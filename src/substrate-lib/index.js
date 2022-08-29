@@ -1,8 +1,13 @@
 import {
-  SubstrateContextProvider,
+  SubstrateProvider,
   useSubstrate,
   useSubstrateState,
 } from './SubstrateContext'
 import utils from './utils'
 
-export { SubstrateContextProvider, useSubstrate, useSubstrateState, utils }
+export {
+  SubstrateProvider,
+  useSubstrate,
+  useSubstrateState,
+  utils
+}

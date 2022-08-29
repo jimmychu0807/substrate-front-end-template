@@ -131,7 +131,7 @@ const SubstrateContext = React.createContext()
 
 let keyringLoadAll = false
 
-const SubstrateContextProvider = props => {
+const SubstrateProvider = props => {
   const neededPropNames = ['socket']
   neededPropNames.forEach(key => {
     initialState[key] =
@@ -161,11 +161,11 @@ const SubstrateContextProvider = props => {
 }
 
 // prop typechecking
-SubstrateContextProvider.propTypes = {
+SubstrateProvider.propTypes = {
   socket: PropTypes.string,
 }
 
 const useSubstrate = () => useContext(SubstrateContext)
 const useSubstrateState = () => useContext(SubstrateContext).state
 
-export { SubstrateContextProvider, useSubstrate, useSubstrateState }
+export { SubstrateProvider, useSubstrate, useSubstrateState }
