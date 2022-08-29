@@ -153,6 +153,10 @@ const connect = (state, dispatch) => {
     _api.isReady.then(_api => {
       dispatch({ type: ActionType.ConnectSuccess })
       // ray test touch <
+      // Keyring accounts were not being loaded properly because the `api` needs to first load
+      // the WASM file used for `sr25519`. Loading accounts at this point follows the recommended pattern:
+      // https://polkadot.js.org/docs/ui-keyring/start/init/#using-with-the-api
+      loadAccounts(state, dispatch);
       // ray test touch >
     })
   })
@@ -229,7 +233,7 @@ const loadAccounts = async (state, dispatch) => {
 const SubstrateStateContext = React.createContext()
 
 // ray test touch <
-let keyringLoadAll = false
+// let keyringLoadAll = false
 // ray test touch >
 
 const SubstrateProvider = ({
@@ -241,29 +245,96 @@ const SubstrateProvider = ({
     // Filtering props and merge with default param value
     socket: socket ?? initialState.socket
   })
-  connect(state, dispatch)
 
+  // ray test touch <
+  const stateRef = React.useRef(state);
+  // MEMO: inspired by https://epicreact.dev/the-latest-ref-pattern-in-react/
+  React.useLayoutEffect(() => {
+    stateRef.current = state;
+  });
   React.useEffect(() => {
-    const { apiStatus, keyringState } = state
-    if (apiStatus === ApiStatus.Ready && !keyringState && !keyringLoadAll) {
-      keyringLoadAll = true
-      loadAccounts(state, dispatch)
-    }
-  }, [state, dispatch])
+    connect(stateRef.current, dispatch);
+  }, []);
+  // connect(state, dispatch)
+  // React.useEffect(() => {
+  //   const { apiStatus, keyringState } = state
+  //   if (apiStatus === ApiStatus.Ready && !keyringState && !keyringLoadAll) {
+  //     keyringLoadAll = true
+  //     loadAccounts(state, dispatch)
+  //   }
+  // }, [state, dispatch])
 
-  function setCurrentAccount(acct) {
-    dispatch({ type: ActionType.SetCurrentAccount, payload: acct })
+  switch (state.apiStatus) {
+    case ApiStatus.Idle:
+    case ApiStatus.ConnectInit:
+    case ApiStatus.Connecting:
+      return (
+        // <FullLoadingSpinner text={`Connecting to ${RELAY_CHAIN_NAME}`} />
+        <>Connecting to Substrate</>
+      );
+    case ApiStatus.Ready:
+      break;
+    case ApiStatus.Error:
+      // handleError(state.apiError);
+      console.log('ray : ***** handleError(state.apiError)')
+      break;
+    default:
+      throw new Error('Invalid ApiStatus!');
+    }
+  
+    switch (state.keyringStatus) {
+    case KeyringStatus.Idle:
+    case KeyringStatus.Loading:
+      return (
+        // <FullLoadingSpinner text='Loading accounts (please review any extensions authorization)' />
+        <>Loading accounts (please review any extensions authorization)</>
+      );
+    case KeyringStatus.Ready:
+      break;
+    case KeyringStatus.Error:
+      throw new Error(`${ActionType.SetKeyringError}!`);
+    default:
+      throw new Error('Invalid KeyringStatus!');
+    }
+  
+    if (
+      state.keyring === null ||
+      state.api === null
+    ) {
+      throw new Error('Something went wrong!');
+    }
+  // ray test touch >
+
+  // ray test touch <
+  function setCurrentAccount(newAccount) {
+    dispatch({ type: ActionType.SetCurrentAccount, payload: newAccount })
   }
 
+  const value = {
+    state,
+    setCurrentAccount
+  }
+  // ray test touch >
+
   return (
-    <SubstrateStateContext.Provider value={{ state, setCurrentAccount }}>
+    <SubstrateStateContext.Provider value={value}>
       {children}
     </SubstrateStateContext.Provider>
   )
 }
 
-const useSubstrate = () => React.useContext(SubstrateStateContext)
-const useSubstrateState = () => React.useContext(SubstrateStateContext).state
+// ray test touch <
+// const useSubstrate = () => React.useContext(SubstrateStateContext)
+// const useSubstrateState = () => React.useContext(SubstrateStateContext).state
+const useSubstrate = () => {
+  const context = React.useContext(SubstrateStateContext);
+  if (context === undefined) {
+    throw new Error('useSubstrate must be used within a SubstrateProvider!');
+  }
+  return context;
+}
+const useSubstrateState = () => useSubstrate().state
+// ray test touch >
 
 export {
   SubstrateProvider,
