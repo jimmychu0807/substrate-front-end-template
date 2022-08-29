@@ -41,21 +41,49 @@ const registry = new TypeRegistry()
 const substrateReducer = (state, action) => {
   switch (action.type) {
     case 'CONNECT_INIT':
-      return { ...state, apiState: 'CONNECT_INIT' }
+      return {
+        ...state,
+        apiState: 'CONNECT_INIT'
+      }
     case 'CONNECT':
-      return { ...state, api: action.payload, apiState: 'CONNECTING' }
+      return {
+        ...state,
+        api: action.payload,
+        apiState: 'CONNECTING'
+      }
     case 'CONNECT_SUCCESS':
-      return { ...state, apiState: 'READY' }
+      return {
+        ...state,
+        apiState: 'READY'
+      }
     case 'CONNECT_ERROR':
-      return { ...state, apiState: 'ERROR', apiError: action.payload }
+      return {
+        ...state,
+        apiState: 'ERROR',
+        apiError: action.payload
+      }
     case 'LOAD_KEYRING':
-      return { ...state, keyringState: 'LOADING' }
+      return {
+        ...state,
+        keyringState: 'LOADING'
+      }
     case 'SET_KEYRING':
-      return { ...state, keyring: action.payload, keyringState: 'READY' }
+      return {
+        ...state,
+        keyring: action.payload,
+        keyringState: 'READY'
+      }
     case 'KEYRING_ERROR':
-      return { ...state, keyring: null, keyringState: 'ERROR' }
+      return {
+        ...state,
+        keyring: null,
+        keyringState: 'ERROR'
+      }
     case 'SET_CURRENT_ACCOUNT':
-      return { ...state, currentAccount: action.payload }
+      return {
+        ...state,
+        currentAccount: action.payload
+      }
     default:
       throw new Error(`Unknown type: ${action.type}`)
   }
@@ -169,4 +197,8 @@ const SubstrateProvider = props => {
 const useSubstrate = () => React.useContext(SubstrateContext)
 const useSubstrateState = () => React.useContext(SubstrateContext).state
 
-export { SubstrateProvider, useSubstrate, useSubstrateState }
+export {
+  SubstrateProvider,
+  useSubstrate,
+  useSubstrateState
+}
