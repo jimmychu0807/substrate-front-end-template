@@ -22,6 +22,7 @@ const KeyringStatus = Object.freeze({
   Error: 'ERROR'
 })
 
+// TODO: use an enum with TypeScript
 const ApiStatus = Object.freeze({
   Idle: 'IDLE',
   ConnectInit: 'CONNECT_INIT',
@@ -29,6 +30,20 @@ const ApiStatus = Object.freeze({
   Ready: 'READY',
   Error: 'ERROR'
 })
+
+// ray test touch <
+// TODO: use an enum with TypeScript
+const ActionType = Object.freeze({
+  ConnectInit: 'CONNECT_INIT',
+  Connect: 'CONNECT',
+  ConnectSuccess: 'CONNECT_SUCCESS',
+  ConnectError: 'CONNECT_ERROR',
+  SetKeyringLoading: 'SET_KEYRING_LOADING',
+  SetKeyringReady: 'SET_KEYRING_READY',
+  SetKeyringError: 'SET_KEYRING_ERROR',
+  SetCurrentAccount: 'SET_CURRENT_ACCOUNT'
+})
+// ray test touch >
 
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
@@ -56,46 +71,46 @@ const registry = new TypeRegistry()
 // Reducer function for `React.useReducer`
 const substrateReducer = (state, action) => {
   switch (action.type) {
-    case 'CONNECT_INIT':
+    case ActionType.ConnectInit:
       return {
         ...state,
         apiStatus: ApiStatus.ConnectInit
       }
-    case 'CONNECT':
+    case ActionType.Connect:
       return {
         ...state,
         api: action.payload,
         apiStatus: ApiStatus.Connecting
       }
-    case 'CONNECT_SUCCESS':
+    case ActionType.ConnectSuccess:
       return {
         ...state,
         apiStatus: ApiStatus.Ready
       }
-    case 'CONNECT_ERROR':
+    case ActionType.ConnectError:
       return {
         ...state,
         apiStatus: ApiStatus.Error,
         apiError: action.payload
       }
-    case 'SET_KEYRING_LOADING':
+    case ActionType.SetKeyringLoading:
       return {
         ...state,
         keyringState: KeyringStatus.Loading
       }
-    case 'SET_KEYRING_READY':
+    case ActionType.SetKeyringReady:
       return {
         ...state,
         keyring: action.payload,
         keyringState: KeyringStatus.Ready
       }
-    case 'SET_KEYRING_ERROR':
+    case ActionType.SetKeyringError:
       return {
         ...state,
         keyring: null,
         keyringState: KeyringStatus.Error
       }
-    case 'SET_CURRENT_ACCOUNT':
+    case ActionType.SetCurrentAccount:
       return {
         ...state,
         currentAccount: action.payload
@@ -112,7 +127,7 @@ const connect = (state, dispatch) => {
   // We only want this function to be performed once
   if (apiStatus) return
 
-  dispatch({ type: 'CONNECT_INIT' })
+  dispatch({ type: ActionType.ConnectInit })
 
   console.log(`Connected socket: ${socket}`)
   const provider = new WsProvider(socket)
@@ -120,12 +135,12 @@ const connect = (state, dispatch) => {
 
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {
-    dispatch({ type: 'CONNECT', payload: _api })
+    dispatch({ type: ActionType.Connect, payload: _api })
     // `ready` event is not emitted upon reconnection and is checked explicitly here.
-    _api.isReady.then(_api => dispatch({ type: 'CONNECT_SUCCESS' }))
+    _api.isReady.then(_api => dispatch({ type: ActionType.ConnectSuccess }))
   })
-  _api.on('ready', () => dispatch({ type: 'CONNECT_SUCCESS' }))
-  _api.on('error', err => dispatch({ type: 'CONNECT_ERROR', payload: err }))
+  _api.on('ready', () => dispatch({ type: ActionType.ConnectSuccess }))
+  _api.on('error', err => dispatch({ type: ActionType.ConnectError, payload: err }))
 }
 
 const retrieveChainInfo = async api => {
@@ -146,7 +161,7 @@ const retrieveChainInfo = async api => {
 // Loading accounts from dev and polkadot-js extension
 const loadAccounts = (state, dispatch) => {
   const { api } = state
-  dispatch({ type: 'SET_KEYRING_LOADING' })
+  dispatch({ type: ActionType.SetKeyringLoading })
 
   const asyncLoadAccounts = async () => {
     try {
@@ -168,10 +183,10 @@ const loadAccounts = (state, dispatch) => {
 
       Keyring.loadAll({ isDevelopment }, allAccounts)
 
-      dispatch({ type: 'SET_KEYRING_READY', payload: Keyring })
+      dispatch({ type: ActionType.SetKeyringReady, payload: Keyring })
     } catch (e) {
       console.error(e)
-      dispatch({ type: 'SET_KEYRING_ERROR' })
+      dispatch({ type: ActionType.SetKeyringError })
     }
   }
   asyncLoadAccounts()
@@ -200,7 +215,7 @@ const SubstrateProvider = props => {
   }, [state, dispatch])
 
   function setCurrentAccount(acct) {
-    dispatch({ type: 'SET_CURRENT_ACCOUNT', payload: acct })
+    dispatch({ type: ActionType.SetCurrentAccount, payload: acct })
   }
 
   return (
