@@ -56,7 +56,7 @@ const initialState = {
     ...config.CUSTOM_RPC_METHODS
   },
   keyring: null,
-  keyringState: KeyringStatus.Idle,
+  keyringStatus: KeyringStatus.Idle,
   api: null,
   apiError: null,
   apiStatus: ApiStatus.Idle,
@@ -94,19 +94,19 @@ const substrateReducer = (state, action) => {
     case ActionType.SetKeyringLoading:
       return {
         ...state,
-        keyringState: KeyringStatus.Loading
+        keyringStatus: KeyringStatus.Loading
       }
     case ActionType.SetKeyringReady:
       return {
         ...state,
         keyring: action.payload,
-        keyringState: KeyringStatus.Ready
+        keyringStatus: KeyringStatus.Ready
       }
     case ActionType.SetKeyringError:
       return {
         ...state,
         keyring: null,
-        keyringState: KeyringStatus.Error
+        keyringStatus: KeyringStatus.Error
       }
     case ActionType.SetCurrentAccount:
       return {
@@ -122,13 +122,15 @@ const substrateReducer = (state, action) => {
 // Connecting to the Substrate node
 const connect = (state, dispatch) => {
   const {
-    apiStatus,
+    // ray test touch <
+    // apiStatus,
+    // ray test touch >
     socket,
     jsonrpc
   } = state
   // ray test touch <
   // We only want this function to be performed once
-  if (apiStatus) return
+  // if (apiStatus) return
   // ray test touch >
 
   dispatch({ type: ActionType.ConnectInit })
@@ -257,52 +259,12 @@ const SubstrateProvider = ({
   }, []);
   // connect(state, dispatch)
   // React.useEffect(() => {
-  //   const { apiStatus, keyringState } = state
-  //   if (apiStatus === ApiStatus.Ready && !keyringState && !keyringLoadAll) {
+  //   const { apiStatus, keyringStatus } = state
+  //   if (apiStatus === ApiStatus.Ready && !keyringStatus && !keyringLoadAll) {
   //     keyringLoadAll = true
   //     loadAccounts(state, dispatch)
   //   }
   // }, [state, dispatch])
-
-  switch (state.apiStatus) {
-    case ApiStatus.Idle:
-    case ApiStatus.ConnectInit:
-    case ApiStatus.Connecting:
-      return (
-        // <FullLoadingSpinner text={`Connecting to ${RELAY_CHAIN_NAME}`} />
-        <>Connecting to Substrate</>
-      );
-    case ApiStatus.Ready:
-      break;
-    case ApiStatus.Error:
-      // handleError(state.apiError);
-      console.log('ray : ***** handleError(state.apiError)')
-      break;
-    default:
-      throw new Error('Invalid ApiStatus!');
-    }
-  
-    switch (state.keyringStatus) {
-    case KeyringStatus.Idle:
-    case KeyringStatus.Loading:
-      return (
-        // <FullLoadingSpinner text='Loading accounts (please review any extensions authorization)' />
-        <>Loading accounts (please review any extensions authorization)</>
-      );
-    case KeyringStatus.Ready:
-      break;
-    case KeyringStatus.Error:
-      throw new Error(`${ActionType.SetKeyringError}!`);
-    default:
-      throw new Error('Invalid KeyringStatus!');
-    }
-  
-    if (
-      state.keyring === null ||
-      state.api === null
-    ) {
-      throw new Error('Something went wrong!');
-    }
   // ray test touch >
 
   // ray test touch <
@@ -339,5 +301,10 @@ const useSubstrateState = () => useSubstrate().state
 export {
   SubstrateProvider,
   useSubstrate,
-  useSubstrateState
+  useSubstrateState,
+  // ray test touch <
+  ApiStatus,
+  KeyringStatus,
+  ActionType
+  // ray test touch >
 }
