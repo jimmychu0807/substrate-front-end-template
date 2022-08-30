@@ -2,7 +2,7 @@ import {
   SubstrateProvider,
   useSubstrate,
   useSubstrateState,
-} from './SubstrateContext'
+} from './substrate-context'
 import utils from './utils'
 
 export {

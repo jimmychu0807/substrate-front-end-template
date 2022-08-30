@@ -18,7 +18,7 @@ import {
   ApiStatus,
   KeyringStatus,
   ActionType
-} from './substrate-lib/SubstrateContext';
+} from './substrate-lib/substrate-context';
 // ray test touch >
 import { DeveloperConsole } from './substrate-lib/components'
 
