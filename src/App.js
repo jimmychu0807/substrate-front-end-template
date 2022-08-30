@@ -35,7 +35,14 @@ import Upgrade from './Upgrade'
 
 function Main() {
   // ray test touch <
-  const { apiStatus, apiError, keyringStatus, keyring, api } = useSubstrateState()
+  const {
+    apiStatus,
+    apiError,
+    keyringStatus,
+    keyring,
+    api
+  } = useSubstrateState()
+
   const loader = text => (
     <Dimmer active>
       <Loader size="small">{text}</Loader>
@@ -54,26 +61,15 @@ function Main() {
       </Grid.Column>
     </Grid>
   )
-  // if (apiStatus === 'ERROR') return message(apiError)
-  // else if (apiStatus !== 'READY') return loader('Connecting to Substrate')
-  // if (keyringStatus !== 'READY') {
-  //   return loader(
-  //     "Loading accounts (please review any extension's authorization)"
-  //   )
-  // }
+
   switch (apiStatus) {
     case ApiStatus.Idle:
     case ApiStatus.ConnectInit:
     case ApiStatus.Connecting:
-      return (
-        // <FullLoadingSpinner text={`Connecting to ${RELAY_CHAIN_NAME}`} />
-        loader('Connecting to Substrate')
-      );
+      return loader('Connecting to Substrate');
     case ApiStatus.Ready:
       break;
     case ApiStatus.Error:
-      // handleError(state.apiError);
-      // console.log('ray : ***** handleError(state.apiError)')
       return message(apiError)
     default:
       throw new Error('Invalid ApiStatus!');
@@ -82,10 +78,7 @@ function Main() {
   switch (keyringStatus) {
     case KeyringStatus.Idle:
     case KeyringStatus.Loading:
-      return (
-        // <FullLoadingSpinner text='Loading accounts (please review any extensions authorization)' />
-        <>Loading accounts (please review any extensions authorization)</>
-      );
+      return "Loading accounts (please review any extension's authorization)";
     case KeyringStatus.Ready:
       break;
     case KeyringStatus.Error:

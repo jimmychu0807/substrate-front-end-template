@@ -122,22 +122,13 @@ const substrateReducer = (state, action) => {
 // Connecting to the Substrate node
 const connect = (state, dispatch) => {
   const {
-    // ray test touch <
-    // apiStatus,
-    // ray test touch >
     socket,
     jsonrpc
   } = state
-  // ray test touch <
-  // We only want this function to be performed once
-  // if (apiStatus) return
-  // ray test touch >
 
   dispatch({ type: ActionType.ConnectInit })
 
-  // ray test touch <
   console.log(`Connected socket: ${socket}`)
-  // ray test touch >
 
   const provider = new WsProvider(socket)
   const _api = new ApiPromise({
@@ -226,17 +217,11 @@ const loadAccounts = async (state, dispatch) => {
     })
   } catch (error) {
     console.error('[loadAccounts] error.message => ', error.message);
-    // ray test touch <
     dispatch({ type: ActionType.SetKeyringError })
-    // ray test touch >
   }
 }
 
 const SubstrateStateContext = React.createContext()
-
-// ray test touch <
-// let keyringLoadAll = false
-// ray test touch >
 
 const SubstrateProvider = ({
   children,
@@ -257,14 +242,6 @@ const SubstrateProvider = ({
   React.useEffect(() => {
     connect(stateRef.current, dispatch);
   }, []);
-  // connect(state, dispatch)
-  // React.useEffect(() => {
-  //   const { apiStatus, keyringStatus } = state
-  //   if (apiStatus === ApiStatus.Ready && !keyringStatus && !keyringLoadAll) {
-  //     keyringLoadAll = true
-  //     loadAccounts(state, dispatch)
-  //   }
-  // }, [state, dispatch])
   // ray test touch >
 
   // ray test touch <
@@ -286,8 +263,6 @@ const SubstrateProvider = ({
 }
 
 // ray test touch <
-// const useSubstrate = () => React.useContext(SubstrateStateContext)
-// const useSubstrateState = () => React.useContext(SubstrateStateContext).state
 const useSubstrate = () => {
   const context = React.useContext(SubstrateStateContext);
   if (context === undefined) {
@@ -295,7 +270,7 @@ const useSubstrate = () => {
   }
   return context;
 }
-const useSubstrateState = () => useSubstrate().state
+const useSubstrateState = () => useSubstrate().state // TODO: it could be redundant in favor of useSubstrate
 // ray test touch >
 
 export {
