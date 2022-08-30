@@ -149,7 +149,7 @@ const connect = (state, dispatch) => {
       // Keyring accounts were not being loaded properly because the `api` needs to first load
       // the WASM file used for `sr25519`. Loading accounts at this point follows the recommended pattern:
       // https://polkadot.js.org/docs/ui-keyring/start/init/#using-with-the-api
-      loadAccounts(state, dispatch);
+      loadAccounts(_api, dispatch);
       // ray test touch >
     })
   })
@@ -181,7 +181,7 @@ const retrieveChainInfo = async api => {
 
 ///
 // Loading accounts from dev and polkadot-js extension
-const loadAccounts = async (state, dispatch) => {
+const loadAccounts = async (api, dispatch) => {
   dispatch({ type: ActionType.SetKeyringLoading })
 
   try {
@@ -202,7 +202,7 @@ const loadAccounts = async (state, dispatch) => {
     // ray test touch <
     // Logics to check if the connecting chain is a dev chain, coming from polkadot-js Apps
     // ref: https://github.com/polkadot-js/apps/blob/15b8004b2791eced0dde425d5dc7231a5f86c682/packages/react-api/src/Api.tsx?_pjax=div%5Bitemtype%3D%22http%3A%2F%2Fschema.org%2FSoftwareSourceCode%22%5D%20%3E%20main#L101-L110
-    const { systemChain, systemChainType } = await retrieveChainInfo(state.api)
+    const { systemChain, systemChainType } = await retrieveChainInfo(api)
     const isDevelopment =
       systemChainType.isDevelopment ||
       systemChainType.isLocal ||
