@@ -13,13 +13,11 @@ import {
   SubstrateProvider,
   useSubstrateState
 } from './substrate-lib'
-// ray test touch <
 import {
   ApiStatus,
   KeyringStatus,
   ActionType
 } from './substrate-lib/substrate-context';
-// ray test touch >
 import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
@@ -34,7 +32,6 @@ import Transfer from './Transfer'
 import Upgrade from './Upgrade'
 
 function Main() {
-  // ray test touch <
   const {
     apiStatus,
     apiError,
@@ -93,7 +90,6 @@ function Main() {
   ) {
     throw new Error('Something went wrong!');
   }
-  // ray test touch >
 
   const contextRef = createRef()
 

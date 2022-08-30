@@ -145,12 +145,10 @@ const connect = (state, dispatch) => {
     // `ready` event is not emitted upon reconnection and is checked explicitly here.
     _api.isReady.then(_api => {
       dispatch({ type: ActionType.ConnectSuccess })
-      // ray test touch <
       // Keyring accounts were not being loaded properly because the `api` needs to first load
       // the WASM file used for `sr25519`. Loading accounts at this point follows the recommended pattern:
       // https://polkadot.js.org/docs/ui-keyring/start/init/#using-with-the-api
       loadAccounts(_api, dispatch);
-      // ray test touch >
     })
   })
   _api.on('ready', () => dispatch({ type: ActionType.ConnectSuccess }))
@@ -160,7 +158,6 @@ const connect = (state, dispatch) => {
   }))
 }
 
-// ray test touch <
 const retrieveChainInfo = async api => {
   const [
     systemChain,
@@ -177,7 +174,6 @@ const retrieveChainInfo = async api => {
     systemChainType
   }
 }
-// ray test touch >
 
 ///
 // Loading accounts from dev and polkadot-js extension
@@ -199,7 +195,6 @@ const loadAccounts = async (api, dispatch) => {
       }
     }))
 
-    // ray test touch <
     // Logics to check if the connecting chain is a dev chain, coming from polkadot-js Apps
     // ref: https://github.com/polkadot-js/apps/blob/15b8004b2791eced0dde425d5dc7231a5f86c682/packages/react-api/src/Api.tsx?_pjax=div%5Bitemtype%3D%22http%3A%2F%2Fschema.org%2FSoftwareSourceCode%22%5D%20%3E%20main#L101-L110
     const { systemChain, systemChainType } = await retrieveChainInfo(api)
@@ -207,7 +202,6 @@ const loadAccounts = async (api, dispatch) => {
       systemChainType.isDevelopment ||
       systemChainType.isLocal ||
       isTestChain(systemChain)
-    // ray test touch >
 
     Keyring.loadAll({ isDevelopment }, allAccounts)
 
@@ -233,7 +227,6 @@ const SubstrateProvider = ({
     socket: socket ?? initialState.socket
   })
 
-  // ray test touch <
   const stateRef = React.useRef(state);
   // MEMO: inspired by https://epicreact.dev/the-latest-ref-pattern-in-react/
   React.useLayoutEffect(() => {
@@ -242,9 +235,7 @@ const SubstrateProvider = ({
   React.useEffect(() => {
     connect(stateRef.current, dispatch);
   }, []);
-  // ray test touch >
 
-  // ray test touch <
   function setCurrentAccount(newAccount) {
     dispatch({ type: ActionType.SetCurrentAccount, payload: newAccount })
   }
@@ -253,7 +244,6 @@ const SubstrateProvider = ({
     state,
     setCurrentAccount
   }
-  // ray test touch >
 
   return (
     <SubstrateStateContext.Provider value={value}>
@@ -262,7 +252,6 @@ const SubstrateProvider = ({
   )
 }
 
-// ray test touch <
 const useSubstrate = () => {
   const context = React.useContext(SubstrateStateContext);
   if (context === undefined) {
@@ -271,15 +260,12 @@ const useSubstrate = () => {
   return context;
 }
 const useSubstrateState = () => useSubstrate().state // TODO: it could be redundant in favor of useSubstrate
-// ray test touch >
 
 export {
   SubstrateProvider,
   useSubstrate,
   useSubstrateState,
-  // ray test touch <
   ApiStatus,
   KeyringStatus,
   ActionType
-  // ray test touch >
 }
