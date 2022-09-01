@@ -75,7 +75,7 @@ function Main() {
   switch (keyringStatus) {
     case KeyringStatus.Idle:
     case KeyringStatus.Loading:
-      return "Loading accounts (please review any extension's authorization)";
+      return loader('Loading accounts (please review any extension\'s authorization)');
     case KeyringStatus.Ready:
       break;
     case KeyringStatus.Error:
