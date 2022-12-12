@@ -46,7 +46,7 @@ function Main(props) {
     // This is a subscription, so it will always get the latest value,
     // even if it changes.
     api.query.templateModule
-      .proofs(digest, result => {
+      .claims(digest, result => {
         // Our storage item returns a tuple, which is represented as an array.
         if (result.inspect().inner) {
           const [owner, block] = result.toHuman()
