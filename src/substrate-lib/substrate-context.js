@@ -1,13 +1,7 @@
 import * as React from 'react'
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc'
-import {
-  ApiPromise,
-  WsProvider
-} from '@polkadot/api'
-import {
-  web3Accounts,
-  web3Enable
-} from '@polkadot/extension-dapp'
+import { ApiPromise, WsProvider } from '@polkadot/api'
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp'
 import { keyring as Keyring } from '@polkadot/ui-keyring'
 import { isTestChain } from '@polkadot/util'
 import { TypeRegistry } from '@polkadot/types/create'
@@ -16,10 +10,10 @@ import config from '../config'
 
 // TODO: use an enum with TypeScript
 const KeyringStatus = Object.freeze({
-  Idle:'IDLE',
+  Idle: 'IDLE',
   Loading: 'LOADING',
   Ready: 'READY',
-  Error: 'ERROR'
+  Error: 'ERROR',
 })
 
 // TODO: use an enum with TypeScript
@@ -28,7 +22,7 @@ const ApiStatus = Object.freeze({
   ConnectInit: 'CONNECT_INIT',
   Connecting: 'CONNECTING',
   Ready: 'READY',
-  Error: 'ERROR'
+  Error: 'ERROR',
 })
 
 // TODO: use an enum with TypeScript
@@ -40,7 +34,7 @@ const ActionType = Object.freeze({
   SetKeyringLoading: 'SET_KEYRING_LOADING',
   SetKeyringReady: 'SET_KEYRING_READY',
   SetKeyringError: 'SET_KEYRING_ERROR',
-  SetCurrentAccount: 'SET_CURRENT_ACCOUNT'
+  SetCurrentAccount: 'SET_CURRENT_ACCOUNT',
 })
 
 const parsedQuery = new URLSearchParams(window.location.search)
@@ -53,7 +47,7 @@ const initialState = {
   socket: connectedSocket,
   jsonrpc: {
     ...jsonrpc,
-    ...config.CUSTOM_RPC_METHODS
+    ...config.CUSTOM_RPC_METHODS,
   },
   keyring: null,
   keyringStatus: KeyringStatus.Idle,
@@ -72,46 +66,46 @@ const substrateReducer = (state, action) => {
     case ActionType.ConnectInit:
       return {
         ...state,
-        apiStatus: ApiStatus.ConnectInit
+        apiStatus: ApiStatus.ConnectInit,
       }
     case ActionType.Connect:
       return {
         ...state,
         api: action.payload,
-        apiStatus: ApiStatus.Connecting
+        apiStatus: ApiStatus.Connecting,
       }
     case ActionType.ConnectSuccess:
       return {
         ...state,
-        apiStatus: ApiStatus.Ready
+        apiStatus: ApiStatus.Ready,
       }
     case ActionType.ConnectError:
       return {
         ...state,
         apiStatus: ApiStatus.Error,
-        apiError: action.payload
+        apiError: action.payload,
       }
     case ActionType.SetKeyringLoading:
       return {
         ...state,
-        keyringStatus: KeyringStatus.Loading
+        keyringStatus: KeyringStatus.Loading,
       }
     case ActionType.SetKeyringReady:
       return {
         ...state,
         keyring: action.payload,
-        keyringStatus: KeyringStatus.Ready
+        keyringStatus: KeyringStatus.Ready,
       }
     case ActionType.SetKeyringError:
       return {
         ...state,
         keyring: null,
-        keyringStatus: KeyringStatus.Error
+        keyringStatus: KeyringStatus.Error,
       }
     case ActionType.SetCurrentAccount:
       return {
         ...state,
-        currentAccount: action.payload
+        currentAccount: action.payload,
       }
     default:
       throw new Error(`Unknown type: ${action.type}`)
@@ -121,10 +115,7 @@ const substrateReducer = (state, action) => {
 ///
 // Connecting to the Substrate node
 const connect = (state, dispatch) => {
-  const {
-    socket,
-    jsonrpc
-  } = state
+  const { socket, jsonrpc } = state
 
   dispatch({ type: ActionType.ConnectInit })
 
@@ -133,14 +124,14 @@ const connect = (state, dispatch) => {
   const provider = new WsProvider(socket)
   const _api = new ApiPromise({
     provider,
-    rpc: jsonrpc
+    rpc: jsonrpc,
   })
 
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {
     dispatch({
       type: ActionType.Connect,
-      payload: _api
+      payload: _api,
     })
     // `ready` event is not emitted upon reconnection and is checked explicitly here.
     _api.isReady.then(_api => {
@@ -148,30 +139,29 @@ const connect = (state, dispatch) => {
       // Keyring accounts were not being loaded properly because the `api` needs to first load
       // the WASM file used for `sr25519`. Loading accounts at this point follows the recommended pattern:
       // https://polkadot.js.org/docs/ui-keyring/start/init/#using-with-the-api
-      loadAccounts(_api, dispatch);
+      loadAccounts(_api, dispatch)
     })
   })
   _api.on('ready', () => dispatch({ type: ActionType.ConnectSuccess }))
-  _api.on('error', error => dispatch({
-    type: ActionType.ConnectError,
-    payload: error
-  }))
+  _api.on('error', error =>
+    dispatch({
+      type: ActionType.ConnectError,
+      payload: error,
+    })
+  )
 }
 
 const retrieveChainInfo = async api => {
-  const [
-    systemChain,
-    systemChainType
-  ] = await Promise.all([
+  const [systemChain, systemChainType] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
-      : Promise.resolve(registry.createType('ChainType', 'Live'))
+      : Promise.resolve(registry.createType('ChainType', 'Live')),
   ])
 
   return {
     systemChain: (systemChain || '<unknown>').toString(),
-    systemChainType
+    systemChainType,
   }
 }
 
@@ -184,15 +174,12 @@ const loadAccounts = async (api, dispatch) => {
     await web3Enable(config.APP_NAME)
 
     let allAccounts = await web3Accounts()
-    allAccounts = allAccounts.map(({
-      address,
-      meta
-    }) => ({
+    allAccounts = allAccounts.map(({ address, meta }) => ({
       address,
       meta: {
         ...meta,
-        name: `${meta.name} (${meta.source})`
-      }
+        name: `${meta.name} (${meta.source})`,
+      },
     }))
 
     // Logics to check if the connecting chain is a dev chain, coming from polkadot-js Apps
@@ -207,34 +194,31 @@ const loadAccounts = async (api, dispatch) => {
 
     dispatch({
       type: ActionType.SetKeyringReady,
-      payload: Keyring
+      payload: Keyring,
     })
   } catch (error) {
-    console.error('[loadAccounts] error.message => ', error.message);
+    console.error('[loadAccounts] error.message => ', error.message)
     dispatch({ type: ActionType.SetKeyringError })
   }
 }
 
 const SubstrateStateContext = React.createContext()
 
-const SubstrateProvider = ({
-  children,
-  socket
-}) => {
+const SubstrateProvider = ({ children, socket }) => {
   const [state, dispatch] = React.useReducer(substrateReducer, {
     ...initialState,
     // Filtering props and merge with default param value
-    socket: socket ?? initialState.socket
+    socket: socket ?? initialState.socket,
   })
 
-  const stateRef = React.useRef(state);
+  const stateRef = React.useRef(state)
   // MEMO: inspired by https://epicreact.dev/the-latest-ref-pattern-in-react/
   React.useLayoutEffect(() => {
-    stateRef.current = state;
-  });
+    stateRef.current = state
+  })
   React.useEffect(() => {
-    connect(stateRef.current, dispatch);
-  }, []);
+    connect(stateRef.current, dispatch)
+  }, [])
 
   function setCurrentAccount(newAccount) {
     dispatch({ type: ActionType.SetCurrentAccount, payload: newAccount })
@@ -242,7 +226,7 @@ const SubstrateProvider = ({
 
   const value = {
     state,
-    setCurrentAccount
+    setCurrentAccount,
   }
 
   return (
@@ -253,11 +237,11 @@ const SubstrateProvider = ({
 }
 
 const useSubstrate = () => {
-  const context = React.useContext(SubstrateStateContext);
+  const context = React.useContext(SubstrateStateContext)
   if (context === undefined) {
-    throw new Error('useSubstrate must be used within a SubstrateProvider!');
+    throw new Error('useSubstrate must be used within a SubstrateProvider!')
   }
-  return context;
+  return context
 }
 const useSubstrateState = () => useSubstrate().state // TODO: it could be redundant in favor of useSubstrate
 
@@ -267,5 +251,5 @@ export {
   useSubstrateState,
   ApiStatus,
   KeyringStatus,
-  ActionType
+  ActionType,
 }
