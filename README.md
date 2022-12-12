@@ -93,9 +93,9 @@ keyring and the blockchain itself. Specifically it exposes this API.
   state: {
     socket,
     keyring,
-    keyringState,
+    keyringStatus,
     api,
-    apiState,
+    apiStatus,
     currentAccount
   }
 }
@@ -103,11 +103,11 @@ keyring and the blockchain itself. Specifically it exposes this API.
 
 - `socket` - The remote provider socket it is connecting to.
 - `keyring` - A keyring of accounts available to the user.
-- `keyringState` - One of `"READY"` or `"ERROR"` states. `keyring` is valid
-  only when `keyringState === "READY"`.
+- `keyringStatus` - One of `"READY"` or `"ERROR"` states. `keyring` is valid
+  only when `keyringStatus === "READY"`.
 - `api` - The remote api to the connected node.
-- `apiState` - One of `"CONNECTING"`, `"READY"`, or `"ERROR"` states. `api` is valid
-  only when `apiState === "READY"`.
+- `apiStatus` - One of `"CONNECTING"`, `"READY"`, or `"ERROR"` states. `api` is valid
+  only when `apiStatus === "READY"`.
 - `currentAccount` - The current selected account pair in the application context.
 - `setCurrentAccount` - Function to update the `currentAccount` value in the application context.
 

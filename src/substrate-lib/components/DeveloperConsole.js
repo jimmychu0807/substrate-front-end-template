@@ -2,11 +2,11 @@
 import { useSubstrateState } from '../'
 
 export default function DeveloperConsole(props) {
-  const { api, apiState, keyring, keyringState } = useSubstrateState()
-  if (apiState === 'READY') {
+  const { api, apiStatus, keyring, keyringStatus } = useSubstrateState()
+  if (apiStatus === 'READY') {
     window.api = api
   }
-  if (keyringState === 'READY') {
+  if (keyringStatus === 'READY') {
     window.keyring = keyring
   }
   window.util = require('@polkadot/util')

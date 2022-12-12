@@ -9,7 +9,12 @@ import {
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
-import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
+import { SubstrateProvider, useSubstrateState } from './substrate-lib'
+import {
+  ApiStatus,
+  KeyringStatus,
+  ActionType,
+} from './substrate-lib/substrate-context'
 import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
@@ -24,14 +29,14 @@ import Transfer from './Transfer'
 import Upgrade from './Upgrade'
 
 function Main() {
-  const { apiState, apiError, keyringState } = useSubstrateState()
+  const { apiStatus, apiError, keyringStatus, keyring, api } =
+    useSubstrateState()
 
   const loader = text => (
     <Dimmer active>
       <Loader size="small">{text}</Loader>
     </Dimmer>
   )
-
   const message = errObj => (
     <Grid centered columns={2} padded>
       <Grid.Column>
@@ -46,13 +51,35 @@ function Main() {
     </Grid>
   )
 
-  if (apiState === 'ERROR') return message(apiError)
-  else if (apiState !== 'READY') return loader('Connecting to Substrate')
+  switch (apiStatus) {
+    case ApiStatus.Idle:
+    case ApiStatus.ConnectInit:
+    case ApiStatus.Connecting:
+      return loader('Connecting to Substrate')
+    case ApiStatus.Ready:
+      break
+    case ApiStatus.Error:
+      return message(apiError)
+    default:
+      throw new Error('Invalid ApiStatus!')
+  }
 
-  if (keyringState !== 'READY') {
-    return loader(
-      "Loading accounts (please review any extension's authorization)"
-    )
+  switch (keyringStatus) {
+    case KeyringStatus.Idle:
+    case KeyringStatus.Loading:
+      return loader(
+        "Loading accounts (please review any extension's authorization)"
+      )
+    case KeyringStatus.Ready:
+      break
+    case KeyringStatus.Error:
+      throw new Error(`${ActionType.SetKeyringError}!`)
+    default:
+      throw new Error('Invalid KeyringStatus!')
+  }
+
+  if (keyring === null || api === null) {
+    throw new Error('Something went wrong!')
   }
 
   const contextRef = createRef()
@@ -93,8 +120,8 @@ function Main() {
 
 export default function App() {
   return (
-    <SubstrateContextProvider>
+    <SubstrateProvider>
       <Main />
-    </SubstrateContextProvider>
+    </SubstrateProvider>
   )
 }
