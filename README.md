@@ -46,10 +46,6 @@ https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=wss:/
 Connecting to your local Substrate node (Chrome and Firefox only):<br/>
 https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=ws://localhost:9944
 
-Connecting to the development Substrate node `wss://dev-node.substrate.dev`:<br/>
-https://substrate-developer-hub.github.io/substrate-front-end-template
-
-
 ## Configuration
 
 The template's configuration is stored in the `src/config` directory, with
