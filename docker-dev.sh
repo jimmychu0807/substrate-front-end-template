@@ -12,12 +12,14 @@ source .env \
     && export WEBSERVER_DIR \
     && export PORT \
     && ./docker/build.sh \
-    && printf "\n*** Started building Docker container.\n*** Please wait..." \
+    && printf "\n*** Started building Docker container." \
+    && printf "\n*** Please wait... \n***" \
     && DOCKER_BUILDKIT=0 docker compose -f docker-compose-dev.yml up --build \
         | tee -a docker-dev.log \
         | tail -F docker-dev.log \
         | grep --line-buffered 'compiled successfully' \
         | while read ; do
-            printf "\n***\n*** Finished building Docker container.\n*** Open in your web browser: http://localhost:${PORT}"
+            printf "\n*** Finished building Docker container."
+            printf "\n*** Open in web browser: http://localhost:${PORT}"
             break
         done
