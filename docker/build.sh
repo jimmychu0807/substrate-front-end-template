@@ -11,7 +11,8 @@ echo "*** Started building $WEBSERVER_DIR"
 if [[ $NODE_ENV != "production" ]]
 then
   echo "*** Building $WEBSERVER_DIR"
-  docker build \
+  docker build --progress=plain \
+    --no-cache \
     --build-arg WEBSERVER_DIR=$WEBSERVER_DIR \
     -t $WEBSERVER_DIR \
     -f docker/Dockerfile.dev .

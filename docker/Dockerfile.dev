@@ -17,4 +17,11 @@ RUN yarn install
 
 EXPOSE ${PORT}
 
+# add bash to support bash syntax instead of ash
+RUN apk update && apk add --update bash && rm -rf /var/cache/apk/*
+RUN chmod +x env.sh \
+    && ./env.sh \
+    && cp env-config.js ./public/ \
+    && cat ./public/env-config.js
+
 CMD ["yarn", "run", "start"]
