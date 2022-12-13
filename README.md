@@ -146,9 +146,21 @@ it also displays the user's token balance. It is included in the template alread
 
 ## Docker
 
-Run Substrate front-end from Docker container
+* Install and run [Docker](https://www.docker.com/) daemon
+* Run Substrate front-end from a Docker container and follow the terminal log instructions. Output log recorded in docker-dev.log. 
+```bash
+./docker-dev.sh
 ```
-bash docker_dev.sh
-```
+* Configure code editor to remotely edit code in the Docker container
 
-Open in web browser: http://localhost:8000
+### Example: Remote Editing with Visual Studio Code (VS Code)
+
+* Refer to [VS Code instructions](https://code.visualstudio.com/docs/devcontainers/containers#_quick-start-open-a-git-repository-or-github-pr-in-an-isolated-container-volume)
+* Open VS Code. Go here to install extension 'VS Code Remote Try Node' https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode-remote-try-node
+* Go to Command Pallette (press CMD+SHIFT+P) within VS Code
+* Type ">Dev Containers: Open Folder in Container"
+* Click "Remote Explorer" icon on left of VS Code
+* Choose container, click "Connect to Container in New Window"
+* Wait for VS Code terminal to finish loading in new window
+* Open folder "/usr/local/apps/substrate-front-end-template/"
+* Save changes twice for changes to take effect

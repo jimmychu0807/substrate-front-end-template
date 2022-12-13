@@ -46,11 +46,6 @@ function Main() {
     </Grid>
   )
 
-  // remove below after finish debugging
-  if (window !== undefined) {
-    return loader(`window.process_env: ${window.process_env}`)
-  }
-
   if (apiState === 'ERROR') return message(apiError)
   else if (apiState !== 'READY') return loader('Connecting to Substrate')
 

@@ -3,25 +3,12 @@ FROM node:gallium-alpine
 ARG WEBSERVER_DIR=${WEBSERVER_DIR}
 WORKDIR /usr/local/apps/${WEBSERVER_DIR}
 
-# override base log level of info
-# ENV NPM_CONFIG_LOGLEVEL warn
-
-# RUN apk add git
-# copy all except when listed in .dockerignore
 COPY . .
 
-RUN yarn install
+RUN yarn
 
-# https://medium.com/@kartikio/setup-node-ts-local-development-environment-with-docker-and-hot-reloading-922db9016119
-# ENV PATH=/usr/local/apps/${WEBSERVER_DIR}/node_modules/.bin:$PATH
+ENV PATH=/usr/local/apps/${WEBSERVER_DIR}/node_modules/.bin:$PATH
 
 EXPOSE ${PORT}
-
-# add bash to support bash syntax instead of ash
-RUN apk update && apk add --update bash && rm -rf /var/cache/apk/*
-RUN chmod +x env.sh \
-    && ./env.sh \
-    && cp env-config.js ./public/ \
-    && cat ./public/env-config.js
 
 CMD ["yarn", "run", "start"]
