@@ -143,3 +143,12 @@ it also displays the user's token balance. It is included in the template alread
   ```
 
   Refer to [this doc page](https://github.com/vacp2p/docs.wakuconnect.dev/blob/develop/content/docs/guides/07_reactjs_relay.md).
+
+## Docker
+
+Run Substrate front-end from Docker container
+```
+bash docker_dev.sh
+```
+
+Open in web browser: http://localhost:8000

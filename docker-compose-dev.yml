@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  web:
+    container_name: ${WEBSERVER_DIR}
+    restart: always
+    build:
+      context: "."
+      dockerfile: ./docker/Dockerfile.dev
+      args:
+        - PORT=${PORT}
+        - WEBSERVER_DIR=${WEBSERVER_DIR}
+    # https://stackoverflow.com/questions/43844639/how-do-i-add-cached-or-delegated-into-a-docker-compose-yml-volumes-list
+    volumes:
+      - ./:/usr/local/apps/${WEBSERVER_DIR}:delegated
+      - ignore:/usr/local/apps/${WEBSERVER_DIR}/node_modules
+    ports:
+      - "127.0.0.1:${PORT}:${PORT}"
+    env_file:
+      - .env
+
+# mount node_modules to empty volume
+# https://medium.com/@kartikio/setup-node-ts-local-development-environment-with-docker-and-hot-reloading-922db9016119
+volumes:
+  ignore:
