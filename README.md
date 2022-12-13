@@ -152,6 +152,8 @@ it also displays the user's token balance. It is included in the template alread
 ./docker-dev.sh
 ```
 * Configure code editor to remotely edit code in the Docker container
+* Credits:
+  * https://medium.com/@kartikio/setup-node-ts-local-development-environment-with-docker-and-hot-reloading-922db9016119
 
 ### Example: Remote Editing with Visual Studio Code (VS Code)
 

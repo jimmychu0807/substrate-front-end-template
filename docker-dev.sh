@@ -7,7 +7,7 @@
 sed -i '' '/^/d' docker-dev.log
 
 # Build Docker image after setting and exporting environment variables from
-# .env file into current shell, then create and run Docker container
+# .env file into current shell, then create and run Docker container.
 source .env \
     && export WEBSERVER_DIR \
     && export PORT \
