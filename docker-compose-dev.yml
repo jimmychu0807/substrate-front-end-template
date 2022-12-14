@@ -1,17 +1,17 @@
 version: "3.8"
 services:
-  web:
-    container_name: ${WEBSERVER_DIR}
+  dev:
+    container_name: ${APP}-dev
     restart: always
     build:
       context: "."
       dockerfile: ./docker/Dockerfile.dev
       args:
         - PORT=${PORT}
-        - WEBSERVER_DIR=${WEBSERVER_DIR}
+        - APP=${APP}
     volumes:
-      - ./:/usr/local/apps/${WEBSERVER_DIR}:delegated
-      - ignore:/usr/local/apps/${WEBSERVER_DIR}/node_modules
+      - ./:/usr/local/apps/${APP}:delegated
+      - ignore:/usr/local/apps/${APP}/node_modules
     ports:
       - "127.0.0.1:${PORT}:${PORT}"
     env_file:

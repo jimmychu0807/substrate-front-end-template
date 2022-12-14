@@ -1,13 +1,30 @@
 FROM node:gallium-alpine
 
-ARG WEBSERVER_DIR=${WEBSERVER_DIR}
-WORKDIR /usr/local/apps/${WEBSERVER_DIR}
+ARG APP=${APP}
+WORKDIR /usr/local/apps/${APP}
+
+# override base log level (info)
+ENV NPM_CONFIG_LOGLEVEL warn
+ENV PATH=/usr/local/apps/${APP}/node_modules/.bin:$PATH
+
+COPY package.json .
+RUN printf "Docker image built-in Yarn version: "; yarn --version
+
+# re-generate .yarnrc.yml rather than copying across
+# .yarn/ and .yarnrc.yml from host machine to change
+# Yarn version from 1.22.19 that comes with
+# node:gallium-alpine to 3.1.1
+RUN apk update && apk add --update git && rm -rf /var/cache/apk/*
+RUN corepack enable \
+    && corepack prepare yarn@stable --activate \
+    && yarn set version 3.1.1 \
+    && yarn plugin import interactive-tools \
+    && echo -e "nodeLinker: node-modules\n\n$(cat /usr/local/apps/${APP}/.yarnrc.yml)" > /usr/local/apps/${APP}/.yarnrc.yml \
+    && cat /usr/local/apps/${APP}/.yarnrc.yml \
+    && printf "Switched to Yarn version: "; yarn --version \
+    && yarn install
 
 COPY . .
-
-RUN yarn
-
-ENV PATH=/usr/local/apps/${WEBSERVER_DIR}/node_modules/.bin:$PATH
 
 EXPOSE ${PORT}
 

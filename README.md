@@ -146,8 +146,11 @@ it also displays the user's token balance. It is included in the template alread
 
 ## Docker
 
+### Development
+
+* Note: In development requires at least 1 Gb storage space for Docker images and containers 
 * Install and run [Docker](https://www.docker.com/) daemon
-* Run Substrate front-end from a Docker container and follow the terminal log instructions. Output log recorded in docker-dev.log. 
+* Run Substrate front-end from a Docker container and follow the terminal log instructions. Output log recorded in docker.log. 
 ```bash
 ./docker-dev.sh
 ```
@@ -155,7 +158,7 @@ it also displays the user's token balance. It is included in the template alread
 * Credits:
   * https://medium.com/@kartikio/setup-node-ts-local-development-environment-with-docker-and-hot-reloading-922db9016119
 
-### Example: Remote Editing with Visual Studio Code (VS Code)
+#### Example: Remote Editing with Visual Studio Code (VS Code)
 
 * Refer to [VS Code instructions](https://code.visualstudio.com/docs/devcontainers/containers#_quick-start-open-a-git-repository-or-github-pr-in-an-isolated-container-volume)
 * Open VS Code. Go here to install extension 'VS Code Remote Try Node' https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode-remote-try-node
@@ -166,3 +169,107 @@ it also displays the user's token balance. It is included in the template alread
 * Wait for VS Code terminal to finish loading in new window
 * Open folder "/usr/local/apps/substrate-front-end-template/"
 * Save changes twice for changes to take effect
+
+### Production
+
+* Note: In development requires at least 200 MB storage space for Docker images and containers 
+* Install and run [Docker](https://www.docker.com/) daemon
+* Update `whitelistVars` in bash script file env.sh with environment variables that you want to be included from the .env file in the front-end. See also https://create-react-app.dev/docs/adding-custom-environment-variables/
+* Run Substrate front-end from a Docker container and follow the terminal log instructions. Output log recorded in docker.log. 
+```bash
+./docker-prod.sh
+```
+
+#### Modify Nginx Config File
+
+* Enter Docker container shell
+```bash
+docker exec -it $(docker ps -q) /bin/sh
+```
+
+* Modify Nginx Config File
+```bash
+vim /etc/nginx/nginx.conf
+```
+
+* Verify Syntax Ok
+```bash
+nginx -t
+```
+
+* Reload Nginx Config File https://docs.nginx.com/nginx/admin-guide/basic-functionality/runtime-control/ for changes to the configuration file to take effect
+```bash
+nginx -s reload
+```
+
+* TODO 
+
+* Show Nginx version
+```bash
+nginx -V
+```
+
+* Verify Nginx is running
+```
+curl -I 127.0.0.1
+```
+
+* Give user permission to modify Nginx
+```bash
+sudo chown -R [user] nginx
+```
+
+* Use updated Nginx Config File
+```bash
+sudo /usr/sbin/nginx -t -c /etc/nginx/nginx.conf
+```
+
+* Reload
+```bash
+nginx -s reload
+```
+
+* Check Nginx Config File used by server (i.e. default or your updated)
+```bash
+ps -ef | grep nginx
+```
+
+* Stop Nginx
+```bash
+service nginx stop
+```
+
+* Kill Nginx
+```
+kill $(cat /var/run/nginx.pid)
+```
+
+### Relevant Docker Commands
+
+* Enter Docker container shell
+```bash
+docker exec -it $(docker ps -q) /bin/sh
+```
+
+* View Docker container logs
+```bash
+docker logs -f $(docker ps -q)
+```
+
+* View Docker containers and images
+```bash
+docker ps -a
+docker images -a
+```
+
+* Remove Docker container
+```bash
+CONTAINER_ID=<INSERT_CONTAINER_ID>
+docker stop $CONTAINER_ID; docker rm $CONTAINER_ID;
+```
+
+* Remove Docker image
+```bash
+IMAGE_ID=<INSERT_IMAGE_ID>
+docker rmi $IMAGE
+```

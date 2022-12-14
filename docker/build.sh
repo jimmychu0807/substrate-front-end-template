@@ -6,16 +6,25 @@
 # fail fast on any non-zero exits
 set -e
 
-echo "*** Started building $WEBSERVER_DIR"
+echo "*** Started building $APP"
 
-if [[ $NODE_ENV != "production" ]]
+if [[ $NODE_ENV = "production" ]]
 then
-  echo "*** Building $WEBSERVER_DIR"
+  echo "*** Building $NODE_ENV $APP"
   docker build --progress=plain \
     --no-cache \
-    --build-arg WEBSERVER_DIR=$WEBSERVER_DIR \
-    -t $WEBSERVER_DIR \
+    --build-arg APP=$APP \
+    --build-arg PORT_NGINX=$PORT_NGINX \
+    --build-arg PUBLIC_URL=$PUBLIC_URL \
+    -t $APP \
+    -f docker/Dockerfile.prod .
+else
+  echo "*** Building $APP"
+  docker build --progress=plain \
+    --no-cache \
+    --build-arg APP=$APP \
+    -t $APP \
     -f docker/Dockerfile.dev .
 fi
 
-echo "*** Finished building $WEBSERVER_DIR"
+echo "*** Finished building $APP"
