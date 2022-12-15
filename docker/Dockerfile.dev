@@ -3,14 +3,14 @@ FROM node:gallium-alpine
 ARG APP=${APP}
 WORKDIR /usr/local/apps/${APP}
 
-# override base log level (info)
+# Override base log level (info)
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV PATH=/usr/local/apps/${APP}/node_modules/.bin:$PATH
 
 COPY package.json .
 RUN printf "Docker image built-in Yarn version: "; yarn --version
 
-# re-generate .yarnrc.yml rather than copying across
+# Re-generate .yarnrc.yml rather than copying across
 # .yarn/ and .yarnrc.yml from host machine to change
 # Yarn version from 1.22.19 that comes with
 # node:gallium-alpine to 3.1.1

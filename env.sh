@@ -3,7 +3,7 @@
 
 echo "*** Processing $PWD/env-config.js"
 
-# only expose whitelisted environment variables declared here in the front-end
+# Only expose whitelisted environment variables declared here in the front-end
 whitelistVars=(
   "NODE_ENV"
   "PORT"

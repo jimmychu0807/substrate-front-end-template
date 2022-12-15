@@ -3,11 +3,11 @@
 # This software may be modified and distributed under the terms
 # of the Apache-2.0 license. See the LICENSE file for details.
 
-# remove contents of log temporary files
-sed -i '' '/^/d' docker.log
+PUBLIC_URL="${ADDRESS}:${PORT_PROD}"
 
-PUBLIC_URL=http://localhost:$PORT_PROD
-
+# tell bash to early exit script if receive interrupt signal SIGINT and SIGHUP
+trap "echo; exit" INT
+trap "echo; exit" HUP
 # Build Docker image after setting and exporting environment variables from
 # .env file into current shell, then create and run Docker container.
 source .env \
@@ -27,4 +27,4 @@ source .env \
         --name "${APP}-prod" ${APP}
 
 printf "\n*** Finished building ${NODE_ENV} Docker container."
-printf "\n*** Open web browser: http://localhost:${PORT_PROD}\n"
+printf "\n*** Open web browser: ${PUBLIC_URL}\n"

@@ -150,7 +150,7 @@ it also displays the user's token balance. It is included in the template alread
 
 * Note: In development requires at least 1 Gb storage space for Docker images and containers 
 * Install and run [Docker](https://www.docker.com/) daemon
-* Run Substrate front-end from a Docker container and follow the terminal log instructions. Output log recorded in docker.log. 
+* Run Substrate front-end from a Docker container and follow the terminal log instructions.
 ```bash
 ./docker-dev.sh
 ```
@@ -172,10 +172,10 @@ it also displays the user's token balance. It is included in the template alread
 
 ### Production
 
-* Note: In development requires at least 200 MB storage space for Docker images and containers 
+* Note: In development requires at least 200 MB storage space for Docker images and containers once it has finished building
 * Install and run [Docker](https://www.docker.com/) daemon
 * Update `whitelistVars` in bash script file env.sh with environment variables that you want to be included from the .env file in the front-end. See also https://create-react-app.dev/docs/adding-custom-environment-variables/
-* Run Substrate front-end from a Docker container and follow the terminal log instructions. Output log recorded in docker.log. 
+* Run Substrate front-end from a Docker container and follow the terminal log instructions. 
 ```bash
 ./docker-prod.sh
 ```
@@ -200,6 +200,12 @@ nginx -t
 * Reload Nginx Config File https://docs.nginx.com/nginx/admin-guide/basic-functionality/runtime-control/ for changes to the configuration file to take effect
 ```bash
 nginx -s reload
+sudo systemctl restart nginx
+```
+
+* Stop Nginx
+```bash
+service nginx stop
 ```
 
 * TODO 
@@ -224,19 +230,9 @@ sudo chown -R [user] nginx
 sudo /usr/sbin/nginx -t -c /etc/nginx/nginx.conf
 ```
 
-* Reload
-```bash
-nginx -s reload
-```
-
 * Check Nginx Config File used by server (i.e. default or your updated)
 ```bash
 ps -ef | grep nginx
-```
-
-* Stop Nginx
-```bash
-service nginx stop
 ```
 
 * Kill Nginx
