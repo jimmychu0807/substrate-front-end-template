@@ -2,30 +2,22 @@ FROM node:gallium-alpine AS builder
 
 ARG APP=${APP}
 ARG PORT_NGINX=${PORT_NGINX}
+ARG APP_PATH=/usr/local/apps/${APP}
 
 ENV PUBLIC_URL=${PUBLIC_URL}
 
-WORKDIR /usr/local/apps/${APP}
+WORKDIR ${APP_PATH}
 
-# Override base log level (info)
-ENV NPM_CONFIG_LOGLEVEL warn
-ENV PATH=/usr/local/apps/${APP}/node_modules/.bin:$PATH
+ENV PATH=${APP_PATH}/node_modules/.bin:$PATH
 
 COPY package.json .
-RUN printf "Docker image built-in Yarn version: "; yarn --version
 
-# Re-generate .yarnrc.yml rather than copying across
-# .yarn/ and .yarnrc.yml from host machine to change
-# Yarn version from 1.22.19 that comes with
-# node:gallium-alpine to 3.1.1
 RUN apk update && apk add --update git && rm -rf /var/cache/apk/*
 RUN corepack enable \
     && corepack prepare yarn@stable --activate \
     && yarn set version 3.1.1 \
     && yarn plugin import interactive-tools \
-    && echo -e "nodeLinker: node-modules\n\n$(cat /usr/local/apps/${APP}/.yarnrc.yml)" > /usr/local/apps/${APP}/.yarnrc.yml \
-    && cat /usr/local/apps/${APP}/.yarnrc.yml \
-    && printf "Switched to Yarn version: "; yarn --version \
+    && echo -e "nodeLinker: node-modules\n\n$(cat ${APP_PATH}/.yarnrc.yml)" > ${APP_PATH}/.yarnrc.yml \
     && yarn install
 
 COPY . .
@@ -36,29 +28,30 @@ RUN NODE_ENV=production yarn build
 FROM nginx:stable-alpine
 
 ARG APP=${APP}
-WORKDIR /usr/share/nginx/html
+ARG NGINX_PATH=/usr/share/nginx/html
+WORKDIR ${NGINX_PATH}
 
-COPY --from=builder /usr/local/apps/${APP}/docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /usr/local/apps/${APP}/docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder ${APP_PATH}/docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder ${APP_PATH}/docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 # Replace default nginx index.html file
-COPY --from=builder /usr/local/apps/${APP}/build/index.html /usr/share/nginx/html/index.html
-RUN mkdir -p /usr/share/nginx/html/${APP}
+COPY --from=builder ${APP_PATH}/build/index.html ${NGINX_PATH}/index.html
+RUN mkdir -p ${NGINX_PATH}/${APP}
 # All other files in APP subfolder 
-COPY --from=builder /usr/local/apps/${APP}/build /usr/share/nginx/html/${APP}
+COPY --from=builder ${APP_PATH}/build ${NGINX_PATH}/${APP}
 
-COPY --from=builder /usr/local/apps/${APP}/.env .
+COPY --from=builder ${APP_PATH}/.env .
 # Update .env with NODE_ENV=production incase not set correctly so is processed by env.sh
 RUN echo "$(sed 's/.*NODE_ENV=.*/NODE_ENV=production/' /usr/share/nginx/html/.env)" > .env
 
-COPY --from=builder /usr/local/apps/${APP}/env.sh /usr/share/nginx/html/env.sh
-RUN chmod +x /usr/share/nginx/html/env.sh
+COPY --from=builder ${APP_PATH}/env.sh ${NGINX_PATH}/env.sh
+RUN chmod +x ${NGINX_PATH}/env.sh
 
 EXPOSE ${PORT_NGINX}
 
 # Add bash to support bash syntax instead of ash
 RUN apk update && apk add --update bash && rm -rf /var/cache/apk/*
-RUN /bin/bash -c /usr/share/nginx/html/env.sh
-RUN mv /usr/share/nginx/html/env-config.js /usr/share/nginx/html/${APP}/env-config.js
+RUN /bin/bash -c ${NGINX_PATH}/env.sh
+RUN mv ${NGINX_PATH}/env-config.js ${NGINX_PATH}/${APP}/env-config.js
 
 # Run nginx in debug mode (foreground)
 CMD ["nginx", "-g", "daemon off;"]

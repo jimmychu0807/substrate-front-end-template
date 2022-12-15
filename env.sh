@@ -1,16 +1,15 @@
 #!/bin/bash
-# https://www.freecodecamp.org/news/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70/
 
 echo "*** Processing $PWD/env-config.js"
 
 # Only expose whitelisted environment variables declared here in the front-end
 whitelistVars=(
+  "APP"
   "NODE_ENV"
   "PORT"
   "PORT_PROD"
   "PORT_NGINX"
   "NODE_ENV"
-  "APP"
   "PUBLIC_URL"
 )
 
@@ -23,11 +22,13 @@ containsElement () {
   return 1
 }
 
+# Reference: https://www.freecodecamp.org/news/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70/
+
 # Recreate config file
 rm -rf $PWD/env-config.js
 touch $PWD/env-config.js
 
-# Add assignment 
+# Add assignment
 echo "window.process_env = {" >> $PWD/env-config.js
 
 # Read each line in .env file
