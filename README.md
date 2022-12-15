@@ -146,6 +146,10 @@ it also displays the user's token balance. It is included in the template alread
 
 ## Docker
 
+## TODO
+
+* Conditionally render env-config.js file in index.html since cannot load in development yet
+
 ### Development
 
 * Note: In development requires at least 1 Gb storage space for Docker images and containers 
