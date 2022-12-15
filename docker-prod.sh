@@ -3,19 +3,17 @@
 # This software may be modified and distributed under the terms
 # of the Apache-2.0 license. See the LICENSE file for details.
 
-PUBLIC_URL="${ADDRESS}:${PORT_PROD}"
-
-# tell bash to early exit script if receive interrupt signal SIGINT and SIGHUP
 trap "echo; exit" INT
 trap "echo; exit" HUP
-# Build Docker image after setting and exporting environment variables from
-# .env file into current shell, then create and run Docker container.
 source .env \
+    && export ADDRESS \
     && export APP \
+    && NODE_ENV=production \
     && export PORT \
     && export PORT_NGINX \
     && export PORT_PROD \
-    && NODE_ENV=production PUBLIC_URL=${PUBLIC_URL} ./docker/build.sh \
+    && PUBLIC_URL="${ADDRESS}:${PORT_PROD}" \
+    && NODE_ENV=${NODE_ENV} PUBLIC_URL=${PUBLIC_URL} ./docker/build.sh \
     && printf "\n*** Started building ${NODE_ENV} Docker container." \
     && printf "\n*** Please wait... \n***" \
     && docker run -it \

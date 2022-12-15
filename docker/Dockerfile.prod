@@ -3,12 +3,10 @@ FROM node:gallium-alpine AS builder
 ARG APP=${APP}
 ARG PORT_NGINX=${PORT_NGINX}
 ARG APP_PATH=/usr/local/apps/${APP}
-
+# required for it to load correctly
 ENV PUBLIC_URL=${PUBLIC_URL}
-
-WORKDIR ${APP_PATH}
-
 ENV PATH=${APP_PATH}/node_modules/.bin:$PATH
+WORKDIR ${APP_PATH}
 
 COPY package.json .
 
@@ -18,7 +16,7 @@ RUN corepack enable \
     && yarn set version 3.1.1 \
     && yarn plugin import interactive-tools \
     && echo -e "nodeLinker: node-modules\n\n$(cat ${APP_PATH}/.yarnrc.yml)" > ${APP_PATH}/.yarnrc.yml \
-    && yarn install
+    && yarn
 
 COPY . .
 
@@ -28,30 +26,15 @@ RUN NODE_ENV=production yarn build
 FROM nginx:stable-alpine
 
 ARG APP=${APP}
+ARG APP_PATH=/usr/local/apps/${APP}
 ARG NGINX_PATH=/usr/share/nginx/html
 WORKDIR ${NGINX_PATH}
-
-COPY --from=builder ${APP_PATH}/docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder ${APP_PATH}/docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-# Replace default nginx index.html file
-COPY --from=builder ${APP_PATH}/build/index.html ${NGINX_PATH}/index.html
 RUN mkdir -p ${NGINX_PATH}/${APP}
-# All other files in APP subfolder 
+
+COPY --from=builder ${APP_PATH}/docker/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder ${APP_PATH}/build/index.html ${NGINX_PATH}/index.html
 COPY --from=builder ${APP_PATH}/build ${NGINX_PATH}/${APP}
-
-COPY --from=builder ${APP_PATH}/.env .
-# Update .env with NODE_ENV=production incase not set correctly so is processed by env.sh
-RUN echo "$(sed 's/.*NODE_ENV=.*/NODE_ENV=production/' /usr/share/nginx/html/.env)" > .env
-
-COPY --from=builder ${APP_PATH}/env.sh ${NGINX_PATH}/env.sh
-RUN chmod +x ${NGINX_PATH}/env.sh
 
 EXPOSE ${PORT_NGINX}
 
-# Add bash to support bash syntax instead of ash
-RUN apk update && apk add --update bash && rm -rf /var/cache/apk/*
-RUN /bin/bash -c ${NGINX_PATH}/env.sh
-RUN mv ${NGINX_PATH}/env-config.js ${NGINX_PATH}/${APP}/env-config.js
-
-# Run nginx in debug mode (foreground)
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,11 +1,9 @@
 FROM node:gallium-alpine
 
 ARG APP=${APP}
-ARG BASE=/usr/local/apps/${APP}
-
-WORKDIR ${BASE}
-
-ENV PATH=${BASE}/node_modules/.bin:$PATH
+ARG APP_PATH=/usr/local/apps/${APP}
+ENV PATH=${APP_PATH}/node_modules/.bin:$PATH
+WORKDIR ${APP_PATH}
 
 COPY package.json .
 
@@ -14,7 +12,7 @@ RUN corepack enable \
     && corepack prepare yarn@stable --activate \
     && yarn set version 3.1.1 \
     && yarn plugin import interactive-tools \
-    && echo -e "nodeLinker: node-modules\n\n$(cat ${BASE}/.yarnrc.yml)" > ${BASE}/.yarnrc.yml \
+    && echo -e "nodeLinker: node-modules\n\n$(cat ${APP_PATH}/.yarnrc.yml)" > ${APP_PATH}/.yarnrc.yml \
     && yarn
 
 COPY . .

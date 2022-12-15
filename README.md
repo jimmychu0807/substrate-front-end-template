@@ -157,8 +157,51 @@ it also displays the user's token balance. It is included in the template alread
 ### Production
 
 * Install and run [Docker](https://www.docker.com/)
-* Update `whitelistVars` in bash script file env.sh with environment variables that you want to be included from the .env file in the front-end. Note: This is adapted from [Polkadot.js](https://github.com/polkadot-js/apps/blob/master/docker/Dockerfile) that uses a similar approach to expose environment variables in production. 
 * Run Substrate front-end from a Docker container and follow the terminal log instructions. 
 ```bash
 ./docker-prod.sh
+```
+
+### Useful Docker Commands
+
+* Enter Docker container shell
+```bash
+docker exec -it $CONTAINER_ID /bin/sh
+```
+
+* View Docker container logs
+```bash
+docker logs -f $CONTAINER_ID
+```
+
+* List Docker containers
+```bash
+docker ps -a
+```
+
+* List Docker images
+```bash
+docker images -a
+```
+
+* Remove Docker container
+```bash
+docker stop $CONTAINER_ID; docker rm $CONTAINER_ID;
+```
+
+* Remove Docker image
+```bash
+docker rmi $IMAGE_ID
+```
+
+### Useful Nginx Commands
+
+* Verify Nginx Config File Syntax Ok
+```bash
+nginx -t
+```
+
+* [Reload](https://docs.nginx.com/nginx/admin-guide/basic-functionality/runtime-control/) Nginx Config File for changes to take effect
+```bash
+nginx -s reload
 ```
