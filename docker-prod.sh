@@ -5,24 +5,16 @@
 
 trap "echo; exit" INT
 trap "echo; exit" HUP
+
+NODE_ENV=production
+
 source .env \
-    && export ADDRESS \
-    && export APP \
-    && NODE_ENV=production \
-    && export PORT \
-    && export PORT_NGINX \
-    && export PORT_PROD \
+    && export ADDRESS APP PORT PORT_NGINX PORT_PROD \
     && PUBLIC_URL="${ADDRESS}:${PORT_PROD}" \
     && NODE_ENV=${NODE_ENV} PUBLIC_URL=${PUBLIC_URL} ./docker/build.sh \
-    && printf "\n*** Started building ${NODE_ENV} Docker container." \
-    && printf "\n*** Please wait... \n***" \
-    && docker run -it \
-        -e NODE_ENV=${NODE_ENV} \
-        -e PORT_NGINX=${PORT_NGINX} \
-        -e PUBLIC_URL=${PUBLIC_URL} \
-        -d \
-        -p ${PORT_PROD}:${PORT_NGINX} \
-        --name "${APP}-prod" ${APP}
+    && printf "\n*** Started building ${NODE_ENV} Docker container. Please wait... \n***" \
+    && docker run -it -d --name "${APP}-prod" ${APP} \
+        -e NODE_ENV=${NODE_ENV} -e PORT_NGINX=${PORT_NGINX} -e PUBLIC_URL=${PUBLIC_URL} \
+        -p ${PORT_PROD}:${PORT_NGINX}
 
-printf "\n*** Finished building ${NODE_ENV} Docker container."
-printf "\n*** Open web browser: ${PUBLIC_URL}\n"
+printf "\n*** Finished building ${NODE_ENV} Docker container. Please open: ${PUBLIC_URL}\n"

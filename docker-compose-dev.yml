@@ -13,7 +13,7 @@ services:
       - ./:/usr/local/apps/${APP}:delegated
       - ignore:/usr/local/apps/${APP}/node_modules
     ports:
-      - "127.0.0.1:${PORT}:${PORT}"
+      - "${PORT}:${PORT}"
     env_file:
       - .env
 

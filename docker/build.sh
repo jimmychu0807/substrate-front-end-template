@@ -11,20 +11,9 @@ echo "*** Started building $APP"
 if [[ $NODE_ENV = "production" ]]
 then
   echo "*** Building $NODE_ENV $APP"
-  docker build --progress=plain \
-    --no-cache \
-    --build-arg APP=$APP \
-    --build-arg PORT_NGINX=$PORT_NGINX \
-    --build-arg PUBLIC_URL=$PUBLIC_URL \
-    -t $APP \
-    -f docker/Dockerfile.prod .
-else
-  echo "*** Building $APP"
-  docker build --progress=plain \
-    --no-cache \
-    --build-arg APP=$APP \
-    -t $APP \
-    -f docker/Dockerfile.dev .
+  docker build --progress=plain --no-cache \
+    --build-arg APP=$APP --build-arg PORT_NGINX=$PORT_NGINX --build-arg PUBLIC_URL=$PUBLIC_URL \
+    -t $APP -f docker/Dockerfile.prod .
 fi
 
 echo "*** Finished building $APP"

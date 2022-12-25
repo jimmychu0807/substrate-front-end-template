@@ -6,11 +6,7 @@
 trap "echo; exit" INT
 trap "echo; exit" HUP
 source .env \
-    && export APP \
-    && export PORT \
-    && ./docker/build.sh \
-    && printf "\n*** Started building Docker container." \
-    && printf "\n*** Please wait... \n***" \
-    && DOCKER_BUILDKIT=0 docker compose -f docker-compose-dev.yml up --build
-printf "\n*** Finished building Docker container."
-printf "\n*** Open web browser: http://localhost:${PORT}\n"
+    && export APP PORT \
+    && printf "\n*** Started building Docker container. Please wait... \n***" \
+    && DOCKER_BUILDKIT=0 docker compose -f docker-compose-dev.yml up --build -d
+printf "\n*** Finished building Docker container. Please open: http://localhost:${PORT}\n"
