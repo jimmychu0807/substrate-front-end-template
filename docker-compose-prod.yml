@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  dev:
+  prod:
     container_name: ${APP_NAME}-prod
     restart: always
     build:
