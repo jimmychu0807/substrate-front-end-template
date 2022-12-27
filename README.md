@@ -173,10 +173,10 @@ Note: It will fallback to automatically detecting your Public IP Address, howeve
 
 ### Useful Docker Commands
 
-* Enter Docker container shell `docker exec -it $CONTAINER_ID /bin/sh`
-* View Docker container logs `docker logs -f $CONTAINER_ID`
 * List Docker containers `docker ps -a`
 * List Docker images `docker images -a`
+* Enter Docker container shell `docker exec -it $CONTAINER_ID /bin/sh`
+* View Docker container logs `docker logs -f $CONTAINER_ID`
 * Remove Docker container `docker stop $CONTAINER_ID && docker rm $CONTAINER_ID;`
 * Remove Docker image `docker rmi $IMAGE_ID`
 
