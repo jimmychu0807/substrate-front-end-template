@@ -149,6 +149,10 @@ it also displays the user's token balance. It is included in the template alread
 ### Development
  
 * Install and run [Docker](https://www.docker.com/)
+* Setup environment
+```bash
+cp .env.example .env
+```
 * Run Substrate front-end from a Docker container and follow the terminal log instructions.
 ```bash
 ./docker-dev.sh
@@ -157,6 +161,11 @@ it also displays the user's token balance. It is included in the template alread
 ### Production
 
 * Install and run [Docker](https://www.docker.com/)
+* Setup environment
+```bash
+cp .env.example .env
+```
+Note: It will fallback to automatically detecting your Public IP Address, however you may assign the value to `PUBLIC_IP_ADDRESS` in the .env file to manually override it.
 * Run Substrate front-end from a Docker container and follow the terminal log instructions. 
 ```bash
 ./docker-prod.sh

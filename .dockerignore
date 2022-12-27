@@ -4,8 +4,10 @@
 .git/
 docker/Dockerfile.*
 .dockerignore
+.env
 .gitignore
 README.md
+docker-*
 
 # items that may be built during Docker image creation
 build/

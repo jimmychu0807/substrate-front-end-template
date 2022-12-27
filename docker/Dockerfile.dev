@@ -1,8 +1,11 @@
 FROM node:gallium-alpine
 
-ARG APP=${APP}
-ARG APP_PATH=/usr/local/apps/${APP}
+ARG APP_NAME=${APP_NAME}
+ARG APP_PATH=/app/${APP_NAME}
+ARG PORT=${PORT}
+
 ENV PATH=${APP_PATH}/node_modules/.bin:$PATH
+
 WORKDIR ${APP_PATH}
 
 COPY package.json .

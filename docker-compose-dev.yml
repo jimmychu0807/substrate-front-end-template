@@ -1,17 +1,17 @@
 version: "3.8"
 services:
   dev:
-    container_name: ${APP}-dev
+    container_name: ${APP_NAME}-dev
     restart: always
     build:
       context: "."
       dockerfile: ./docker/Dockerfile.dev
       args:
+        - APP_NAME=${APP_NAME}
         - PORT=${PORT}
-        - APP=${APP}
     volumes:
-      - ./:/usr/local/apps/${APP}:delegated
-      - ignore:/usr/local/apps/${APP}/node_modules
+      - ./:/app/${APP_NAME}:delegated
+      - ignore:/app/${APP_NAME}/node_modules
     ports:
       - "${PORT}:${PORT}"
     env_file:
