@@ -6,14 +6,14 @@ configuration. To learn about Substrate itself, visit the
 [Substrate Documentation](https://docs.substrate.io).
 
 The template is built with [Create React App](https://github.com/facebook/create-react-app)
-and [Polkadot js API](https://polkadot.js.org/docs/api/). Familiarity with these tools
+and [Polkadot JS API](https://polkadot.js.org/docs/api/). Familiarity with these tools
 will be helpful, but the template strives to be self-explanatory.
 
 ## Using The Template
 
-### Installation
+### Install Locally
 
-The codebase is installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). This tutorial assumes you have installed yarn globally prior to installing it within the subdirectories. For the most recent version and how to install yarn, please refer to [Yarn](https://yarnpkg.com/) documentation and installation guides.
+The codebase is installed using [git](https://git-scm.com/) and [yarn](https://yarnpkg.com/). Make sure you have installed yarn globally prior to installing it within the subdirectories. For the most recent version and how to install yarn, please refer to [Yarn](https://yarnpkg.com/) documentation and installation guides.
 
 ```bash
 # Clone the repository
@@ -40,26 +40,29 @@ and open `build/index.html` in your favorite browser.
 
 ### Try the Hosted Version
 
-Connecting to Polkadot:<br/>
-https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=wss://rpc.polkadot.io
+Connecting to your local Substrate node (Chrome and Firefox only):
 
-Connecting to your local Substrate node (Chrome and Firefox only):<br/>
 https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=ws://localhost:9944
 
-Connecting to the development Substrate node `wss://dev-node.substrate.dev`:<br/>
-https://substrate-developer-hub.github.io/substrate-front-end-template
+Connecting to Polkadot:
+
+https://substrate-developer-hub.github.io/substrate-front-end-template?rpc=wss://rpc.polkadot.io
 
 
 ## Configuration
 
 The template's configuration is stored in the `src/config` directory, with
-`common.json` being loaded first, then the environment-specific json file,
+`common.json` being loaded first, then the environment-specific JSON file,
 and finally environment variables, with precedence.
 
 - `development.json` affects the development environment
 - `test.json` affects the test environment, triggered in `yarn test` command.
-- `production.json` affects the production environment, triggered in
-  `yarn build` command.
+- `production.json` affects the production environment, triggered with the `yarn build` command.
+
+To deploy your own front-end to production, you need to configure:
+
+- `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
+  deployed node.
 
 Some environment variables are read and integrated in the template `config` object,
 including:
@@ -68,14 +71,11 @@ including:
 
 More on [React environment variables](https://create-react-app.dev/docs/adding-custom-environment-variables).
 
-When writing and deploying your own front end, you should configure:
 
-- `PROVIDER_SOCKET` in `src/config/production.json` pointing to your own
-  deployed node.
 
-### Specifying Connecting WebSocket
+### How to Specify the WebSocket to Connect to
 
-There are two ways to specify it:
+There are two ways to specify the websocket to connect to:
 
 - With `PROVIDER_SOCKET` in `{common, development, production}.json`.
 - With `rpc=<ws or wss connection>` query parameter after the URL. This overrides the above setting.
