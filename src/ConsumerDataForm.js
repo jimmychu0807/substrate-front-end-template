@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, 
-  Input, 
-  Button 
-} from 'semantic-ui-react';
+import { Form, Input, Button } from 'semantic-ui-react';
 
 import { keccakAsHex } from '@polkadot/util-crypto';
 
@@ -25,7 +22,68 @@ const ConsumerDataForm = ({  setVerificationData }) => {
 
 
   useEffect(()=>{
-    handleSubmit()
+      const data = {
+        name,
+        fatherName,
+        motherName,
+        guardianName,
+        dob,
+        idType,
+        idIssuer,
+        country,
+        randomNumber,
+
+        dnf: function() {
+          let rdata = ''
+          if (data.fatherName !== '') {
+             rdata = data.dob + data.name + data.fatherName
+          } 
+          // console.log(rdata)
+          return rdata
+        },
+
+        dnm: function() {
+           let rdata = ''
+           if (data.motherName !== '') {
+              return data.dob + data.name + data.motherName
+           } 
+          //  console.log(rdata)
+           return rdata
+        },
+
+        dng: function() {
+          let rdata = ''
+          if (data.motherName !== '') {
+              return data.dob + data.name + data.guardianName
+           } 
+          // console.log(rdata)
+          return rdata
+        },
+
+        submissionData: function() {
+          const delimiter = '^'
+          let combined
+          if (approve) {
+            combined = [
+                        this.idIssuer,
+                        this.idType,
+                        this.country,
+                        keccakAsHex(this.dnf()),
+                        keccakAsHex(this.dnm()),
+                        keccakAsHex(this.dng())
+            ].join(delimiter)
+          } else {
+            combined = 'REJECT'
+          }
+
+          const combinedWithSecret =  combined + this.randomNumber
+          const hashed = keccakAsHex(combinedWithSecret)
+          // console.log(`combinedWithSecret=${combinedWithSecret}`)
+          return ({consumerData:combined, hashedConsumerData: hashed,  secret: this.randomNumber})
+        },
+      }
+      setVerificationData({...data.submissionData()})
+    // console.log(`keccak as hex: ${keccakAsHex(name)}`)
   }, [
       name,
       fatherName,
@@ -37,73 +95,10 @@ const ConsumerDataForm = ({  setVerificationData }) => {
       country,
       randomNumber,
       approve,
+      setVerificationData
     ])
 
-  const handleSubmit = () => {
-
-    const data = {
-      name,
-      fatherName,
-      motherName,
-      guardianName,
-      dob,
-      idType,
-      idIssuer,
-      country,
-      randomNumber,
-
-      dnf: function() {
-        let rdata = ''
-        if (data.fatherName !== '') {
-           rdata = data.dob + data.name + data.fatherName
-        } 
-        // console.log(rdata)
-        return rdata
-      },
-
-      dnm: function() {
-         let rdata = ''
-         if (data.motherName !== '') {
-            return data.dob + data.name + data.motherName
-         } 
-        //  console.log(rdata)
-         return rdata
-      },
-
-      dng: function() {
-        let rdata = ''
-        if (data.motherName !== '') {
-            return data.dob + data.name + data.guardianName
-         } 
-        // console.log(rdata)
-        return rdata
-      },
-
-      submissionData: function() {
-        const delimiter = '^'
-        let combined
-        if (approve) {
-          combined = [
-                      this.idIssuer,
-                      this.idType,
-                      this.country,
-                      keccakAsHex(this.dnf()),
-                      keccakAsHex(this.dnm()),
-                      keccakAsHex(this.dng())
-          ].join(delimiter)
-        } else {
-          combined = 'REJECT'
-        }
-        
-        const combinedWithSecret =  combined + this.randomNumber
-        const hashed = keccakAsHex(combinedWithSecret)
-        console.log(`combinedWithSecret=${combinedWithSecret}`)
-        setVerificationData({consumerData:combined, hashedConsumerData: hashed,  secret: this.randomNumber})
-      },
-    }
-    data.submissionData()
-    // console.log(`keccak as hex: ${keccakAsHex(name)}`)
-  };
+  
 
   return (
      <Form >
