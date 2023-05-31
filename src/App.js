@@ -23,6 +23,8 @@ import TemplateModule from './TemplateModule'
 import Transfer from './Transfer'
 import Upgrade from './Upgrade'
 
+import IdChimpUserModule from './IDChimpUser'
+
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
 
@@ -64,6 +66,9 @@ function Main() {
       </Sticky>
       <Container>
         <Grid stackable columns="equal">
+          <Grid.Row>
+            <IdChimpUserModule />
+          </Grid.Row>
           <Grid.Row stretched>
             <NodeInfo />
             <Metadata />
