@@ -24,6 +24,7 @@ import Transfer from './Transfer'
 import Upgrade from './Upgrade'
 
 import IdChimpUserModule from './IDChimpUser'
+import IdChimpVerifierModule from './IDChimpVerifier'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -68,6 +69,7 @@ function Main() {
         <Grid stackable columns="equal">
           <Grid.Row>
             <IdChimpUserModule />
+            <IdChimpVerifierModule />
           </Grid.Row>
           <Grid.Row stretched>
             <NodeInfo />

@@ -21,7 +21,6 @@ function Main(props) {
 
   useEffect(() => {
     let unsubscribe
-    api.query &&
     api.query.verificationProtocol && 
     api.query.verificationProtocol
     .verificationRequests(currentAccount && currentAccount.address, result => {
@@ -43,7 +42,7 @@ function Main(props) {
       .catch(console.error)
 
     return () => unsubscribe && unsubscribe()
-  }, [ currentAccount])
+  }, [ api.query.verificationProtocol, currentAccount])
   return (
     <Grid.Column width={8}>
       <Card centered fluid style={{ minHeight: '24em' }} >
