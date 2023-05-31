@@ -59,10 +59,21 @@ function TxButton({
     return [address, { signer: injector.signer }]
   }
 
-  const txResHandler = ({ status }) =>
+  const txResHandler = ({ events = [], status, txHash }) =>{
     status.isFinalized
       ? setStatus(`😉 Finalized. Block hash: ${status.asFinalized.toString()}`)
       : setStatus(`Current transaction status: ${status.type}`)
+
+      // Loop through Vec<EventRecord> to display all events
+      events.forEach(({ _, event: { data, method, section } }) => {
+        // console.log(`\t---inner--report: ' ${phase}: ${section}.${method}:: ${data}`);
+        if ((section + ":" + method) === 'system:ExtrinsicFailed' ) {
+          setStatus(`😞 Transaction Failed! tx hash: ${txHash}, data: ${data && JSON.stringify(data.toHuman())}`)
+        } else if (section + ":" + method === 'system:ExtrinsicSuccess' ) {
+          setStatus(`❤️️ Transaction successful! tx hash: ${txHash} , Block hash: ${status.asFinalized.toString()}`)
+        }
+      });
+  }
 
   const txErrHandler = err =>
     setStatus(`😞 Transaction Failed: ${err.toString()}`)
