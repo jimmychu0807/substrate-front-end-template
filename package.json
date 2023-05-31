@@ -22,7 +22,8 @@
     "eslint:write": "eslint --fix --ext .jsx,.js src/",
     "prettier:check": "prettier -c src/*",
     "prettier:write": "prettier -w src/*",
-    "deploy": "gh-pages -d build -m '[ci skip] Updates'"
+    "deploy": "gh-pages -d build -m '[ci skip] Updates'",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "dependencies": {
     "@polkadot/api": "^10.6.1",
@@ -52,7 +53,8 @@
     "gh-pages": "^3.2.3",
     "prettier": "2.5.1",
     "react-app-rewired": "^2.2.1",
-    "semistandard": "^16.0.1"
+    "semistandard": "^16.0.1",
+    "source-map-explorer": "^2.5.3"
   },
   "resolutions": {
     "eslint-plugin-jsx-a11y": "6.5.1"
