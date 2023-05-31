@@ -1,4 +1,8 @@
 {
   "APP_NAME": "substrate-front-end-template",
-  "CUSTOM_RPC_METHODS": {}
+  "CUSTOM_RPC_METHODS": {},
+  "chainOptions" : [
+    { "label": "Felidae Test Network", "value": "wss://panther-testnet.live" },
+    { "label": "Local Node", "value": "ws://127.0.0.1:9944" }
+  ]
 }

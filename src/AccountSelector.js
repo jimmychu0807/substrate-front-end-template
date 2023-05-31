@@ -7,11 +7,12 @@ import {
   Dropdown,
   Container,
   Icon,
-  Image,
+  // Image,
   Label,
 } from 'semantic-ui-react'
 
 import { useSubstrate, useSubstrateState } from './substrate-lib'
+import ChainSelector from './ChainSelector'
 
 const CHROME_EXT_URL =
   'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'
@@ -62,10 +63,11 @@ function Main(props) {
     >
       <Container>
         <Menu.Menu>
-          <Image
+          {/* <Image
             src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`}
             size="mini"
-          />
+          /> */}
+          <ChainSelector />
         </Menu.Menu>
         <Menu.Menu position="right" style={{ alignItems: 'center' }}>
           {!currentAccount ? (
