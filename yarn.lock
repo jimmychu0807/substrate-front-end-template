@@ -7896,6 +7896,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"id-chimp-front-end@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "id-chimp-front-end@workspace:."
+  dependencies:
+    "@polkadot/api": ^10.6.1
+    "@polkadot/extension-dapp": ^0.46.2
+    "@polkadot/keyring": ^12.1.2
+    "@polkadot/networks": ^12.1.2
+    "@polkadot/types": ^10.6.1
+    "@polkadot/ui-keyring": ^3.3.1
+    "@polkadot/ui-settings": ^3.3.1
+    "@polkadot/util": ^12.1.2
+    "@polkadot/util-crypto": ^12.1.2
+    eslint: ^8.10.0
+    eslint-config-prettier: ^8.4.0
+    eslint-config-react-app: ^7.0.0
+    gh-pages: ^3.2.3
+    node-polyfill-webpack-plugin: ^1.1.4
+    prettier: 2.5.1
+    prop-types: ^15.8.1
+    react: ^17.0.2
+    react-app-rewired: ^2.2.1
+    react-copy-to-clipboard: ^5.0.4
+    react-dom: ^17.0.2
+    react-scripts: ^5.0.0
+    react-select: ^5.7.3
+    semantic-ui-css: "Semantic-Org/Semantic-UI-CSS#master"
+    semantic-ui-react: ^2.1.2
+    semistandard: ^16.0.1
+    source-map-explorer: ^2.5.3
+    stream-browserify: ^3.0.0
+  languageName: unknown
+  linkType: soft
+
 "idb@npm:^6.1.4":
   version: 6.1.5
   resolution: "idb@npm:6.1.5"
@@ -13166,40 +13200,6 @@ __metadata:
   checksum: 0eb6cc1b866dc17a6037d0a82ac7fa877eba6a757443e79e7c4f35bacedbf6421fadcab4363b39667b43355cbaaa570a3cde850f776498e5450f32ed2f9b7584
   languageName: node
   linkType: hard
-
-"substrate-front-end-template@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "substrate-front-end-template@workspace:."
-  dependencies:
-    "@polkadot/api": ^10.6.1
-    "@polkadot/extension-dapp": ^0.46.2
-    "@polkadot/keyring": ^12.1.2
-    "@polkadot/networks": ^12.1.2
-    "@polkadot/types": ^10.6.1
-    "@polkadot/ui-keyring": ^3.3.1
-    "@polkadot/ui-settings": ^3.3.1
-    "@polkadot/util": ^12.1.2
-    "@polkadot/util-crypto": ^12.1.2
-    eslint: ^8.10.0
-    eslint-config-prettier: ^8.4.0
-    eslint-config-react-app: ^7.0.0
-    gh-pages: ^3.2.3
-    node-polyfill-webpack-plugin: ^1.1.4
-    prettier: 2.5.1
-    prop-types: ^15.8.1
-    react: ^17.0.2
-    react-app-rewired: ^2.2.1
-    react-copy-to-clipboard: ^5.0.4
-    react-dom: ^17.0.2
-    react-scripts: ^5.0.0
-    react-select: ^5.7.3
-    semantic-ui-css: "Semantic-Org/Semantic-UI-CSS#master"
-    semantic-ui-react: ^2.1.2
-    semistandard: ^16.0.1
-    source-map-explorer: ^2.5.3
-    stream-browserify: ^3.0.0
-  languageName: unknown
-  linkType: soft
 
 "supports-color@npm:^5.3.0":
   version: 5.5.0

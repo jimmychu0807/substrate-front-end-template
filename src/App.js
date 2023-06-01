@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React, { createRef, useState } from 'react'
 import {
   Container,
   Dimmer,
@@ -6,6 +6,7 @@ import {
   Grid,
   Sticky,
   Message,
+  Button,
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
@@ -30,6 +31,10 @@ import EventsOfAccount from './EventsOfUser'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
+
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  const toggleShowAdvanced = () => setShowAdvanced(!showAdvanced)
 
   const loader = text => (
     <Dimmer active>
@@ -69,13 +74,28 @@ function Main() {
       </Sticky>
       <Container>
         <Grid stackable columns="equal">
+          <h1>ID-Chimp Module :: Felidae Network </h1>
           <Grid.Row>
-            <IdChimpUserModule />
-            <EventsOfAccount />
+            <Grid.Column>
+            <VerificationProtocol />
+            </Grid.Column>
+            <Grid.Column>
+              <Grid.Row>
+                <EventsOfAccount />
+              </Grid.Row>
+              <br />
+              <Grid.Row>
+                <IdChimpUserModule />
+              </Grid.Row>
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <VerificationProtocol />
-            <IdChimpVerifierModule />
+            <Grid.Column>
+             <IdChimpVerifierModule />
+            </Grid.Column>
+            <Grid.Column>
+              <Events />
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row stretched>
             <NodeInfo />
@@ -86,17 +106,21 @@ function Main() {
           <Grid.Row stretched>
             <Balances />
           </Grid.Row>
-          <Grid.Row>
-            <Transfer />
-            <Upgrade />
-          </Grid.Row>
-          <Grid.Row>
-            <Interactor />
-            <Events />
-          </Grid.Row>
-          <Grid.Row>
-            <TemplateModule />
-          </Grid.Row>
+          <Button onClick={toggleShowAdvanced}>
+            {showAdvanced? 'Hide Advanced Options': 'Show Advanced Options'}
+            </Button>
+          { showAdvanced && (
+          <Grid> 
+            <Grid.Row>
+              <Transfer />
+              <Upgrade />
+            </Grid.Row>
+            <Grid.Row>
+              <Interactor />
+              <TemplateModule />
+            </Grid.Row>
+          </Grid>
+          )}
         </Grid>
       </Container>
       <DeveloperConsole />

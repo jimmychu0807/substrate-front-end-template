@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "substrate-front-end-template",
+  "APP_NAME": "id-chimp-front-end",
   "CUSTOM_RPC_METHODS": {},
   "chainOptions" : [
     { "label": "Felidae Test Network", "value": "wss://panther-testnet.live" },

@@ -1,12 +1,12 @@
 {
-  "name": "substrate-front-end-template",
+  "name": "id-chimp-front-end",
   "version": "monthly-2022-01",
   "private": true,
-  "author": "Parity Technologies <admin@parity.io>",
+  "author": "Felidae-Team",
   "license": "Unlicense",
-  "homepage": "https://substrate-developer-hub.github.io/substrate-front-end-template",
+  "homepage": "https://substrate-developer-hub.github.io/did-chimp-felidae-network",
   "bugs": {
-    "url": "https://github.com/substrate-developer-hub/substrate-front-end-template/issues"
+    "url": "https://github.com/substrate-developer-hub/did-chimp-felidae-network/issues"
   },
   "keywords": [
     "substrate",
