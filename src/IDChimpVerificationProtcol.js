@@ -24,20 +24,6 @@ function Main(props) {
   const [cscore, setCscore] = useState(5)
 
   const [verificationData, setVerificationData] = useState('');
-  // const [randomNumber, setRandomNumber] = useState('')
-  // const [accept, setAccept] = useState(false);
-  
-  // const toggleAccept = () =>{
-  //   setAccept(!accept)
-  // }
-
-  // useEffect(()=>{
-  //   const combined = 'REJECT'
-  //   const combinedWithSecret =  combined + randomNumber
-  //   const hashed = keccakAsHex(combinedWithSecret)
-  //   setVerificationData({consumerData:combined, hashedConsumerData: hashed,  secret: randomNumber})
-
-  // },[randomNumber ])
 
   useEffect(() => {
     let unsubscribe
@@ -116,27 +102,6 @@ function Main(props) {
                   <div style={{ overflowWrap: 'break-word' }}>{statusAck}</div>
             </Form.Field>
           </Form>
-          {/* <br/> 
-            <Grid.Row >
-              <Button onClick={toggleAccept}>{accept?'Submit REJECT': 'Submit Data'}</Button>
-            </Grid.Row>
-            <br/>
-           {accept && (< ConsumerDataForm setVerificationData={setVerificationData} />)}
-           {!accept && (
-            <Form>
-              {/* <Form.Field>
-                <span>Reject the Creation of DID</span>
-              </Form.Field> 
-              <Form.Field>
-                <Input
-                  label="Random Secret"
-                  state="secret"
-                  type="string"
-                  onChange={(_, { value }) => setRandomNumber(value)}
-                  />
-              </Form.Field>
-            </Form> */}
-           {/* )} */}
            <br/>
            <Grid.Row>
             < ConsumerDataForm setVerificationData={setVerificationData} />

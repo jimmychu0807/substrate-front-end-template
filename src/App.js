@@ -26,6 +26,7 @@ import Upgrade from './Upgrade'
 import IdChimpUserModule from './IDChimpUser'
 import IdChimpVerifierModule from './IDChimpVerifier'
 import VerificationProtocol from './IDChimpVerificationProtcol'
+import EventsOfAccount from './EventsOfUser'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -69,10 +70,11 @@ function Main() {
       <Container>
         <Grid stackable columns="equal">
           <Grid.Row>
-            <VerificationProtocol />
+            <IdChimpUserModule />
+            <EventsOfAccount />
           </Grid.Row>
           <Grid.Row>
-            <IdChimpUserModule />
+            <VerificationProtocol />
             <IdChimpVerifierModule />
           </Grid.Row>
           <Grid.Row stretched>

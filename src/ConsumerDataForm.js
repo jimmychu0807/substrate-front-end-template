@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
 
-import { keccakAsHex } from '@polkadot/util-crypto';
+import { keccakAsHex, keccak256AsU8a } from '@polkadot/util-crypto';
 
+function toHexString(byteArray) {
+  return '0x' + Array.from(byteArray, function(byte) {
+    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+  }).join('')
+}
 
 const ConsumerDataForm = ({  setVerificationData }) => {
   const [name, setName] = useState('');
@@ -22,6 +27,7 @@ const ConsumerDataForm = ({  setVerificationData }) => {
 
 
   useEffect(()=>{
+      let encoder = new TextEncoder()
       const data = {
         name,
         fatherName,
@@ -39,7 +45,7 @@ const ConsumerDataForm = ({  setVerificationData }) => {
              rdata = data.dob + data.name + data.fatherName
           } 
           // console.log(rdata)
-          return rdata
+          return keccak256AsU8a(rdata)
         },
 
         dnm: function() {
@@ -48,7 +54,7 @@ const ConsumerDataForm = ({  setVerificationData }) => {
               return data.dob + data.name + data.motherName
            } 
           //  console.log(rdata)
-           return rdata
+           return keccak256AsU8a(rdata)
         },
 
         dng: function() {
@@ -57,33 +63,44 @@ const ConsumerDataForm = ({  setVerificationData }) => {
               return data.dob + data.name + data.guardianName
            } 
           // console.log(rdata)
-          return rdata
+          return keccak256AsU8a(rdata)
         },
 
         submissionData: function() {
-          const delimiter = '^'
-          let combined
+          const delimiterString = '^'
+          const delimiter = encoder.encode(delimiterString)
+          let combinedBytes
           if (approve) {
-            combined = [
-                        this.idIssuer,
-                        this.idType,
-                        this.country,
-                        keccakAsHex(this.dnf()),
-                        keccakAsHex(this.dnm()),
-                        keccakAsHex(this.dng())
-            ].join(delimiter)
+            const part1 = encoder.encode(
+              [this.idIssuer, this.idType, this.country, ].join(delimiterString) 
+              )
+            // console.log([this.idIssuer, this.idType, this.country, ].join(delimiterString) )
+            // console.log(part1.length)
+            const partLength = part1.length
+            // each keccak hash  is 32 bytes long and each delimiter is 1 byte long
+            const totalLength = partLength + 3 + 3*32 
+            combinedBytes = new Uint8Array(totalLength)
+            combinedBytes.set(part1);
+            combinedBytes.set(delimiter, part1.length)
+            combinedBytes.set(this.dnf(), part1.length + 1)
+            combinedBytes.set(delimiter, part1.length + 1 + 32 )
+            combinedBytes.set(this.dnm(), part1.length + 1 + 32 +1 )
+            combinedBytes.set(delimiter, part1.length + 1 + 32 + 1 + 32  )
+            combinedBytes.set(this.dnm(), part1.length + 1 + 32 + 1 + 32 + 1)
           } else {
-            combined = 'REJECT'
+            combinedBytes = encoder.encode('REJECT')
           }
 
-          const combinedWithSecret =  combined + this.randomNumber
-          const hashed = keccakAsHex(combinedWithSecret)
-          // console.log(`combinedWithSecret=${combinedWithSecret}`)
-          return ({consumerData:combined, hashedConsumerData: hashed,  secret: this.randomNumber})
+          const combinedBytesWithSecret = [ ...combinedBytes, ...encoder.encode(this.randomNumber)]
+          const hashed = keccakAsHex(combinedBytesWithSecret)
+          console.log(`combinedData=${toHexString(combinedBytes)}`)
+          console.log(`hash of combinedDataWithSecret=${hashed}`)
+          return ({consumerData:toHexString(combinedBytes), hashedConsumerData: hashed,  secret: this.randomNumber})
         },
       }
       setVerificationData({...data.submissionData()})
     // console.log(`keccak as hex: ${keccakAsHex(name)}`)
+
   }, [
       name,
       fatherName,
