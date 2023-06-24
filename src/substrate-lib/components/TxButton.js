@@ -67,7 +67,6 @@ function TxButton({
 
       // Loop through Vec<EventRecord> to display all events
       events.forEach(({ _, event: { data, method, section } }) => {
-        // console.log(`\t---inner--report: ' ${phase}: ${section}.${method}:: ${data}`);
         if ((section + ":" + method) === 'system:ExtrinsicFailed' ) {
           // extract the data for this event
           const [dispatchError, dispatchInfo] = data;
