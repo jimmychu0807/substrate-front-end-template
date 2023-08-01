@@ -13,15 +13,21 @@ import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
 import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
-import Balances from './Balances'
+// import Balances from './Balances'
+// import Transactions from '.Transactions'
 import BlockNumber from './BlockNumber'
 import Events from './Events'
-import Interactor from './Interactor'
-import Metadata from './Metadata'
+// import Interactor from './Interactor'
+//import Metadata from './Metadata'
 import NodeInfo from './NodeInfo'
-import TemplateModule from './TemplateModule'
-import Transfer from './Transfer'
-import Upgrade from './Upgrade'
+// import TemplateModule from './TemplateModule'
+// import Transfer from './Transfer'
+// import Upgrade from './Upgrade'
+import LatestBlocks from './LatestBlocks'; // Import the LatestBlocks component
+
+import Upload from './Upload';
+
+
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -66,23 +72,25 @@ function Main() {
         <Grid stackable columns="equal">
           <Grid.Row stretched>
             <NodeInfo />
-            <Metadata />
+            {/* <Metadata /> */}
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row stretched>
-            <Balances />
+            {/* <Balances /> */}
+            <Upload />
+            <LatestBlocks /> {/* Include the LatestBlocks component */}
           </Grid.Row>
           <Grid.Row>
-            <Transfer />
-            <Upgrade />
+            {/* <Transfer /> */}
+            {/* <Upgrade /> */}
           </Grid.Row>
           <Grid.Row>
-            <Interactor />
+            {/* <Interactor /> */}
             <Events />
           </Grid.Row>
           <Grid.Row>
-            <TemplateModule />
+            {/* <TemplateModule /> */}
           </Grid.Row>
         </Grid>
       </Container>

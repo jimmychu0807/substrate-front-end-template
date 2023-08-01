@@ -34,6 +34,7 @@
     "@polkadot/ui-settings": "^3.3.1",
     "@polkadot/util": "^12.1.2",
     "@polkadot/util-crypto": "^12.1.2",
+    "axios": "^1.4.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -41,7 +42,7 @@
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.0",
     "semantic-ui-css": "Semantic-Org/Semantic-UI-CSS#master",
-    "semantic-ui-react": "^2.1.2",
+    "semantic-ui-react": "^2.1.4",
     "stream-browserify": "^3.0.0"
   },
   "devDependencies": {

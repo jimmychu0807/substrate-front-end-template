@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+/* import React, { useEffect, useState } from 'react'
 import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react'
 
 import { useSubstrateState } from './substrate-lib'
@@ -277,3 +277,4 @@ export default function Interactor(props) {
   const { api } = useSubstrateState()
   return api.tx ? <Main {...props} /> : null
 }
+ */

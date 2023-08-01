@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+/* import React, { useState } from 'react'
 import { Form, Input, Grid } from 'semantic-ui-react'
 import { TxButton } from './substrate-lib/components'
 
@@ -53,3 +53,4 @@ export default function Main(props) {
     </Grid.Column>
   )
 }
+ */
