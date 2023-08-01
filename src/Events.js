@@ -61,9 +61,10 @@ function Main(props) {
         basic
         circular
         size="mini"
-        color="grey"
+        color="orange"
         floated="right"
         icon="erase"
+        text="white"
         onClick={_ => setEventFeed([])}
       />
       <Feed

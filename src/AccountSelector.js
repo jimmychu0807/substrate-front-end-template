@@ -4,7 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import {
   Menu,
   Button,
-  Dropdown,
+  // Dropdown,
   Container,
   Icon,
   Image,
@@ -39,15 +39,14 @@ function Main(props) {
 
   // Set the initial address
   useEffect(() => {
-    // `setCurrentAccount()` is called only when currentAccount is null (uninitialized)
     !currentAccount &&
       initialAddress.length > 0 &&
       setCurrentAccount(keyring.getPair(initialAddress))
   }, [currentAccount, setCurrentAccount, keyring, initialAddress])
 
-  const onChange = addr => {
-    setCurrentAccount(keyring.getPair(addr))
-  }
+  // const onChange = addr => {
+  //   setCurrentAccount(keyring.getPair(addr))
+  // }
 
   return (
     <Menu
@@ -60,12 +59,14 @@ function Main(props) {
         paddingBottom: '1em',
       }}
     >
+      
       <Container>
         <Menu.Menu>
           <Image
             src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`}
-            size="mini"
+            style={{ width: '150px', height: '128px' }}
           />
+          <span style={{ marginLeft: '35px', fontSize: '20px', color: 'black' }}>BETHEL</span> {/* BETHEL text to the left of the logo */}
         </Menu.Menu>
         <Menu.Menu position="right" style={{ alignItems: 'center' }}>
           {!currentAccount ? (
@@ -87,10 +88,11 @@ function Main(props) {
               circular
               size="large"
               icon="user"
-              color={currentAccount ? 'green' : 'red'}
+              style={{ color: 'blue' }}
+              color={currentAccount ? 'orange' : 'red'}
             />
           </CopyToClipboard>
-          <Dropdown
+{/*           <Dropdown
             search
             selection
             clearable
@@ -100,7 +102,7 @@ function Main(props) {
               onChange(dropdown.value)
             }}
             value={acctAddr(currentAccount)}
-          />
+          /> */}
           <BalanceAnnotation />
         </Menu.Menu>
       </Container>
@@ -112,11 +114,8 @@ function BalanceAnnotation(props) {
   const { api, currentAccount } = useSubstrateState()
   const [accountBalance, setAccountBalance] = useState(0)
 
-  // When account address changes, update subscriptions
   useEffect(() => {
     let unsubscribe
-
-    // If the user has selected an address, create a new subscription
     currentAccount &&
       api.query.system
         .account(acctAddr(currentAccount), balance =>
@@ -130,7 +129,7 @@ function BalanceAnnotation(props) {
 
   return currentAccount ? (
     <Label pointing="left">
-      <Icon name="money" color="green" />
+      <Icon name="money" color="orange" />
       {accountBalance}
     </Label>
   ) : null

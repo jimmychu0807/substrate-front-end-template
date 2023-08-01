@@ -13,21 +13,11 @@ import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
 import { DeveloperConsole } from './substrate-lib/components'
 
 import AccountSelector from './AccountSelector'
-// import Balances from './Balances'
-// import Transactions from '.Transactions'
 import BlockNumber from './BlockNumber'
 import Events from './Events'
-// import Interactor from './Interactor'
-//import Metadata from './Metadata'
 import NodeInfo from './NodeInfo'
-// import TemplateModule from './TemplateModule'
-// import Transfer from './Transfer'
-// import Upgrade from './Upgrade'
-import LatestBlocks from './LatestBlocks'; // Import the LatestBlocks component
-
-import Upload from './Upload';
-
-
+import LatestBlocks from './LatestBlocks'
+import Upload from './Upload'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -64,33 +54,23 @@ function Main() {
   const contextRef = createRef()
 
   return (
-    <div ref={contextRef}>
-      <Sticky context={contextRef}>
+    <div ref={contextRef} style={{ backgroundColor: '#051d40', color: 'white', paddingBottom: '100px' }}> {/* Added padding below the container */}
+    <Sticky context={contextRef}>
         <AccountSelector />
       </Sticky>
       <Container>
         <Grid stackable columns="equal">
           <Grid.Row stretched>
             <NodeInfo />
-            {/* <Metadata /> */}
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row stretched>
-            {/* <Balances /> */}
             <Upload />
-            <LatestBlocks /> {/* Include the LatestBlocks component */}
+            <LatestBlocks />
           </Grid.Row>
           <Grid.Row>
-            {/* <Transfer /> */}
-            {/* <Upgrade /> */}
-          </Grid.Row>
-          <Grid.Row>
-            {/* <Interactor /> */}
             <Events />
-          </Grid.Row>
-          <Grid.Row>
-            {/* <TemplateModule /> */}
           </Grid.Row>
         </Grid>
       </Container>
@@ -106,3 +86,4 @@ export default function App() {
     </SubstrateContextProvider>
   )
 }
+

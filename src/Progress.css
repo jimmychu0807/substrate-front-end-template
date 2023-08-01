@@ -1,12 +1,12 @@
 .ProgressBar {
     width: 100%;
     height: 8px;
-    background-color: rgb(183, 155, 229);
+    background-color: #051d40;
     border-radius: 5px;
   }
   
   .Progress {
-    background-color: rgba(103, 58, 183, 1);
+    background-color: #F58420;
     height: 100%;
     margin: 0;
     border-radius: 5px;

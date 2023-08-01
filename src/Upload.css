@@ -34,13 +34,13 @@
   
   .Title {
     margin-bottom: 32px;
-    color: #555;
+    color: #ffffff;
   }
   
   .Filename {
     margin-bottom: 8px;
     font-size: 16px;
-    color: #555;
+    color: #ffffff;
   }
   
   .Row {
@@ -84,7 +84,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    border: 0;
+    border: 2px solid #ffffff; /* White border */
     border-radius: 2px;
     background: #F58420;
     color: #fff;
@@ -94,4 +94,8 @@
   button:disabled {
     background: rgb(189, 189, 189);
     cursor: default;
+  }
+
+  button:hover {
+    background: #051d40; /* Change this to the color you want when hovering */
   }
