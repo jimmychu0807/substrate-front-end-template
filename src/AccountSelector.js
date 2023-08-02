@@ -64,9 +64,9 @@ function Main(props) {
         <Menu.Menu>
           <Image
             src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`}
-            style={{ width: '150px', height: '128px' }}
+            style={{ width: '75px', height: '64px' }}
           />
-          <span style={{ marginLeft: '35px', fontSize: '20px', color: 'black' }}>BETHEL</span> {/* BETHEL text to the left of the logo */}
+          {/* <span style={{ marginLeft: '35px', fontSize: '20px', color: 'black' }}>BETHEL</span> BETHEL text to the left of the logo */}
         </Menu.Menu>
         <Menu.Menu position="right" style={{ alignItems: 'center' }}>
           {!currentAccount ? (

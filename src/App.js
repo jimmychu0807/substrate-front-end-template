@@ -66,8 +66,8 @@ function Main() {
             <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row stretched>
-            <Upload />
             <LatestBlocks />
+            <Upload />
           </Grid.Row>
           <Grid.Row>
             <Events />
