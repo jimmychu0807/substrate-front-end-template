@@ -81,7 +81,7 @@ export default function Main(props) {
             setStatus={setStatus}
             attrs={{
               palletRpc: 'balances',
-              callable: 'transfer',
+              callable: 'transferAllowDeath',
               inputParams: [addressTo, amount],
               paramFields: [true, true],
             }}
