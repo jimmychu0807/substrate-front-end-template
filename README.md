@@ -117,7 +117,7 @@ If you are only interested in reading the `state`, there is a shorthand `useSubs
 
 The [TxButton](./src/substrate-lib/components/TxButton.js) handles basic [query](https://polkadot.js.org/docs/api/start/api.query) and [transaction](https://polkadot.js.org/docs/api/start/api.tx) requests to the connected node.
 You can reuse this component for a wide variety of queries and transactions. See [src/Transfer.js](./src/Transfer.js) for a transaction example and [src/Balances.js](./src/Balances.js) for a query example.
-Transfer method changed to transferAllowDeath
+
 ### Account Selector
 
 The [Account Selector](./src/AccountSelector.js) provides the user with a unified way to
