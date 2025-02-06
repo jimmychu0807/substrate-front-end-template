@@ -1,5 +1,7 @@
 # Substrate Front End Template
 
+**⚠️ This template is archived and no longer maintained. Please use the [create-polkadot-dapp](https://github.com/paritytech/create-polkadot-dapp) to get a Polakdot SDK / Substrate dApp frontend up and running.**
+
 This template allows you to create a front-end application that connects to a
 [Substrate](https://github.com/paritytech/substrate) node back-end with minimal
 configuration. To learn about Substrate itself, visit the
